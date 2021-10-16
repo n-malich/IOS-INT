@@ -6,8 +6,11 @@
 //
 
 import UIKit
+import iOSIntPackage
 
 class PostTableViewCell: UITableViewCell {
+    
+    private var imageProcessor = ImageProcessor()
     
     var post: PostVK? {
         didSet {
@@ -15,6 +18,12 @@ class PostTableViewCell: UITableViewCell {
                 authorPost.text = post.author
                 descriptionPost.text = post.description
                 imagePost.image = UIImage(named: post.image)
+                
+                if let image = UIImage(named: post.image) {
+                    imageProcessor.processImage(sourceImage: image, filter: post.filter) {
+                        image in imagePost.image = image
+                    }
+                }
                 
                 switch post.likes {
                 case 0..<1000:
