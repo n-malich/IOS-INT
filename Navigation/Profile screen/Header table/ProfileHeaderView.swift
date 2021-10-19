@@ -5,8 +5,8 @@
 //  Created by Natali Mizina on 21.07.2021.
 //
 
-import Foundation
 import UIKit
+import SnapKit
 
 class ProfileHeaderView: UIView {
     
@@ -130,37 +130,43 @@ extension ProfileHeaderView {
 
 extension ProfileHeaderView {
     private func setupConstraints(){
-        [
-            avatarImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: baseInset),
-            avatarImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: baseInset),
-            avatarImageView.widthAnchor.constraint(equalToConstant: 110),
-            avatarImageView.heightAnchor.constraint(equalTo: avatarImageView.widthAnchor),
-            
-            animationView.topAnchor.constraint(equalTo: self.topAnchor, constant: baseInset),
-            animationView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: baseInset),
-            animationView.widthAnchor.constraint(equalToConstant: 110),
-            animationView.heightAnchor.constraint(equalTo: avatarImageView.widthAnchor),
-            
-            fullNameLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: baseInset),
-            fullNameLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: baseInset),
-            fullNameLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -baseInset),
-            
-            statusLabel.topAnchor.constraint(equalTo: fullNameLabel.bottomAnchor, constant: 34),
-            statusLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: baseInset),
-            statusLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -baseInset),
-            
-            statusTextField.topAnchor.constraint(equalTo: statusLabel.bottomAnchor, constant: baseInset),
-            statusTextField.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: baseInset),
-            statusTextField.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -baseInset),
-            statusTextField.heightAnchor.constraint(equalToConstant: 40),
-            
-            setStatusButton.topAnchor.constraint(equalTo: statusTextField.bottomAnchor, constant: 16),
-            setStatusButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: baseInset),
-            setStatusButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -baseInset),
-            setStatusButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -baseInset),
-            setStatusButton.heightAnchor.constraint(equalToConstant: 50),
-        ]
-        .forEach {$0.isActive = true}
+        
+        avatarImageView.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(baseInset)
+            make.leading.equalToSuperview().inset(baseInset)
+            make.width.height.equalTo(110)
+        }
+        
+        animationView.snp.makeConstraints { make in
+            make.top.leading.trailing.bottom.equalTo(avatarImageView)
+        }
+        
+        fullNameLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(baseInset)
+            make.leading.equalTo(avatarImageView.snp.trailing).offset(baseInset)
+            make.trailing.equalToSuperview().inset(-baseInset)
+        }
+        
+        statusLabel.snp.makeConstraints { make in
+            make.top.equalTo(fullNameLabel.snp.bottom).offset(34)
+            make.leading.equalTo(avatarImageView.snp.trailing).offset(baseInset)
+            make.trailing.equalToSuperview().inset(baseInset)
+        }
+        
+        statusTextField.snp.makeConstraints { make in
+            make.top.equalTo(statusLabel.snp.bottom).offset(baseInset)
+            make.leading.equalTo(avatarImageView.snp.trailing).offset(baseInset)
+            make.trailing.equalToSuperview().inset(baseInset)
+            make.height.equalTo(40)
+        }
+        
+        setStatusButton.snp.makeConstraints { make in
+            make.top.equalTo(statusTextField.snp.bottom).offset(baseInset)
+            make.leading.equalToSuperview().inset(baseInset)
+            make.trailing.equalToSuperview().inset(baseInset)
+            make.bottom.equalToSuperview().inset(baseInset)
+            make.height.equalTo(50)
+        }
     }
 }
 
