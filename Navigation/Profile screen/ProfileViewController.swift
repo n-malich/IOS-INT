@@ -35,7 +35,11 @@
      override func viewDidLoad() {
          super .viewDidLoad()
          
-         view.backgroundColor = .white
+         #if DEBUG
+         headerView.backgroundColor = .systemRed
+         #else
+         headerView.backgroundColor = .systemGreen
+         #endif
          
          setupViews()
          setupConstraints()
