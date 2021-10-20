@@ -2,14 +2,14 @@
 //  PhotosCollectionViewCell.swift
 //  Navigation
 //
-//  Created by Natali Mizina on 09.08.2021.
+//  Created by Natali Malich
 //
 
 import UIKit
 
 class PhotosCollectionViewCell: UICollectionViewCell {
     
-    var imagesPhotos: UIImageView = {
+    lazy var imagesPhotos: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
@@ -18,8 +18,7 @@ class PhotosCollectionViewCell: UICollectionViewCell {
     }()
 
     override func layoutSubviews() {
-            super.layoutSubviews()
-
+        super.layoutSubviews()
         setupViews()
         setupConstraints()
     }
@@ -27,7 +26,6 @@ class PhotosCollectionViewCell: UICollectionViewCell {
 
 extension PhotosCollectionViewCell {
     private func setupViews() {
-
         contentView.addSubview(imagesPhotos)
     }
 }

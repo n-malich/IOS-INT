@@ -2,7 +2,7 @@
 //  Post.swift
 //  Navigation
 //
-//  Created by Natali Mizina on 16.07.2021.
+//  Created by Natali Malich
 //
 
 import Foundation

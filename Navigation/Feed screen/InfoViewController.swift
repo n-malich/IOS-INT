@@ -2,7 +2,7 @@
 //  InfoViewController.swift
 //  Navigation
 //
-//  Created by Natali Mizina on 15.07.2021.
+//  Created by Natali Malich
 //
 
 import UIKit
