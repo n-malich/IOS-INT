@@ -9,6 +9,8 @@ import UIKit
 
 class LoginViewController: UIViewController {
     
+    var delegate: LoginViewControllerDelegate?
+    
     let userService = CurrentUserService()
     let userServiceTest = TestUserService()
     
@@ -127,24 +129,44 @@ class LoginViewController: UIViewController {
     }
     
     @objc func loadUserProfile() {
-        if let userName = emailTextField.text, !userName.isEmpty {
+        //ДЗ 3 - чтобы попасть в профиль нужно ввести имя пользователя
+//        if let userName = emailTextField.text, !userName.isEmpty {
+//        #if DEBUG
+//            if let user = userServiceTest.getUser(userName: userName) {
+//                let profileVC = ProfileViewController(userService: userServiceTest.self, userName: user.userName)
+//                navigationController?.pushViewController(profileVC, animated: true)
+//            } else {
+//                showAlert(message: "Пользователь не найден")
+//            }
+//        #else
+//            if let user = userService.getUser(userName: userName){
+//                let profileVC = ProfileViewController(userService: userService.self, userName: userName)
+//                navigationController?.pushViewController(profileVC, animated: true)
+//            } else {
+//                showAlert(message: "Пользователь не найден")
+//            }
+//        #endif
+//        } else {
+//            showAlert(message: "Ввидите имя пользователя")
+//        }
+//    }
+        
+        //ДЗ 4.1 и 4.2
         #if DEBUG
-            if let user = userServiceTest.getUser(userName: userName) {
-                let profileVC = ProfileViewController(userService: userServiceTest.self, userName: user.userName)
-                navigationController?.pushViewController(profileVC, animated: true)
-            } else {
-                showAlert(message: "Пользователь не найден")
-            }
+        let userServise = TestUserService()
         #else
-            if let user = userService.getUser(userName: userName){
-                let profileVC = ProfileViewController(userService: userService.self, userName: userName)
+        let userServise = CurrentUserService()
+        #endif
+        
+        if let email = emailTextField.text, !email.isEmpty, let password = passwordTextField.text, !password.isEmpty {
+            if delegate?.checkTextFields(enteredLogin: email, enteredPassword: passwordTextField.text ?? "") == true {
+                let profileVC = ProfileViewController(userService: userServise, userName: email)
                 navigationController?.pushViewController(profileVC, animated: true)
             } else {
-                showAlert(message: "Пользователь не найден")
+                showAlert(message: "Неверный логин или пароль")
             }
-        #endif
         } else {
-            showAlert(message: "Ввидите имя пользователя")
+            showAlert(message: "Ввидите имя пользователя и пароль")
         }
     }
 }

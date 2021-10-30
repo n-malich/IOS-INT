@@ -10,6 +10,8 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    
+    private let loginInspectorFactory = MyLoginFactory()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
@@ -21,16 +23,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let feedVC = FeedViewController()
         
-        let logInVC = LoginViewController()
+        let loginVC = LoginViewController()
+        //ДЗ 4.1
+        //loginVC.delegate = LoginInspector()
+        
+        //ДЗ 4.2
+        loginVC.delegate = loginInspectorFactory.createLoginInspector()
+
         
         let feedNavigationVC = UINavigationController(rootViewController: feedVC)
         feedNavigationVC.tabBarItem = UITabBarItem(title: "Feed", image: UIImage(named: "feed"), tag: 0)
         
-        let logInNavigationVC = UINavigationController(rootViewController: logInVC)
-        logInNavigationVC.isNavigationBarHidden = true
-        logInNavigationVC.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(named: "profile"), tag: 1)
+        let loginNavigationVC = UINavigationController(rootViewController: loginVC)
+        loginNavigationVC.isNavigationBarHidden = true
+        loginNavigationVC.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(named: "profile"), tag: 1)
         
-        tabBarController.viewControllers = [feedNavigationVC, logInNavigationVC]
+        tabBarController.viewControllers = [feedNavigationVC, loginNavigationVC]
         
         window?.rootViewController = tabBarController
     }
