@@ -130,7 +130,7 @@ extension ProfileHeaderView {
 
 extension ProfileHeaderView {
     private func setupConstraints(){
-        
+      
         avatarImageView.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(baseInset)
             make.leading.equalToSuperview().inset(baseInset)
