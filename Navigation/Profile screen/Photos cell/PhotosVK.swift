@@ -8,7 +8,7 @@
 import UIKit
 
 struct PhotosVK {
-    var photosArray = [
+    static let photosArray = [
         UIImage(named: "IMG_0001"),
         UIImage(named: "IMG_0002"),
         UIImage(named: "IMG_0003"),

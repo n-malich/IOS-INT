@@ -9,7 +9,7 @@ import UIKit
 
 class PhotosTableViewCell: UITableViewCell {
 
-    private var photos = PhotosVK().photosArray
+    private var photos = PhotosVK.photosArray
 
     let titlePhotos: UILabel = {
         let label = UILabel()
