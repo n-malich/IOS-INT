@@ -2,7 +2,7 @@
 //  ProfileHeaderView.swift
 //  Navigation
 //
-//  Created by Natali Mizina on 21.07.2021.
+//  Created by Natali Malich
 //
 
 import Foundation
@@ -10,9 +10,8 @@ import UIKit
 
 class ProfileHeaderView: UIView {
     
-    let avatarImageView: UIImageView = {
+    lazy var avatarImageView: UIImageView = {
         var image = UIImageView()
-        image.image = UIImage(named: "avatarImage")
         image.layer.cornerRadius = 55
         image.contentMode = .scaleAspectFill
         image.layer.masksToBounds = true
@@ -22,9 +21,8 @@ class ProfileHeaderView: UIView {
         return image
     }()
     
-    let fullNameLabel: UILabel = {
+    lazy var fullNameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Cat Danya"
         label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         label.textColor = .black
         label.clipsToBounds = true
@@ -32,17 +30,16 @@ class ProfileHeaderView: UIView {
         return label
     }()
     
-    let statusLabel: UILabel = {
+    lazy var statusLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        label.text = "Set up status"
         label.textColor = .gray
         label.clipsToBounds = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    let setStatusButton: UIButton = {
+    private let setStatusButton: UIButton = {
         let button = UIButton()
         button.setTitle("Set status", for: .normal)
         button.setTitleColor(.white, for: .normal)
@@ -57,7 +54,7 @@ class ProfileHeaderView: UIView {
         return button
     }()
     
-    let statusTextField: UITextField = {
+    private let statusTextField: UITextField = {
         var textField = UITextField()
         textField.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         textField.text = "Waiting for something..."
@@ -79,7 +76,7 @@ class ProfileHeaderView: UIView {
     
     private var statusText = String()
     
-    let animationView: UIView = {
+    lazy var animationView: UIView = {
         let view = UIView()
         view.backgroundColor = .black
         view.alpha = 0
@@ -89,7 +86,6 @@ class ProfileHeaderView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         configure()
     }
 
@@ -97,22 +93,20 @@ class ProfileHeaderView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure() {
-    
+    private func configure() {
         setupViews()
         setupConstraints()
 
         statusTextField.delegate = self
-
     }
     
-    @objc func statusTextChanged() {
+    @objc private func statusTextChanged() {
         if let text = statusTextField.text {
             statusText = text
         }
     }
 
-    @objc func onSetStatus() {
+    @objc private func onSetStatus() {
         if statusText.isEmpty {
             statusText = "Set up status"
         }
@@ -123,7 +117,6 @@ class ProfileHeaderView: UIView {
 
 extension ProfileHeaderView {
     private func setupViews(){
-
         [fullNameLabel, statusLabel, statusTextField, setStatusButton, animationView, avatarImageView].forEach {self.addSubview ($0)}
     }
 }
@@ -164,24 +157,24 @@ extension ProfileHeaderView {
     }
 }
 
- extension ProfileHeaderView : UITextFieldDelegate {
-     //Скрытие подсказки во время редактирования TextField
-     func textFieldDidBeginEditing(_ textField: UITextField) {
-         if statusTextField.text == "Waiting for something..." {
-             statusTextField.text = nil
-             statusTextField.textColor = .black
-         }
-     }
-     //Устанавливает подсказки в TextField и Label при условии isEmpty
-     func textFieldDidEndEditing(_ textField: UITextField) {
-         if let text = statusTextField.text, text.isEmpty {
-             statusTextField.text = "Waiting for something..."
-             statusTextField.textColor = .gray
-             statusLabel.text = "Set up status"
-         }
-     }
+extension ProfileHeaderView : UITextFieldDelegate {
+    //Скрытие подсказки во время редактирования TextField
+    internal func textFieldDidBeginEditing(_ textField: UITextField) {
+        if statusTextField.text == "Waiting for something..." {
+            statusTextField.text = nil
+            statusTextField.textColor = .black
+        }
+    }
+    //Устанавливает подсказки в TextField и Label при условии isEmpty
+    internal func textFieldDidEndEditing(_ textField: UITextField) {
+        if let text = statusTextField.text, text.isEmpty {
+            statusTextField.text = "Waiting for something..."
+            statusTextField.textColor = .gray
+            statusLabel.text = "Set up status"
+        }
+    }
     //Скрытие keyboard при нажатии клавиши Return
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         statusTextField.resignFirstResponder()
         return true
     }

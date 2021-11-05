@@ -2,7 +2,7 @@
 //  PostsVK.swift
 //  Navigation
 //
-//  Created by Natali Mizina on 05.08.2021.
+//  Created by Natali Malich
 //
 
 import Foundation

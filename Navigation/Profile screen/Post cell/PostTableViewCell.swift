@@ -2,7 +2,7 @@
 //  PostTableViewCell.swift
 //  Navigation
 //
-//  Created by Natali Mizina on 05.08.2021.
+//  Created by Natali Malich
 //
 
 import UIKit
@@ -41,7 +41,7 @@ class PostTableViewCell: UITableViewCell {
         }
     }
     
-    var authorPost: UILabel = {
+    private let authorPost: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         label.tintColor = .black
@@ -51,7 +51,7 @@ class PostTableViewCell: UITableViewCell {
         return label
     }()
     
-    var descriptionPost: UILabel = {
+    private let descriptionPost: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         label.textColor = .systemGray
@@ -60,7 +60,7 @@ class PostTableViewCell: UITableViewCell {
         return label
     }()
     
-    var imagePost: UIImageView = {
+    private let imagePost: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFit
         image.backgroundColor = .black
@@ -68,7 +68,7 @@ class PostTableViewCell: UITableViewCell {
         return image
     }()
     
-    var likesPost: UILabel = {
+    private let likesPost: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         label.textColor = .black
@@ -78,7 +78,7 @@ class PostTableViewCell: UITableViewCell {
     }()
     
     
-    var viewsPost: UILabel = {
+    private let viewsPost: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         label.textColor = .black
@@ -104,7 +104,6 @@ class PostTableViewCell: UITableViewCell {
 
 extension PostTableViewCell {
     private func setupViews() {
-        
         [authorPost, descriptionPost, imagePost, likesPost, viewsPost].forEach {contentView.addSubview ($0)}
     }
 }

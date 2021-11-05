@@ -2,16 +2,16 @@
 //  FeedViewController.swift
 //  Navigation
 //
-//  Created by Natali Mizina on 15.07.2021.
+//  Created by Natali Malich
 //
 
 import UIKit
 
 class FeedViewController: UIViewController {
     
-    var post = Post(title: "Selected post")
+    lazy var post = Post(title: "Selected post")
     
-    let stackView: UIStackView = {
+    private let stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 10
@@ -19,7 +19,7 @@ class FeedViewController: UIViewController {
         return stackView
     }()
     
-    let buttonOnPost1: UIButton = {
+    private let buttonOnPost1: UIButton = {
         let button = UIButton()
         button.setTitle("Open post 1", for: .normal)
         button.setTitleColor(.white, for: .normal)
@@ -33,7 +33,7 @@ class FeedViewController: UIViewController {
         return button
     }()
     
-    let buttonOnPost2: UIButton = {
+    private let buttonOnPost2: UIButton = {
         let button = UIButton()
         button.setTitle("Open post 2", for: .normal)
         button.setTitleColor(.white, for: .normal)
@@ -56,7 +56,7 @@ class FeedViewController: UIViewController {
         setupConstraints()
     }
     
-    @objc func onPostClick () {
+    @objc private func onPostClick () {
         let postVC = PostViewController()
         postVC.post = post
         navigationController?.pushViewController(postVC, animated: true)

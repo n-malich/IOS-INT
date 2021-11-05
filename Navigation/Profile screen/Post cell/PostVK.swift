@@ -2,13 +2,12 @@
 //  PostVK.swift
 //  Navigation
 //
-//  Created by Natali Mizina on 05.08.2021.
+//  Created by Natali Malich
 //
 
 import Foundation
 
 struct PostVK {
-    
     var author: String
     var description: String
     var image: String

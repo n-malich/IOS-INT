@@ -2,33 +2,36 @@
 //  LogInViewController.swift
 //  Navigation
 //
-//  Created by Natali Mizina on 01.08.2021.
+//  Created by Natali Malich
 //
 
 import UIKit
 
 class LogInViewController: UIViewController {
     
-    let scrollView: UIScrollView = {
+    let userService = CurrentUserService()
+    let userServiceTest = TestUserService()
+    
+    private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
     
-    let contentView: UIView = {
+    private let contentView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    let logoImageView: UIImageView = {
+    private let logoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "logo")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
-    let emailTextField: UITextField = {
+    private let emailTextField: UITextField = {
         let textField = UITextField()
         textField.backgroundColor = .systemGray6
         textField.font = UIFont.systemFont(ofSize: 16)
@@ -47,7 +50,7 @@ class LogInViewController: UIViewController {
         return textField
     }()
    
-    let passwordTextField: UITextField = {
+    private let passwordTextField: UITextField = {
         let textField = UITextField()
         textField.backgroundColor = .systemGray6
         textField.font = UIFont.systemFont(ofSize: 16)
@@ -67,14 +70,14 @@ class LogInViewController: UIViewController {
         return textField
     }()
     
-    let logInButton: UIButton = {
+    private let logInButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Log in", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.setBackgroundImage(#imageLiteral(resourceName: "blue_pixel"), for: .normal)
         button.layer.cornerRadius = 10
         button.clipsToBounds = true
-        button.addTarget(self, action: #selector(onProfileVC), for: .touchUpInside)
+        button.addTarget(self, action: #selector(loadUserProfile), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitleColor(UIColor.init(white: 1, alpha: 1), for: .normal)
         button.setTitleColor(UIColor.init(white: 1, alpha: 0.8), for: .selected)
@@ -87,7 +90,6 @@ class LogInViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         navigationController?.isNavigationBarHidden = true
         
         emailTextField.delegate = self
@@ -95,7 +97,6 @@ class LogInViewController: UIViewController {
         
         setupViews()
         setupConstraints()
-        
         setupHideKeyboardOnTap()
     }
     
@@ -123,9 +124,34 @@ class LogInViewController: UIViewController {
         scrollView.verticalScrollIndicatorInsets = .zero
     }
     
-    @objc func onProfileVC() {
-        let profileVC = ProfileViewController()
-        navigationController?.pushViewController(profileVC, animated: true)
+    @objc func loadUserProfile() {
+        if let userName = emailTextField.text, !userName.isEmpty {
+            #if DEBUG
+            if let user = userServiceTest.getUser(userName: userName) {
+                let profileVC = ProfileViewController(userService: userServiceTest.self, userName: user.userName)
+                navigationController?.pushViewController(profileVC, animated: true)
+            } else {
+                showAlert(message: "Пользователь не найден")
+            }
+            #else
+            if let user = userService.getUser(userName: userName){
+                let profileVC = ProfileViewController(userService: userService.self, userName: userName)
+                navigationController?.pushViewController(profileVC, animated: true)
+            } else {
+                showAlert(message: "Пользователь не найден")
+            }
+            #endif
+        } else {
+            showAlert(message: "Ввидите имя пользователя")
+        }
+    }
+}
+
+extension LogInViewController {
+    private func showAlert(message: String) {
+        let alert = UIAlertController(title: "Ошибка", message: message, preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "Ок", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
 }
 
@@ -181,7 +207,7 @@ extension LogInViewController {
 
 extension LogInViewController: UITextFieldDelegate {
     //Переключение между TextField при нажатии клавиши Done
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == emailTextField {
             textField.resignFirstResponder()
             passwordTextField.becomeFirstResponder()
@@ -194,7 +220,7 @@ extension LogInViewController: UITextFieldDelegate {
 
 extension LogInViewController {
     //Скрытие keyboard при нажатии за пределами TextField
-    func setupHideKeyboardOnTap() {
+    private func setupHideKeyboardOnTap() {
         self.view.addGestureRecognizer(self.endEditingRecognizer())
         self.navigationController?.navigationBar.addGestureRecognizer(self.endEditingRecognizer())
     }

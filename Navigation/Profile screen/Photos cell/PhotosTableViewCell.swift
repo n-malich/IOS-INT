@@ -2,7 +2,7 @@
 //  PhotosTableViewCell.swift
 //  Navigation
 //
-//  Created by Natali Mizina on 09.08.2021.
+//  Created by Natali Malich
 //
 
 import UIKit
@@ -11,7 +11,7 @@ class PhotosTableViewCell: UITableViewCell {
 
     private var photos = PhotosVK().photosArray
 
-    let titlePhotos: UILabel = {
+    private let titlePhotos: UILabel = {
         let label = UILabel()
         label.text = "Photos"
         label.textColor = .black
@@ -21,14 +21,14 @@ class PhotosTableViewCell: UITableViewCell {
         return label
     }()
 
-    let arrowRightPhotos: UIImageView = {
+    private let arrowRightPhotos: UIImageView = {
        let image = UIImageView(image: UIImage(systemName: "arrow.right"))
         image.tintColor = .black
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
     
-    let collectionView: UICollectionView = {
+    private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -36,7 +36,7 @@ class PhotosTableViewCell: UITableViewCell {
         return collectionView
     }()
     
-    let photosCollectionID = String(describing: PhotosCollectionViewCell.self)
+    private let photosCollectionID = String(describing: PhotosCollectionViewCell.self)
 
     private var baseInset: CGFloat { return 12 }
 
@@ -55,7 +55,6 @@ class PhotosTableViewCell: UITableViewCell {
 
 extension PhotosTableViewCell {
     private func setupViews() {
-        
         [titlePhotos, arrowRightPhotos, collectionView].forEach {contentView.addSubview($0)}
         
         collectionView.register(PhotosCollectionViewCell.self, forCellWithReuseIdentifier: photosCollectionID)

@@ -2,21 +2,21 @@
 //  PhotosViewController.swift
 //  Navigation
 //
-//  Created by Natali Mizina on 09.08.2021.
+//  Created by Natali Malich
 //
 
 import UIKit
 
 class PhotosViewController: UIViewController {
     
-    var collectionView: UICollectionView = {
+    private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
     
-    let photosCollectionID = String(describing: PhotosCollectionViewCell.self)
+    private let photosCollectionID = String(describing: PhotosCollectionViewCell.self)
     
     private var photos = PhotosVK().photosArray
     
@@ -24,7 +24,6 @@ class PhotosViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         navigationController?.isNavigationBarHidden = false
         navigationItem.title = "Photo Gallery"
         navigationItem.backBarButtonItem?.style = .plain
@@ -44,7 +43,6 @@ class PhotosViewController: UIViewController {
 
 extension PhotosViewController {
     private func setupViews() {
-        
         view.backgroundColor = .white
         view.addSubview(collectionView)
         

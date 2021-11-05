@@ -2,7 +2,7 @@
 //  PhotosVK.swift
 //  Navigation
 //
-//  Created by Natali Mizina on 09.08.2021.
+//  Created by Natali Malich
 //
 
 import UIKit

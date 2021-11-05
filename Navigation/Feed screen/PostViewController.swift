@@ -2,15 +2,15 @@
 //  PostViewController.swift
 //  Navigation
 //
-//  Created by Natali Mizina on 15.07.2021.
+//  Created by Natali Malich
 //
 
 import UIKit
 
 class PostViewController: UIViewController {
     
-    var post = Post(title: "")
-    var buttonInfo = UIBarButtonItem()
+    lazy var post = Post(title: "")
+    private var buttonInfo = UIBarButtonItem()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +21,7 @@ class PostViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = buttonInfo
 }
 
-@objc func onInfoClick () {
+@objc private func onInfoClick () {
     let infoVC = InfoViewController()
     infoVC.modalPresentationStyle = .formSheet
     infoVC.modalTransitionStyle = .coverVertical

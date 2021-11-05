@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		76631E472717447E00BA8A64 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB51C3C326A15DBB00FE942C /* Post.swift */; };
+		76A61FA5271F53B200BB60A5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A61FA4271F53B200BB60A5 /* User.swift */; };
+		76A61FA7271F53CB00BB60A5 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A61FA6271F53CB00BB60A5 /* UserService.swift */; };
+		76A61FA9271F53E400BB60A5 /* CurrentUserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A61FA8271F53E400BB60A5 /* CurrentUserService.swift */; };
+		76A61FAB271F53F600BB60A5 /* TestUserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A61FAA271F53F600BB60A5 /* TestUserService.swift */; };
 		CB234A6226B6D5C0002F3611 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB234A6126B6D5C0002F3611 /* LogInViewController.swift */; };
 		CB37437C26C129B70057F56D /* PhotosTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB37437B26C129B70057F56D /* PhotosTableViewCell.swift */; };
 		CB37437E26C1479F0057F56D /* PhotosVK.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB37437D26C1479F0057F56D /* PhotosVK.swift */; };
@@ -42,6 +46,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		76A61FA4271F53B200BB60A5 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		76A61FA6271F53CB00BB60A5 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		76A61FA8271F53E400BB60A5 /* CurrentUserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserService.swift; sourceTree = "<group>"; };
+		76A61FAA271F53F600BB60A5 /* TestUserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUserService.swift; sourceTree = "<group>"; };
 		CB234A6126B6D5C0002F3611 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		CB37437B26C129B70057F56D /* PhotosTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosTableViewCell.swift; sourceTree = "<group>"; };
 		CB37437D26C1479F0057F56D /* PhotosVK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosVK.swift; sourceTree = "<group>"; };
@@ -76,6 +84,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		76A61FA3271F536B00BB60A5 /* UserData */ = {
+			isa = PBXGroup;
+			children = (
+				76A61FA6271F53CB00BB60A5 /* UserService.swift */,
+				76A61FA4271F53B200BB60A5 /* User.swift */,
+				76A61FA8271F53E400BB60A5 /* CurrentUserService.swift */,
+				76A61FAA271F53F600BB60A5 /* TestUserService.swift */,
+			);
+			path = UserData;
+			sourceTree = "<group>";
+		};
 		CB37437F26C14D880057F56D /* LogIn screen */ = {
 			isa = PBXGroup;
 			children = (
@@ -132,6 +151,7 @@
 		CB51C3A626A0724A00FE942C /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
+				76A61FA3271F536B00BB60A5 /* UserData */,
 				CB37437F26C14D880057F56D /* LogIn screen */,
 				CB64952826A5FD2B00EB92DD /* Profile screen */,
 				CB9D3C2126AA15A900BBBCF2 /* Feed screen */,
@@ -247,10 +267,14 @@
 				CB51C3C226A0C78000FE942C /* InfoViewController.swift in Sources */,
 				CB51C3BE26A0759800FE942C /* ProfileViewController.swift in Sources */,
 				CB4BC90B26BC6EB3005CD55A /* PostTableViewCell.swift in Sources */,
+				76A61FA9271F53E400BB60A5 /* CurrentUserService.swift in Sources */,
 				CB37437C26C129B70057F56D /* PhotosTableViewCell.swift in Sources */,
 				CB51C3BC26A074C200FE942C /* FeedViewController.swift in Sources */,
 				CB4BC90526BC48A5005CD55A /* PostVK.swift in Sources */,
+				76A61FAB271F53F600BB60A5 /* TestUserService.swift in Sources */,
+				76A61FA7271F53CB00BB60A5 /* UserService.swift in Sources */,
 				CB234A6226B6D5C0002F3611 /* LogInViewController.swift in Sources */,
+				76A61FA5271F53B200BB60A5 /* User.swift in Sources */,
 				CB37438826C1829A0057F56D /* PhotosCollectionViewCell.swift in Sources */,
 				CB4BC90926BC4E0F005CD55A /* PostsVK.swift in Sources */,
 				CB51C3AA26A0724A00FE942C /* SceneDelegate.swift in Sources */,
