@@ -72,19 +72,43 @@ class LoginViewController: UIViewController {
         return textField
     }()
     
-    let logInButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Log in", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.setBackgroundImage(#imageLiteral(resourceName: "blue_pixel"), for: .normal)
+//    let logInButton: UIButton = {
+//        let button = UIButton(type: .system)
+//        button.setTitle("Log in", for: .normal)
+//        button.setTitleColor(.white, for: .normal)
+//        button.setBackgroundImage(#imageLiteral(resourceName: "blue_pixel"), for: .normal)
+//        button.layer.cornerRadius = 10
+//        button.clipsToBounds = true
+//        button.addTarget(self, action: #selector(loadUserProfile), for: .touchUpInside)
+//        button.translatesAutoresizingMaskIntoConstraints = false
+//        button.setTitleColor(UIColor.init(white: 1, alpha: 1), for: .normal)
+//        button.setTitleColor(UIColor.init(white: 1, alpha: 0.8), for: .selected)
+//        button.setTitleColor(UIColor.init(white: 1, alpha: 0.8), for: .highlighted)
+//        button.setTitleColor(UIColor.init(white: 1, alpha: 1), for: .disabled)
+//        return button
+//    }()
+    
+    //ДЗ 6.1 Кастомный класс UIButton
+    private lazy var logInButton: CustomButton = {
+        let button = CustomButton(title: "Log in", titleColor: .white, backgroundColor: nil, backgroundImage: UIImage(imageLiteralResourceName: "blue_pixel"), buttonAction: { [weak self] in
+            #if DEBUG
+            let userServise = TestUserService()
+            #else
+            let userServise = CurrentUserService()
+            #endif
+            if let email = self?.emailTextField.text, !email.isEmpty, let password = self?.passwordTextField.text, !password.isEmpty {
+                if self?.delegate?.checkTextFields(enteredLogin: email, enteredPassword: password) == true {
+                    let profileVC = ProfileViewController(userService: userServise, userName: email)
+                    self?.navigationController?.pushViewController(profileVC, animated: true)
+                } else {
+                    self?.showAlert(message: "Неверный логин или пароль")
+                }
+            } else {
+                self?.showAlert(message: "Ввидите имя пользователя и пароль")
+            }
+        })
         button.layer.cornerRadius = 10
         button.clipsToBounds = true
-        button.addTarget(self, action: #selector(loadUserProfile), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitleColor(UIColor.init(white: 1, alpha: 1), for: .normal)
-        button.setTitleColor(UIColor.init(white: 1, alpha: 0.8), for: .selected)
-        button.setTitleColor(UIColor.init(white: 1, alpha: 0.8), for: .highlighted)
-        button.setTitleColor(UIColor.init(white: 1, alpha: 1), for: .disabled)
         return button
     }()
     
@@ -128,7 +152,7 @@ class LoginViewController: UIViewController {
         scrollView.verticalScrollIndicatorInsets = .zero
     }
     
-    @objc func loadUserProfile() {
+//    @objc func loadUserProfile() {
         //ДЗ 3 - чтобы попасть в профиль нужно ввести имя пользователя
 //        if let userName = emailTextField.text, !userName.isEmpty {
 //        #if DEBUG
@@ -152,23 +176,23 @@ class LoginViewController: UIViewController {
 //    }
         
         //ДЗ 4.1 и 4.2
-        #if DEBUG
-        let userServise = TestUserService()
-        #else
-        let userServise = CurrentUserService()
-        #endif
-        
-        if let email = emailTextField.text, !email.isEmpty, let password = passwordTextField.text, !password.isEmpty {
-            if delegate?.checkTextFields(enteredLogin: email, enteredPassword: password) == true {
-                let profileVC = ProfileViewController(userService: userServise, userName: email)
-                navigationController?.pushViewController(profileVC, animated: true)
-            } else {
-                showAlert(message: "Неверный логин или пароль")
-            }
-        } else {
-            showAlert(message: "Ввидите имя пользователя и пароль")
-        }
-    }
+//        #if DEBUG
+//        let userServise = TestUserService()
+//        #else
+//        let userServise = CurrentUserService()
+//        #endif
+//
+//        if let email = emailTextField.text, !email.isEmpty, let password = passwordTextField.text, !password.isEmpty {
+//            if delegate?.checkTextFields(enteredLogin: email, enteredPassword: password) == true {
+//                let profileVC = ProfileViewController(userService: userServise, userName: email)
+//                navigationController?.pushViewController(profileVC, animated: true)
+//            } else {
+//                showAlert(message: "Неверный логин или пароль")
+//            }
+//        } else {
+//            showAlert(message: "Ввидите имя пользователя и пароль")
+//        }
+//    }
 }
 
 extension LoginViewController {

@@ -176,7 +176,7 @@ extension ProfileViewController {
 private let originalTransform = ProfileHeaderView().avatarImageView.transform
 
  extension ProfileViewController {
-     //Анимация avatarImageView
+     //Открытие анимированного avatarImageView
      @objc func avatarOnTap() {
          UIView.animateKeyframes(withDuration: 0.5, delay: 0, options: [.calculationModeCubicPaced], animations: {
              UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.3) {
