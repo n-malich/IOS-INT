@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		761C5224273527AC00B32F79 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761C5223273527AC00B32F79 /* CustomButton.swift */; };
+		761C52262735759300B32F79 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761C52252735759300B32F79 /* CustomTextField.swift */; };
+		762AD68B273E91ED0026C68D /* CheckEnteredWord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 762AD68A273E91ED0026C68D /* CheckEnteredWord.swift */; };
 		7648D105272DE1FD0087EFA9 /* Checker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7648D104272DE1FD0087EFA9 /* Checker.swift */; };
 		7648D107272DE2280087EFA9 /* LoginViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7648D106272DE2280087EFA9 /* LoginViewControllerDelegate.swift */; };
 		7648D109272DE24F0087EFA9 /* LoginInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7648D108272DE24F0087EFA9 /* LoginInspector.swift */; };
@@ -70,6 +73,9 @@
 		0EA42BD33A053798E610E44A /* Pods_StorageService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StorageService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D6F835DC3207A1F70C54EF5 /* Pods_Navigation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Navigation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		73739B274B5B1E163996FA04 /* Pods-Navigation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Navigation.release.xcconfig"; path = "Target Support Files/Pods-Navigation/Pods-Navigation.release.xcconfig"; sourceTree = "<group>"; };
+		761C5223273527AC00B32F79 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		761C52252735759300B32F79 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		762AD68A273E91ED0026C68D /* CheckEnteredWord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckEnteredWord.swift; sourceTree = "<group>"; };
 		7648D104272DE1FD0087EFA9 /* Checker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checker.swift; sourceTree = "<group>"; };
 		7648D106272DE2280087EFA9 /* LoginViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewControllerDelegate.swift; sourceTree = "<group>"; };
 		7648D108272DE24F0087EFA9 /* LoginInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInspector.swift; sourceTree = "<group>"; };
@@ -128,6 +134,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		761C52272735783D00B32F79 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				761C52252735759300B32F79 /* CustomTextField.swift */,
+				761C5223273527AC00B32F79 /* CustomButton.swift */,
+				762AD68A273E91ED0026C68D /* CheckEnteredWord.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		76AC5392272DC44D00F8C232 /* StorageService */ = {
 			isa = PBXGroup;
 			children = (
@@ -224,6 +240,7 @@
 			isa = PBXGroup;
 			children = (
 				76BB3C0A272DD6FD0002721C /* UserData */,
+				761C52272735783D00B32F79 /* Models */,
 				CB37437F26C14D880057F56D /* LogIn screen */,
 				CB64952826A5FD2B00EB92DD /* Profile screen */,
 				CB9D3C2126AA15A900BBBCF2 /* Feed screen */,
@@ -459,12 +476,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				761C52262735759300B32F79 /* CustomTextField.swift in Sources */,
 				CB51C3C026A0864F00FE942C /* PostViewController.swift in Sources */,
 				CB37438626C17D100057F56D /* PhotosViewController.swift in Sources */,
 				CB51C3AC26A0724A00FE942C /* ViewController.swift in Sources */,
 				CB51C3A826A0724A00FE942C /* AppDelegate.swift in Sources */,
+				761C5224273527AC00B32F79 /* CustomButton.swift in Sources */,
 				76BB3C10272DD8270002721C /* CurrentUserService.swift in Sources */,
 				CB37437E26C1479F0057F56D /* PhotosVK.swift in Sources */,
+				762AD68B273E91ED0026C68D /* CheckEnteredWord.swift in Sources */,
 				CB5E544C26A8032A00B603C0 /* ProfileHeaderView.swift in Sources */,
 				CB51C3C226A0C78000FE942C /* InfoViewController.swift in Sources */,
 				76BB3C12272DD8790002721C /* TestUserService.swift in Sources */,

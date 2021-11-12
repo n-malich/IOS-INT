@@ -35,13 +35,24 @@
      
      private var arrayOFPosts = PostsVK().postsArray
     
-     let closeButton: UIButton = {
-         let button = UIButton()
-         button.setBackgroundImage(UIImage (systemName: "xmark.circle.fill"), for: .normal)
-         button.tintColor = .lightGray
+//     let closeButton: UIButton = {
+//         let button = UIButton()
+//         button.setBackgroundImage(UIImage (systemName: "xmark.circle.fill"), for: .normal)
+//         button.tintColor = .lightGray
+//         button.alpha = 0
+//         button.addTarget(self, action: #selector(tapOnСloseButton), for: .touchUpInside)
+//         button.translatesAutoresizingMaskIntoConstraints = false
+//         return button
+//     }()
+     
+     //ДЗ 6.1 Кастомный класс UIButton
+     private lazy var closeButton: CustomButton = {
+         let button = CustomButton(title: nil, titleColor: nil, backgroundColor: nil, backgroundImage: UIImage(systemName: "xmark.circle.fill"), buttonAction: {
+             [weak self] in
+             self?.tapOnСloseButton()
+         })
          button.alpha = 0
-         button.addTarget(self, action: #selector(tapOnСloseButton), for: .touchUpInside)
-         button.translatesAutoresizingMaskIntoConstraints = false
+         button.tintColor = .lightGray
          return button
      }()
      
@@ -176,7 +187,7 @@ extension ProfileViewController {
 private let originalTransform = ProfileHeaderView().avatarImageView.transform
 
  extension ProfileViewController {
-     //Анимация avatarImageView
+     //Открытие анимированного avatarImageView
      @objc func avatarOnTap() {
          UIView.animateKeyframes(withDuration: 0.5, delay: 0, options: [.calculationModeCubicPaced], animations: {
              UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.3) {
