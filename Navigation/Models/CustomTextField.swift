@@ -15,7 +15,8 @@ class CustomTextField: UITextField {
         self.textColor = textColor
         self.backgroundColor = backgroundColor
         self.placeholder = placeholder
-        self.layer.sublayerTransform = CATransform3DMakeTranslation(10, 0, 0)
+        self.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: self.frame.height))
+        self.leftViewMode = .always
         self.autocapitalizationType = .none
         self.translatesAutoresizingMaskIntoConstraints = false
     }

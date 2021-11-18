@@ -7,12 +7,19 @@
 
 import UIKit
 
+protocol LoginViewControllerCoordinatorDelegate: AnyObject {
+    func navigateToNextPage(userName: String)
+}
+
+protocol LoginViewControllerСheckDelegate: AnyObject {
+    func checkTextFields(enteredLogin: String, enteredPassword: String) -> Bool
+}
+
 class LoginViewController: UIViewController {
     
-    var delegate: LoginViewControllerDelegate?
+    var coordinator: LoginViewControllerCoordinatorDelegate?
     
-    let userService = CurrentUserService()
-    let userServiceTest = TestUserService()
+    var delegate: LoginViewControllerСheckDelegate?
     
     let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -72,34 +79,11 @@ class LoginViewController: UIViewController {
         return textField
     }()
     
-//    let logInButton: UIButton = {
-//        let button = UIButton(type: .system)
-//        button.setTitle("Log in", for: .normal)
-//        button.setTitleColor(.white, for: .normal)
-//        button.setBackgroundImage(#imageLiteral(resourceName: "blue_pixel"), for: .normal)
-//        button.layer.cornerRadius = 10
-//        button.clipsToBounds = true
-//        button.addTarget(self, action: #selector(loadUserProfile), for: .touchUpInside)
-//        button.translatesAutoresizingMaskIntoConstraints = false
-//        button.setTitleColor(UIColor.init(white: 1, alpha: 1), for: .normal)
-//        button.setTitleColor(UIColor.init(white: 1, alpha: 0.8), for: .selected)
-//        button.setTitleColor(UIColor.init(white: 1, alpha: 0.8), for: .highlighted)
-//        button.setTitleColor(UIColor.init(white: 1, alpha: 1), for: .disabled)
-//        return button
-//    }()
-    
-    //ДЗ 6.1 Кастомный класс UIButton
     private lazy var logInButton: CustomButton = {
         let button = CustomButton(title: "Log in", titleColor: .white, backgroundColor: nil, backgroundImage: UIImage(imageLiteralResourceName: "blue_pixel"), buttonAction: { [weak self] in
-            #if DEBUG
-            let userServise = TestUserService()
-            #else
-            let userServise = CurrentUserService()
-            #endif
             if let email = self?.emailTextField.text, !email.isEmpty, let password = self?.passwordTextField.text, !password.isEmpty {
                 if self?.delegate?.checkTextFields(enteredLogin: email, enteredPassword: password) == true {
-                    let profileVC = ProfileViewController(userService: userServise, userName: email)
-                    self?.navigationController?.pushViewController(profileVC, animated: true)
+                    self?.coordinator?.navigateToNextPage(userName: email)
                 } else {
                     self?.showAlert(message: "Неверный логин или пароль")
                 }
@@ -116,15 +100,12 @@ class LoginViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        navigationController?.isNavigationBarHidden = true
-        
+        view.backgroundColor = .white
         emailTextField.delegate = self
         passwordTextField.delegate = self
         
         setupViews()
         setupConstraints()
-        
         setupHideKeyboardOnTap()
     }
     
@@ -151,48 +132,6 @@ class LoginViewController: UIViewController {
         scrollView.contentInset.bottom = .zero
         scrollView.verticalScrollIndicatorInsets = .zero
     }
-    
-//    @objc func loadUserProfile() {
-        //ДЗ 3 - чтобы попасть в профиль нужно ввести имя пользователя
-//        if let userName = emailTextField.text, !userName.isEmpty {
-//        #if DEBUG
-//            if let user = userServiceTest.getUser(userName: userName) {
-//                let profileVC = ProfileViewController(userService: userServiceTest.self, userName: user.userName)
-//                navigationController?.pushViewController(profileVC, animated: true)
-//            } else {
-//                showAlert(message: "Пользователь не найден")
-//            }
-//        #else
-//            if let user = userService.getUser(userName: userName){
-//                let profileVC = ProfileViewController(userService: userService.self, userName: userName)
-//                navigationController?.pushViewController(profileVC, animated: true)
-//            } else {
-//                showAlert(message: "Пользователь не найден")
-//            }
-//        #endif
-//        } else {
-//            showAlert(message: "Ввидите имя пользователя")
-//        }
-//    }
-        
-        //ДЗ 4.1 и 4.2
-//        #if DEBUG
-//        let userServise = TestUserService()
-//        #else
-//        let userServise = CurrentUserService()
-//        #endif
-//
-//        if let email = emailTextField.text, !email.isEmpty, let password = passwordTextField.text, !password.isEmpty {
-//            if delegate?.checkTextFields(enteredLogin: email, enteredPassword: password) == true {
-//                let profileVC = ProfileViewController(userService: userServise, userName: email)
-//                navigationController?.pushViewController(profileVC, animated: true)
-//            } else {
-//                showAlert(message: "Неверный логин или пароль")
-//            }
-//        } else {
-//            showAlert(message: "Ввидите имя пользователя и пароль")
-//        }
-//    }
 }
 
 extension LoginViewController {
@@ -205,8 +144,6 @@ extension LoginViewController {
 
 extension LoginViewController {
         private func setupViews() {
-            view.backgroundColor = .white
-            
             view.addSubview(scrollView)
             scrollView.addSubview(contentView)
             

@@ -5,10 +5,15 @@
 //  Created by Natali Malich
 //
 
- import UIKit
+import UIKit
+
+protocol ProfileViewControllerCoordinatorDelegate: AnyObject {
+    func navigateToNextPage()
+}
 
  class ProfileViewController: UIViewController {
      
+     var coordinator: ProfileViewControllerCoordinatorDelegate?
      let userService: UserServiceProtocol
      let userName: String
      
@@ -17,9 +22,9 @@
          self.userName = userName
          super.init(nibName: nil, bundle: nil)
      }
-     
+
      required init?(coder: NSCoder) {
-         fatalError("init(coder:) has not been implemented")
+         nil
      }
 
      let tableView: UITableView = {

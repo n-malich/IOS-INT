@@ -7,30 +7,48 @@
 
 import UIKit
 
+//protocol InfoViewControllerCoordinatorDelegate: AnyObject {
+//    func navigateToNextPage()
+//}
+
 class InfoViewController: UIViewController {
+    
+//    var coordinator: InfoViewControllerCoordinatorDelegate?
+    
+    private lazy var button: CustomButton = {
+        let button = CustomButton(title: "Press me", titleColor: .white, backgroundColor: nil, backgroundImage: UIImage(imageLiteralResourceName: "blue_pixel"), buttonAction: { [weak self] in
+            let alertC = UIAlertController(title: "Error", message: "Nothing found", preferredStyle: UIAlertController.Style.alert)
+            alertC.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in print("Ok")}))
+            alertC.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: { (action: UIAlertAction!) in print("Cancel")}))
+            self?.present(alertC, animated: true, completion: nil)
+        })
+        button.layer.cornerRadius = 10
+        button.clipsToBounds = true
+        return button
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemGray3
         
-        let button = UIButton(frame: CGRect(x: 125, y: 350, width: 200, height: 50))
-        button.setTitle("Press me", for: .normal)
-        button.addTarget(self, action: #selector(onAlertClick), for: .touchUpInside)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .systemBlue
-        button.layer.shadowOffset = CGSize(width: 4, height: 4)
-        button.layer.shadowRadius = 4
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowOpacity = 0.7
-        button.addTarget(self, action: #selector(onAlertClick), for: .touchUpInside)
+        setupViews()
+        setupConstraints()
+    }
+}
+extension InfoViewController {
+    private func setupViews() {
         view.addSubview(button)
     }
-    
-    @objc func onAlertClick () {
-        let alertVC = UIAlertController(title: "Error", message: "Nothing found", preferredStyle: UIAlertController.Style.alert)
-        alertVC.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in print("Some text")}))
-        alertVC.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in print("Some more text")}))
-        present(alertVC, animated: true, completion: nil)
-    }
+}
 
+extension InfoViewController {
+    private func setupConstraints() {
+        [
+            button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            button.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            button.heightAnchor.constraint(equalToConstant: 50),
+            button.widthAnchor.constraint(equalToConstant: 300)
+        ]
+        .forEach {$0.isActive = true}
+    }
 }

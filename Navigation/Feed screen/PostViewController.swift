@@ -8,26 +8,26 @@
 import UIKit
 import StorageService
 
+protocol PostViewControllerCoordinatorDelegate: AnyObject {
+    func navigateToNextPage()
+}
+
 class PostViewController: UIViewController {
     
-    var post = Post(title: "")
+    weak var coordinator: PostViewControllerCoordinatorDelegate?
+    
+    var post = Post(title: "Post")
     var buttonInfo = UIBarButtonItem()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemGray3
-        self.title = post.title
         
-    buttonInfo = UIBarButtonItem(image: UIImage.init(named: "info"), style: .plain, target: self, action: #selector(onInfoClick))
+        buttonInfo = UIBarButtonItem(image: UIImage.init(named: "info"), style: .plain, target: self, action: #selector(onInfoClick))
         self.navigationItem.rightBarButtonItem = buttonInfo
 }
 
 @objc func onInfoClick () {
-    let infoVC = InfoViewController()
-    infoVC.modalPresentationStyle = .formSheet
-    infoVC.modalTransitionStyle = .coverVertical
-    self.present(infoVC, animated: true, completion: nil)
+    self.coordinator?.navigateToNextPage()
     }
 }
-
-

@@ -43,22 +43,6 @@ class ProfileHeaderView: UIView {
         return label
     }()
     
-//    let setStatusButton: UIButton = {
-//        let button = UIButton()
-//        button.setTitle("Set status", for: .normal)
-//        button.setTitleColor(.white, for: .normal)
-//        button.backgroundColor = .systemBlue
-//        button.layer.cornerRadius = 4
-//        button.layer.shadowOffset = CGSize(width: 4, height: 4)
-//        button.layer.shadowRadius = 4
-//        button.layer.shadowColor = UIColor.black.cgColor
-//        button.layer.shadowOpacity = 0.7
-//        button.addTarget(self, action: #selector(onSetStatus), for: .touchUpInside)
-//        button.translatesAutoresizingMaskIntoConstraints = false
-//        return button
-//    }()
-    
-    //ДЗ 6.1 Кастомный класс UIButton
     private lazy var setStatusButton: CustomButton = {
         let button = CustomButton(title: "Set status", titleColor: .white, backgroundColor: nil, backgroundImage: UIImage(imageLiteralResourceName: "blue_pixel"), buttonAction: { [weak self] in
             if ((self?.statusText.isEmpty) != nil) {
@@ -125,14 +109,6 @@ class ProfileHeaderView: UIView {
             statusText = text
         }
     }
-
-//    @objc func onSetStatus() {
-//        if statusText.isEmpty {
-//            statusText = "Set up status"
-//        }
-//        statusLabel.text = statusText
-//        self.endEditing(true)
-//    }
 }
 
 extension ProfileHeaderView {

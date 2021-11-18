@@ -8,9 +8,14 @@
 import UIKit
 import StorageService
 
+protocol FeedViewControllerCoordinatorDelegate: AnyObject {
+    func navigateToNextPage()
+}
+
 class FeedViewController: UIViewController {
     
-    private let post = Post(title: "Selected post")
+    var coordinator: FeedViewControllerCoordinatorDelegate?
+    
     private let checkEnteredWord: CheckEnteredWord?
     
     private lazy var stackView: UIStackView = {
@@ -21,35 +26,6 @@ class FeedViewController: UIViewController {
         return stackView
     }()
     
-//    let buttonOnPost1: UIButton = {
-//        let button = UIButton()
-//        button.setTitle("Open post 1", for: .normal)
-//        button.setTitleColor(.white, for: .normal)
-//        button.backgroundColor = .systemBlue
-//        button.layer.shadowOffset = CGSize(width: 4, height: 4)
-//        button.layer.shadowRadius = 4
-//        button.layer.shadowColor = UIColor.black.cgColor
-//        button.layer.shadowOpacity = 0.7
-//        button.addTarget(self, action: #selector(onPostClick), for: .touchUpInside)
-//        button.translatesAutoresizingMaskIntoConstraints = false
-//        return button
-//    }()
-    
-//    let buttonOnPost2: UIButton = {
-//        let button = UIButton()
-//        button.setTitle("Open post 2", for: .normal)
-//        button.setTitleColor(.white, for: .normal)
-//        button.backgroundColor = .systemBlue
-//        button.layer.shadowOffset = CGSize(width: 4, height: 4)
-//        button.layer.shadowRadius = 4
-//        button.layer.shadowColor = UIColor.black.cgColor
-//        button.layer.shadowOpacity = 0.7
-//        button.addTarget(self, action: #selector(onPostClick), for: .touchUpInside)
-//        button.translatesAutoresizingMaskIntoConstraints = false
-//        return button
-//    }()
-    
-    //ДЗ 6.1 Кастомный класс UIButton
     private lazy var buttonCheck: CustomButton = {
         let button = CustomButton(title: "Check the entered word", titleColor: .white, backgroundColor: nil, backgroundImage: UIImage(imageLiteralResourceName: "blue_pixel"), buttonAction: { [weak self] in
             self?.label.isHidden = false
@@ -61,7 +37,19 @@ class FeedViewController: UIViewController {
                     self?.label.text = "False"
                     self?.label.textColor = .systemRed
                 }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self?.label.isHidden = true
+                }
             })
+        })
+        button.layer.cornerRadius = 10
+        button.clipsToBounds = true
+        return button
+    }()
+    
+    private lazy var buttonToPost: CustomButton = {
+        let button = CustomButton(title: "To post", titleColor: .white, backgroundColor: nil, backgroundImage: UIImage(imageLiteralResourceName: "blue_pixel"), buttonAction: { [weak self] in
+            self?.coordinator?.navigateToNextPage()
         })
         button.layer.cornerRadius = 10
         button.clipsToBounds = true
@@ -73,6 +61,8 @@ class FeedViewController: UIViewController {
         textField.layer.cornerRadius = 10
         textField.layer.borderWidth = 0.5
         textField.layer.borderColor = UIColor.lightGray.cgColor
+        textField.clearButtonMode = UITextField.ViewMode.whileEditing
+        textField.clipsToBounds = true
         return textField
     }()
     
@@ -97,36 +87,32 @@ class FeedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
-        self.navigationItem.title = "Feed"
+        self.textField.delegate = self
         
         setupViews()
         setupConstraints()
+        setupHideKeyboardOnTap()
     }
-    
-//    @objc func onPostClick () {
-//        let postVC = PostViewController()
-//        postVC.post = post
-//        navigationController?.pushViewController(postVC, animated: true)
 }
 
 extension FeedViewController {
     private func setupViews() {
+        view.addSubview(label)
         view.addSubview(stackView)
-        
-        stackView.addArrangedSubview(label)
         stackView.addArrangedSubview(textField)
         stackView.addArrangedSubview(buttonCheck)
+        stackView.addArrangedSubview(buttonToPost)
     }
 }
 
 extension FeedViewController {
     private func setupConstraints() {
         [
+            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            label.bottomAnchor.constraint(equalTo: stackView.topAnchor, constant: -25),
+            
             stackView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
             stackView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            
-            label.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
-            label.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
             
             textField.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
             textField.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
@@ -138,8 +124,30 @@ extension FeedViewController {
             buttonCheck.heightAnchor.constraint(equalToConstant: 50),
             buttonCheck.widthAnchor.constraint(equalToConstant: 300),
             
-            
+            buttonToPost.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
+            buttonToPost.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
+            buttonToPost.heightAnchor.constraint(equalToConstant: 50),
+            buttonToPost.widthAnchor.constraint(equalToConstant: 300)
         ]
         .forEach {$0.isActive = true}
+    }
+}
+
+extension FeedViewController : UITextFieldDelegate {
+    //Скрытие keyboard при нажатии клавиши Return
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    //Скрытие keyboard при нажатии за пределами TextField
+    func setupHideKeyboardOnTap() {
+        self.view.addGestureRecognizer(self.endEditingRecognizer())
+        self.navigationController?.navigationBar.addGestureRecognizer(self.endEditingRecognizer())
+    }
+    
+    private func endEditingRecognizer() -> UIGestureRecognizer {
+        let tap = UITapGestureRecognizer(target: self.view, action: #selector(self.view.endEditing(_:)))
+        tap.cancelsTouchesInView = false
+        return tap
     }
 }

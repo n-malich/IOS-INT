@@ -2,7 +2,7 @@
 //  LoginFactory.swift
 //  Navigation
 //
-//  Created by Natali Malich on 30.10.2021.
+//  Created by Natali Malich
 //
 
 import Foundation

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class LoginInspector: LoginViewControllerDelegate {
+class LoginInspector: LoginViewControllerСheckDelegate {
     func checkTextFields(enteredLogin: String, enteredPassword: String) -> Bool {
         return Checker.shared.checkLoginAndPassword(enteredLogin: enteredLogin, enteredPassword: enteredPassword)
     }
