@@ -9,7 +9,8 @@ import UIKit
 
 class PhotosTableViewCell: UITableViewCell {
 
-    private var photos = PhotosVK.photosArray
+    private let photosCollectionID = String(describing: PhotosCollectionViewCell.self)
+    private let photoProcessing = PhotoProcessing()
 
     let titlePhotos: UILabel = {
         let label = UILabel()
@@ -36,8 +37,6 @@ class PhotosTableViewCell: UITableViewCell {
         return collectionView
     }()
     
-    let photosCollectionID = String(describing: PhotosCollectionViewCell.self)
-
     private var baseInset: CGFloat { return 12 }
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -55,13 +54,14 @@ class PhotosTableViewCell: UITableViewCell {
 
 extension PhotosTableViewCell {
     private func setupViews() {
-        
         [titlePhotos, arrowRightPhotos, collectionView].forEach {contentView.addSubview($0)}
         
-        collectionView.register(PhotosCollectionViewCell.self, forCellWithReuseIdentifier: photosCollectionID)
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.backgroundColor = .white
+        photoProcessing.processing(completion: {
+            self.collectionView.register(PhotosCollectionViewCell.self, forCellWithReuseIdentifier: self.photosCollectionID)
+            self.collectionView.dataSource = self
+            self.collectionView.delegate = self
+            self.collectionView.backgroundColor = .white
+        })
     }
 }
 
@@ -89,12 +89,12 @@ extension PhotosTableViewCell {
 
 extension PhotosTableViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 8
+        return photoProcessing.processedPhotos.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: PhotosCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: photosCollectionID, for: indexPath) as! PhotosCollectionViewCell
-        cell.imagesPhotos.image = photos[indexPath.item]
+        cell.imagesPhotos.image = photoProcessing.processedPhotos[indexPath.item]
         cell.imagesPhotos.layer.cornerRadius = 6
         return cell
     }
