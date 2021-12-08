@@ -21,6 +21,7 @@
 		768B6D9E274149B500BB490D /* FeedCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768B6D9D274149B500BB490D /* FeedCoordinator.swift */; };
 		768B6DA2274155B000BB490D /* PostCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768B6DA1274155B000BB490D /* PostCoordinator.swift */; };
 		768B6DA6274194E300BB490D /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768B6DA5274194E300BB490D /* AppCoordinator.swift */; };
+		768CF9CD27612E270056699A /* BruteForce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768CF9CC27612E270056699A /* BruteForce.swift */; };
 		76AC5394272DC44D00F8C232 /* StorageService.h in Headers */ = {isa = PBXBuildFile; fileRef = 76AC5393272DC44D00F8C232 /* StorageService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		76AC5397272DC44D00F8C232 /* StorageService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76AC5391272DC44D00F8C232 /* StorageService.framework */; };
 		76AC5398272DC44D00F8C232 /* StorageService.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 76AC5391272DC44D00F8C232 /* StorageService.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -93,6 +94,7 @@
 		768B6D9D274149B500BB490D /* FeedCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCoordinator.swift; sourceTree = "<group>"; };
 		768B6DA1274155B000BB490D /* PostCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCoordinator.swift; sourceTree = "<group>"; };
 		768B6DA5274194E300BB490D /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		768CF9CC27612E270056699A /* BruteForce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BruteForce.swift; sourceTree = "<group>"; };
 		76AC5391272DC44D00F8C232 /* StorageService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StorageService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		76AC5393272DC44D00F8C232 /* StorageService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StorageService.h; sourceTree = "<group>"; };
 		76BB3C0B272DD7210002721C /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 				761C5223273527AC00B32F79 /* CustomButton.swift */,
 				76F2105D275A602F00037844 /* CustomTimer.swift */,
 				76F2105F275A61F500037844 /* PhotoProcessing.swift */,
+				768CF9CC27612E270056699A /* BruteForce.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -530,6 +533,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				761C52262735759300B32F79 /* CustomTextField.swift in Sources */,
+				768CF9CD27612E270056699A /* BruteForce.swift in Sources */,
 				CB51C3C026A0864F00FE942C /* PostViewController.swift in Sources */,
 				CB37438626C17D100057F56D /* PhotosViewController.swift in Sources */,
 				CB51C3A826A0724A00FE942C /* AppDelegate.swift in Sources */,

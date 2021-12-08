@@ -19,7 +19,8 @@ class Checker {
     private let loginUser = "Danya"
     #endif
     
-    private let passwordUser = "Password"
+//    private let passwordUser = "Password"
+    private let passwordUser = "Pass"
     
     private init() {}
     

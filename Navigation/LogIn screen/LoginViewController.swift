@@ -19,6 +19,7 @@ class LoginViewController: UIViewController {
     
     var coordinator: LoginViewControllerCoordinatorDelegate?
     var delegate: LoginViewControllerСheckDelegate?
+    var bruteForce = BruteForce()
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -90,9 +91,52 @@ class LoginViewController: UIViewController {
                 self?.showAlert(message: "Ввидите имя пользователя и пароль")
             }
         })
+        button.alpha = 1
+        if button.isSelected == true {
+            button.alpha = 0.8
+        } else if button.isEnabled == false {
+            button.alpha = 0.8
+        } else if button.isHighlighted == true {
+            button.alpha = 0.8
+        }
         button.layer.cornerRadius = 10
         button.clipsToBounds = true
         return button
+    }()
+    
+    private lazy var pickUpPasswordButton: CustomButton = {
+        let button = CustomButton(title: "Pick up a password", titleColor: .white, backgroundColor: nil, backgroundImage: UIImage(imageLiteralResourceName: "blue_pixel"), buttonAction: { [weak self] in
+            self?.pickUpPasswordButton.isEnabled = false
+            self?.activityIndicator.startAnimating()
+            DispatchQueue.global().async {
+                self?.bruteForce.bruteForce(passwordToUnlock: "Pass", completion: {
+                    DispatchQueue.main.async {
+                        self?.passwordTextField.text = "Pass"
+                        self?.activityIndicator.stopAnimating()
+                        self?.activityIndicator.isHidden = true
+                        self?.pickUpPasswordButton.isEnabled = true
+                    }
+                })
+            }
+        })
+        button.alpha = 1
+        if button.isSelected == true {
+            button.alpha = 0.8
+        } else if button.isEnabled == false {
+            button.alpha = 0.8
+        } else if button.isHighlighted == true {
+            button.alpha = 0.8
+        }
+        button.layer.cornerRadius = 10
+        button.clipsToBounds = true
+        return button
+    }()
+    
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        indicator.style = .large
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
     }()
     
     private var baseInset: CGFloat { return 16 }
@@ -146,7 +190,7 @@ extension LoginViewController {
             view.addSubview(scrollView)
             scrollView.addSubview(contentView)
             
-            [logoImageView, emailTextField, passwordTextField, logInButton].forEach { contentView.addSubview($0)}
+            [logoImageView, emailTextField, passwordTextField, logInButton, pickUpPasswordButton, activityIndicator].forEach { contentView.addSubview($0)}
         }
     }
 
@@ -182,8 +226,16 @@ extension LoginViewController {
             logInButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: baseInset),
             logInButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: baseInset),
             logInButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -baseInset),
-            logInButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            logInButton.heightAnchor.constraint(equalToConstant: 50)
+            logInButton.heightAnchor.constraint(equalToConstant: 50),
+            
+            pickUpPasswordButton.topAnchor.constraint(equalTo: logInButton.bottomAnchor, constant: baseInset),
+            pickUpPasswordButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: baseInset),
+            pickUpPasswordButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -baseInset),
+            pickUpPasswordButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            pickUpPasswordButton.heightAnchor.constraint(equalToConstant: 50),
+            
+            activityIndicator.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ]
         .forEach {$0.isActive = true}
     }
