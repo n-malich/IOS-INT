@@ -29,6 +29,8 @@
 		76BB3C0E272DD7FA0002721C /* UserServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BB3C0D272DD7FA0002721C /* UserServiceProtocol.swift */; };
 		76BB3C10272DD8270002721C /* CurrentUserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BB3C0F272DD8270002721C /* CurrentUserService.swift */; };
 		76BB3C12272DD8790002721C /* TestUserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BB3C11272DD8790002721C /* TestUserService.swift */; };
+		76F2105E275A602F00037844 /* CustomTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F2105D275A602F00037844 /* CustomTimer.swift */; };
+		76F21060275A61F500037844 /* PhotoProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F2105F275A61F500037844 /* PhotoProcessing.swift */; };
 		CB234A6226B6D5C0002F3611 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB234A6126B6D5C0002F3611 /* LoginViewController.swift */; };
 		CB37437C26C129B70057F56D /* PhotosTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB37437B26C129B70057F56D /* PhotosTableViewCell.swift */; };
 		CB37437E26C1479F0057F56D /* PhotosVK.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB37437D26C1479F0057F56D /* PhotosVK.swift */; };
@@ -97,6 +99,8 @@
 		76BB3C0D272DD7FA0002721C /* UserServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserServiceProtocol.swift; sourceTree = "<group>"; };
 		76BB3C0F272DD8270002721C /* CurrentUserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserService.swift; sourceTree = "<group>"; };
 		76BB3C11272DD8790002721C /* TestUserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUserService.swift; sourceTree = "<group>"; };
+		76F2105D275A602F00037844 /* CustomTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTimer.swift; sourceTree = "<group>"; };
+		76F2105F275A61F500037844 /* PhotoProcessing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoProcessing.swift; sourceTree = "<group>"; };
 		79BA1FDF287CE131E515097C /* Pods-StorageService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StorageService.release.xcconfig"; path = "Target Support Files/Pods-StorageService/Pods-StorageService.release.xcconfig"; sourceTree = "<group>"; };
 		85751B119F66AF28EC31111C /* Pods-StorageService.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StorageService.debug.xcconfig"; path = "Target Support Files/Pods-StorageService/Pods-StorageService.debug.xcconfig"; sourceTree = "<group>"; };
 		B513D9372C63AB4AC9F4E8E8 /* Pods-Navigation.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Navigation.debug.xcconfig"; path = "Target Support Files/Pods-Navigation/Pods-Navigation.debug.xcconfig"; sourceTree = "<group>"; };
@@ -147,9 +151,12 @@
 		761C52272735783D00B32F79 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				CB37437D26C1479F0057F56D /* PhotosVK.swift */,
 				761C52252735759300B32F79 /* CustomTextField.swift */,
 				762AD68A273E91ED0026C68D /* CheckEnteredWord.swift */,
 				761C5223273527AC00B32F79 /* CustomButton.swift */,
+				76F2105D275A602F00037844 /* CustomTimer.swift */,
+				76F2105F275A61F500037844 /* PhotoProcessing.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -204,6 +211,15 @@
 			path = UserData;
 			sourceTree = "<group>";
 		};
+		76F21061275A6EA800037844 /* Photos screen */ = {
+			isa = PBXGroup;
+			children = (
+				CB37438526C17D100057F56D /* PhotosViewController.swift */,
+				CB37438726C182990057F56D /* PhotosCollectionViewCell.swift */,
+			);
+			path = "Photos screen";
+			sourceTree = "<group>";
+		};
 		C4EEE035916C0B738A7A9C53 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -248,9 +264,6 @@
 			isa = PBXGroup;
 			children = (
 				CB37437B26C129B70057F56D /* PhotosTableViewCell.swift */,
-				CB37438526C17D100057F56D /* PhotosViewController.swift */,
-				CB37438726C182990057F56D /* PhotosCollectionViewCell.swift */,
-				CB37437D26C1479F0057F56D /* PhotosVK.swift */,
 			);
 			path = "Photos cell";
 			sourceTree = "<group>";
@@ -283,6 +296,7 @@
 				761C52272735783D00B32F79 /* Models */,
 				CB37437F26C14D880057F56D /* LogIn screen */,
 				CB64952826A5FD2B00EB92DD /* Profile screen */,
+				76F21061275A6EA800037844 /* Photos screen */,
 				CB9D3C2126AA15A900BBBCF2 /* Feed screen */,
 				CB51C3A926A0724A00FE942C /* SceneDelegate.swift */,
 				CB51C3A726A0724A00FE942C /* AppDelegate.swift */,
@@ -527,6 +541,7 @@
 				762AD68B273E91ED0026C68D /* CheckEnteredWord.swift in Sources */,
 				7644836E274241270058CF15 /* LoginCoordinator.swift in Sources */,
 				763AC1A32743C0970039ABB1 /* InfoCoordinator.swift in Sources */,
+				76F2105E275A602F00037844 /* CustomTimer.swift in Sources */,
 				768B6D9C27413E1D00BB490D /* CoordinatorProtocol.swift in Sources */,
 				CB5E544C26A8032A00B603C0 /* ProfileHeaderView.swift in Sources */,
 				CB51C3C226A0C78000FE942C /* InfoViewController.swift in Sources */,
@@ -539,6 +554,7 @@
 				CB51C3BC26A074C200FE942C /* FeedViewController.swift in Sources */,
 				CB4BC90526BC48A5005CD55A /* PostVK.swift in Sources */,
 				CB234A6226B6D5C0002F3611 /* LoginViewController.swift in Sources */,
+				76F21060275A61F500037844 /* PhotoProcessing.swift in Sources */,
 				768B6DA2274155B000BB490D /* PostCoordinator.swift in Sources */,
 				76BB3C0E272DD7FA0002721C /* UserServiceProtocol.swift in Sources */,
 				7648D109272DE24F0087EFA9 /* LoginInspector.swift in Sources */,
