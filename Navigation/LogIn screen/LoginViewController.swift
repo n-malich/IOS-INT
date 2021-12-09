@@ -108,10 +108,11 @@ class LoginViewController: UIViewController {
         let button = CustomButton(title: "Pick up a password", titleColor: .white, backgroundColor: nil, backgroundImage: UIImage(imageLiteralResourceName: "blue_pixel"), buttonAction: { [weak self] in
             self?.pickUpPasswordButton.isEnabled = false
             self?.activityIndicator.startAnimating()
+            let passwordToUnlock = "Pass"
             DispatchQueue.global().async {
-                self?.bruteForce.bruteForce(passwordToUnlock: "Pass", completion: {
+                self?.bruteForce.bruteForce(passwordToUnlock: passwordToUnlock, completion: {
                     DispatchQueue.main.async {
-                        self?.passwordTextField.text = "Pass"
+                        self?.passwordTextField.text = passwordToUnlock
                         self?.activityIndicator.stopAnimating()
                         self?.activityIndicator.isHidden = true
                         self?.pickUpPasswordButton.isEnabled = true
