@@ -6,13 +6,13 @@
 //
 
 import UIKit
-import iOSIntPackage
 
 class PhotosViewController: UIViewController {
     
-    private let imagePublisherFacade = ImagePublisherFacade()
-    private var photosPublisher = [UIImage]()
-    private let photos = PhotosVK.photosArray
+    private let photosCollectionID = String(describing: PhotosCollectionViewCell.self)
+    private let photoProcessing = PhotoProcessing()
+    private var timer = Timer()
+    private var counter = 5
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -21,31 +21,24 @@ class PhotosViewController: UIViewController {
         return collectionView
     }()
     
-    let photosCollectionID = String(describing: PhotosCollectionViewCell.self)
-    
     private var baseInset: CGFloat { return 8 }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.isNavigationBarHidden = false
-        navigationItem.title = "Photo Gallery"
         navigationItem.backBarButtonItem?.style = .plain
-        
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.backgroundColor = .white
         
         setupViews()
         setupConstraints()
-        
-        imagePublisherFacade.subscribe(self)
-        imagePublisherFacade.addImagesWithTimer(time: 0.3, repeat: 30, userImages: photos as? [UIImage])
+        timerAction()
+        updateFilterPhotos()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.isNavigationBarHidden = true
-        imagePublisherFacade.removeSubscription(for: self)
+        
+        self.timer.invalidate()
     }
 }
 
@@ -53,7 +46,6 @@ extension PhotosViewController {
     private func setupViews() {
         view.backgroundColor = .white
         view.addSubview(collectionView)
-        collectionView.register(PhotosCollectionViewCell.self, forCellWithReuseIdentifier: photosCollectionID)
     }
 }
 
@@ -71,12 +63,12 @@ extension PhotosViewController {
 
 extension PhotosViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return photosPublisher.count
+        return photoProcessing.processedPhotos.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: PhotosCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: photosCollectionID, for: indexPath) as! PhotosCollectionViewCell
-        cell.imagesPhotos.image = photosPublisher[indexPath.item]
+        cell.imagesPhotos.image = photoProcessing.processedPhotos[indexPath.item]
         return cell
     }
 }
@@ -101,9 +93,30 @@ extension PhotosViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-extension PhotosViewController: ImageLibrarySubscriber {
-    func receive(images: [UIImage]) {
-        photosPublisher = images
-        collectionView.reloadData()
+extension PhotosViewController {
+    func timerAction() {
+        self.timer = Timer.init(timeInterval: 1, repeats: true, block: { timer in
+            self.timer.tolerance = 0.1
+            self.counter -= 1
+            self.navigationItem.title = "До обновления \(self.counter)"
+
+            if self.counter == 0 {
+                self.updateFilterPhotos()
+                self.counter = 5
+            }
+        })
+        RunLoop.current.add(self.timer, forMode: .common)
+    }
+}
+
+extension PhotosViewController {
+    func updateFilterPhotos() {
+        self.photoProcessing.randomProcessing(completion: {
+                self.collectionView.register(PhotosCollectionViewCell.self, forCellWithReuseIdentifier: self.photosCollectionID)
+                self.collectionView.dataSource = self
+                self.collectionView.delegate = self
+                self.collectionView.backgroundColor = .white
+                self.collectionView.reloadData()
+        })
     }
 }
