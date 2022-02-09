@@ -22,6 +22,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UITabBar.appearance().standardAppearance = tabBarAppearance
             UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
         }
+        //Home task "1.1 URLSession. URLSessionDataTask"
+        let url = AppConfiguration.getRandomURL()
+        NetworkService.performRequest(with: url)
+        
         return true
     }
 
