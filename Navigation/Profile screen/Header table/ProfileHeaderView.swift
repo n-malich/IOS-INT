@@ -43,21 +43,35 @@ class ProfileHeaderView: UIView {
         return label
     }()
     
-    let setStatusButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Set status", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .systemBlue
-        button.layer.cornerRadius = 4
-        button.layer.shadowOffset = CGSize(width: 4, height: 4)
-        button.layer.shadowRadius = 4
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowOpacity = 0.7
-        button.addTarget(self, action: #selector(onSetStatus), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
+//    let setStatusButton: UIButton = {
+//        let button = UIButton()
+//        button.setTitle("Set status", for: .normal)
+//        button.setTitleColor(.white, for: .normal)
+//        button.backgroundColor = .systemBlue
+//        button.layer.cornerRadius = 4
+//        button.layer.shadowOffset = CGSize(width: 4, height: 4)
+//        button.layer.shadowRadius = 4
+//        button.layer.shadowColor = UIColor.black.cgColor
+//        button.layer.shadowOpacity = 0.7
+//        button.addTarget(self, action: #selector(onSetStatus), for: .touchUpInside)
+//        button.translatesAutoresizingMaskIntoConstraints = false
+//        return button
+//    }()
+    
+    //ДЗ 6.1 Кастомный класс UIButton
+    private lazy var setStatusButton: CustomButton = {
+        let button = CustomButton(title: "Set status", titleColor: .white, backgroundColor: nil, backgroundImage: UIImage(imageLiteralResourceName: "blue_pixel"), buttonAction: { [weak self] in
+            if ((self?.statusText.isEmpty) != nil) {
+                self?.statusText = "Set up status"
+            }
+            self?.statusLabel.text = self?.statusText
+            self?.endEditing(true)
+        })
+        button.layer.cornerRadius = 10
+        button.clipsToBounds = true
         return button
     }()
-    
+
     let statusTextField: UITextField = {
         var textField = UITextField()
         textField.font = UIFont.systemFont(ofSize: 15, weight: .regular)
@@ -95,7 +109,7 @@ class ProfileHeaderView: UIView {
     }
 
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        nil
     }
 
     func configure() {
@@ -104,7 +118,6 @@ class ProfileHeaderView: UIView {
         setupConstraints()
 
         statusTextField.delegate = self
-
     }
     
     @objc func statusTextChanged() {
@@ -113,13 +126,13 @@ class ProfileHeaderView: UIView {
         }
     }
 
-    @objc func onSetStatus() {
-        if statusText.isEmpty {
-            statusText = "Set up status"
-        }
-        statusLabel.text = statusText
-        self.endEditing(true)
-    }
+//    @objc func onSetStatus() {
+//        if statusText.isEmpty {
+//            statusText = "Set up status"
+//        }
+//        statusLabel.text = statusText
+//        self.endEditing(true)
+//    }
 }
 
 extension ProfileHeaderView {
