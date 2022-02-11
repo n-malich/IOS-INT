@@ -18,6 +18,8 @@
 		7648D109272DE24F0087EFA9 /* LoginInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7648D108272DE24F0087EFA9 /* LoginInspector.swift */; };
 		7648D10B272DE27D0087EFA9 /* LoginFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7648D10A272DE27D0087EFA9 /* LoginFactory.swift */; };
 		765FE238272DCEF600846A39 /* iOSIntPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 765FE237272DCEF600846A39 /* iOSIntPackage */; };
+		7663D3AB27B46A7900E1AA84 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7663D3AA27B46A7900E1AA84 /* NetworkService.swift */; };
+		7663D3AD27B46AB500E1AA84 /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7663D3AC27B46AB500E1AA84 /* AppConfiguration.swift */; };
 		768B6D9C27413E1D00BB490D /* CoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768B6D9B27413E1D00BB490D /* CoordinatorProtocol.swift */; };
 		768B6D9E274149B500BB490D /* FeedCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768B6D9D274149B500BB490D /* FeedCoordinator.swift */; };
 		768B6DA2274155B000BB490D /* PostCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768B6DA1274155B000BB490D /* PostCoordinator.swift */; };
@@ -91,6 +93,8 @@
 		7648D104272DE1FD0087EFA9 /* Checker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checker.swift; sourceTree = "<group>"; };
 		7648D108272DE24F0087EFA9 /* LoginInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInspector.swift; sourceTree = "<group>"; };
 		7648D10A272DE27D0087EFA9 /* LoginFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFactory.swift; sourceTree = "<group>"; };
+		7663D3AA27B46A7900E1AA84 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		7663D3AC27B46AB500E1AA84 /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
 		768B6D9B27413E1D00BB490D /* CoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorProtocol.swift; sourceTree = "<group>"; };
 		768B6D9D274149B500BB490D /* FeedCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCoordinator.swift; sourceTree = "<group>"; };
 		768B6DA1274155B000BB490D /* PostCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCoordinator.swift; sourceTree = "<group>"; };
@@ -181,6 +185,15 @@
 				7644836F2742B6150058CF15 /* ProfileCoordinator.swift */,
 			);
 			path = SecondBranchCoordinators;
+			sourceTree = "<group>";
+		};
+		7663D3A927B46A6900E1AA84 /* NetworkService */ = {
+			isa = PBXGroup;
+			children = (
+				7663D3AA27B46A7900E1AA84 /* NetworkService.swift */,
+				7663D3AC27B46AB500E1AA84 /* AppConfiguration.swift */,
+			);
+			path = NetworkService;
 			sourceTree = "<group>";
 		};
 		768B6D9927413D6B00BB490D /* Coordinators */ = {
@@ -294,6 +307,7 @@
 		CB51C3A626A0724A00FE942C /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
+				7663D3A927B46A6900E1AA84 /* NetworkService */,
 				768B6D9927413D6B00BB490D /* Coordinators */,
 				76BB3C0A272DD6FD0002721C /* UserData */,
 				761C52272735783D00B32F79 /* Models */,
@@ -547,6 +561,7 @@
 				763AC1A32743C0970039ABB1 /* InfoCoordinator.swift in Sources */,
 				76F2105E275A602F00037844 /* CustomTimer.swift in Sources */,
 				768B6D9C27413E1D00BB490D /* CoordinatorProtocol.swift in Sources */,
+				7663D3AD27B46AB500E1AA84 /* AppConfiguration.swift in Sources */,
 				CB5E544C26A8032A00B603C0 /* ProfileHeaderView.swift in Sources */,
 				CB51C3C226A0C78000FE942C /* InfoViewController.swift in Sources */,
 				76BB3C12272DD8790002721C /* TestUserService.swift in Sources */,
@@ -554,6 +569,7 @@
 				CB51C3BE26A0759800FE942C /* ProfileViewController.swift in Sources */,
 				CB4BC90B26BC6EB3005CD55A /* PostTableViewCell.swift in Sources */,
 				CB37437C26C129B70057F56D /* PhotosTableViewCell.swift in Sources */,
+				7663D3AB27B46A7900E1AA84 /* NetworkService.swift in Sources */,
 				7648D10B272DE27D0087EFA9 /* LoginFactory.swift in Sources */,
 				CB51C3BC26A074C200FE942C /* FeedViewController.swift in Sources */,
 				CB4BC90526BC48A5005CD55A /* PostVK.swift in Sources */,
