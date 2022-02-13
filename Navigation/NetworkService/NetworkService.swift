@@ -9,7 +9,7 @@ import Foundation
 
 struct NetworkService {
     
-    private static var url = URL(string: "https://jsonplaceholder.typicode.com/todos/106")
+    private static var url = URL(string: "https://swapi.dev/api/planets/1")
     
     static func performRequest(returnedTitle: @escaping (String) -> Void) {
         guard let url = url else { return }
@@ -17,13 +17,9 @@ struct NetworkService {
         session.dataTask(with: url) { data, responce, error in
             if let data = data {
                 do {
-                    let serializedDictionary = try JSONSerialization.jsonObject(with: data, options: [])
-                    print(serializedDictionary)
-                    
-                    if let dict = serializedDictionary as? [String: Any], let title = dict["title"] as? String {
-                        DispatchQueue.main.async {
-                            returnedTitle(title)
-                        }
+                    let planet = try JSONDecoder().decode(Planet.self, from: data)
+                    DispatchQueue.main.async {
+                        returnedTitle(planet.orbitalPeriod)
                     }
                 }
                 catch let error {

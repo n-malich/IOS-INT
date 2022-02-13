@@ -32,6 +32,7 @@
 		76BB3C0E272DD7FA0002721C /* UserServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BB3C0D272DD7FA0002721C /* UserServiceProtocol.swift */; };
 		76BB3C10272DD8270002721C /* CurrentUserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BB3C0F272DD8270002721C /* CurrentUserService.swift */; };
 		76BB3C12272DD8790002721C /* TestUserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BB3C11272DD8790002721C /* TestUserService.swift */; };
+		76EBB03027B9AA3100562920 /* Planet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EBB02F27B9AA3100562920 /* Planet.swift */; };
 		76F2105E275A602F00037844 /* CustomTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F2105D275A602F00037844 /* CustomTimer.swift */; };
 		76F21060275A61F500037844 /* PhotoProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F2105F275A61F500037844 /* PhotoProcessing.swift */; };
 		CB234A6226B6D5C0002F3611 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB234A6126B6D5C0002F3611 /* LoginViewController.swift */; };
@@ -105,6 +106,7 @@
 		76BB3C0D272DD7FA0002721C /* UserServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserServiceProtocol.swift; sourceTree = "<group>"; };
 		76BB3C0F272DD8270002721C /* CurrentUserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserService.swift; sourceTree = "<group>"; };
 		76BB3C11272DD8790002721C /* TestUserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUserService.swift; sourceTree = "<group>"; };
+		76EBB02F27B9AA3100562920 /* Planet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Planet.swift; sourceTree = "<group>"; };
 		76F2105D275A602F00037844 /* CustomTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTimer.swift; sourceTree = "<group>"; };
 		76F2105F275A61F500037844 /* PhotoProcessing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoProcessing.swift; sourceTree = "<group>"; };
 		79BA1FDF287CE131E515097C /* Pods-StorageService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StorageService.release.xcconfig"; path = "Target Support Files/Pods-StorageService/Pods-StorageService.release.xcconfig"; sourceTree = "<group>"; };
@@ -173,6 +175,7 @@
 				76F2105D275A602F00037844 /* CustomTimer.swift */,
 				76F2105F275A61F500037844 /* PhotoProcessing.swift */,
 				761791E227610FF7002327D4 /* BruteForce.swift */,
+				76EBB02F27B9AA3100562920 /* Planet.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -559,6 +562,7 @@
 				762AD68B273E91ED0026C68D /* CheckEnteredWord.swift in Sources */,
 				7644836E274241270058CF15 /* LoginCoordinator.swift in Sources */,
 				763AC1A32743C0970039ABB1 /* InfoCoordinator.swift in Sources */,
+				76EBB03027B9AA3100562920 /* Planet.swift in Sources */,
 				76F2105E275A602F00037844 /* CustomTimer.swift in Sources */,
 				768B6D9C27413E1D00BB490D /* CoordinatorProtocol.swift in Sources */,
 				761885CE27B428CF0085BBD7 /* AppConfiguration.swift in Sources */,
