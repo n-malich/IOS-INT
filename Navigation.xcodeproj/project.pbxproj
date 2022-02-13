@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		76157B0227B9AC0800FD2148 /* Resident.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76157B0127B9AC0800FD2148 /* Resident.swift */; };
+		76157B0427B9AD2E00FD2148 /* TableViewCellResident.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76157B0327B9AD2E00FD2148 /* TableViewCellResident.swift */; };
 		761791E327610FF7002327D4 /* BruteForce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761791E227610FF7002327D4 /* BruteForce.swift */; };
 		761885CC27B4252A0085BBD7 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761885CB27B4252A0085BBD7 /* NetworkService.swift */; };
 		761885CE27B428CF0085BBD7 /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761885CD27B428CF0085BBD7 /* AppConfiguration.swift */; };
@@ -84,6 +86,8 @@
 		0EA42BD33A053798E610E44A /* Pods_StorageService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StorageService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D6F835DC3207A1F70C54EF5 /* Pods_Navigation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Navigation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		73739B274B5B1E163996FA04 /* Pods-Navigation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Navigation.release.xcconfig"; path = "Target Support Files/Pods-Navigation/Pods-Navigation.release.xcconfig"; sourceTree = "<group>"; };
+		76157B0127B9AC0800FD2148 /* Resident.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resident.swift; sourceTree = "<group>"; };
+		76157B0327B9AD2E00FD2148 /* TableViewCellResident.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellResident.swift; sourceTree = "<group>"; };
 		761791E227610FF7002327D4 /* BruteForce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BruteForce.swift; sourceTree = "<group>"; };
 		761885CB27B4252A0085BBD7 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		761885CD27B428CF0085BBD7 /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
@@ -176,6 +180,7 @@
 				76F2105F275A61F500037844 /* PhotoProcessing.swift */,
 				761791E227610FF7002327D4 /* BruteForce.swift */,
 				76EBB02F27B9AA3100562920 /* Planet.swift */,
+				76157B0127B9AC0800FD2148 /* Resident.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -344,6 +349,7 @@
 				CB51C3BB26A074C200FE942C /* FeedViewController.swift */,
 				CB51C3BF26A0864F00FE942C /* PostViewController.swift */,
 				CB51C3C126A0C78000FE942C /* InfoViewController.swift */,
+				76157B0327B9AD2E00FD2148 /* TableViewCellResident.swift */,
 			);
 			path = "Feed screen";
 			sourceTree = "<group>";
@@ -578,6 +584,7 @@
 				CB51C3BC26A074C200FE942C /* FeedViewController.swift in Sources */,
 				CB4BC90526BC48A5005CD55A /* PostVK.swift in Sources */,
 				CB234A6226B6D5C0002F3611 /* LoginViewController.swift in Sources */,
+				76157B0227B9AC0800FD2148 /* Resident.swift in Sources */,
 				76F21060275A61F500037844 /* PhotoProcessing.swift in Sources */,
 				768B6DA2274155B000BB490D /* PostCoordinator.swift in Sources */,
 				76BB3C0E272DD7FA0002721C /* UserServiceProtocol.swift in Sources */,
@@ -587,6 +594,7 @@
 				CB4BC90926BC4E0F005CD55A /* PostsVK.swift in Sources */,
 				7648D105272DE1FD0087EFA9 /* Checker.swift in Sources */,
 				CB51C3AA26A0724A00FE942C /* SceneDelegate.swift in Sources */,
+				76157B0427B9AD2E00FD2148 /* TableViewCellResident.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
