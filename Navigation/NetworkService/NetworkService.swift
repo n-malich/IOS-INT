@@ -11,7 +11,7 @@ struct NetworkService {
     
     private static var url = URL(string: "https://swapi.dev/api/planets/1")
     
-    static func getResidents(returnedResinents: @escaping ([String]) -> Void) {
+    static func getResidents(completion: @escaping ([String]) -> Void) {
         guard let url = url else { return }
         let session = URLSession(configuration: .default)
         session.dataTask(with: url) { data, responce, error in
@@ -21,13 +21,16 @@ struct NetworkService {
                     let residentsUrls = planet.residents
                     var residentsNames = [String]()
                     var count = 0
+                    let lock = NSLock()
                     for url in residentsUrls {
                         getNameResident(url: url) { name in
+                            lock.lock()
                             residentsNames.append(name)
                             count += 1
+                            lock.unlock()
                             if count == residentsUrls.count {
                                 DispatchQueue.main.async {
-                                    returnedResinents(residentsNames)
+                                    completion(residentsNames)
                                 }
                             }
                         }
@@ -41,14 +44,14 @@ struct NetworkService {
         }.resume()
     }
     
-    private static func getNameResident(url: String, returnedName: @escaping (String) -> Void) {
+    private static func getNameResident(url: String, completion: @escaping (String) -> Void) {
         guard let url = URL(string: url) else { return }
         let session = URLSession(configuration: .default)
         session.dataTask(with: url) { data, responce, error in
             if let data = data {
                 do {
                     let resident = try JSONDecoder().decode(Resident.self, from: data)
-                    returnedName(resident.name)
+                    completion(resident.name)
                 }
                 catch let error {
                     print(error.localizedDescription)

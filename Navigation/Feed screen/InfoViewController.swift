@@ -23,11 +23,13 @@ class InfoViewController: UIViewController {
     
     private lazy var label: UILabel = {
         let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        label.text = "Wait for update"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private var nameResidents = [String?]()
+    private var nameResidents = [String]()
     
     private lazy var residentID = String(describing: TableViewCellResident.self)
 
@@ -49,10 +51,10 @@ class InfoViewController: UIViewController {
         tableView.register(TableViewCellResident.self, forCellReuseIdentifier: residentID)
         tableView.dataSource = self
         
-        NetworkService.getResidents(returnedResinents: {(result: [String]) in
-            self.label.text = "Rundom name: \(result.randomElement() ?? "")"
-            self.nameResidents = result
-            self.tableView.reloadData()
+        NetworkService.getResidents(completion: { [weak self] (result: [String]) in
+            self?.label.text = "Rundom name: \(result.randomElement() ?? "")"
+            self?.nameResidents = result
+            self?.tableView.reloadData()
         })
     }
 }
@@ -83,18 +85,17 @@ extension InfoViewController {
 }
 
 extension InfoViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return nameResidents.count
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {        return 10
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: TableViewCellResident = tableView.dequeueReusableCell(withIdentifier: residentID, for: indexPath) as! TableViewCellResident
-        if let nameResidents = nameResidents[indexPath.row] {
-            cell.nameResident.text = nameResidents.description
-            cell.selectionStyle = .none
+        if indexPath.row >= nameResidents.count {
+            cell.nameResident.text = "Wait for update"
         } else {
-            return UITableViewCell()
+            cell.nameResident.text = nameResidents[indexPath.row]
         }
+        cell.selectionStyle = .none
         return cell
     }
 }
