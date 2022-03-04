@@ -12,16 +12,18 @@
 		761791E327610FF7002327D4 /* BruteForce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761791E227610FF7002327D4 /* BruteForce.swift */; };
 		761885CC27B4252A0085BBD7 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761885CB27B4252A0085BBD7 /* NetworkService.swift */; };
 		761885CE27B428CF0085BBD7 /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761885CD27B428CF0085BBD7 /* AppConfiguration.swift */; };
+		761B1CB727BD9D9C00351A82 /* ModeLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761B1CB627BD9D9C00351A82 /* ModeLoginViewController.swift */; };
 		761C5224273527AC00B32F79 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761C5223273527AC00B32F79 /* CustomButton.swift */; };
 		761C52262735759300B32F79 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761C52252735759300B32F79 /* CustomTextField.swift */; };
 		762AD68B273E91ED0026C68D /* CheckEnteredWord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 762AD68A273E91ED0026C68D /* CheckEnteredWord.swift */; };
 		763AC1A32743C0970039ABB1 /* InfoCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763AC1A22743C0970039ABB1 /* InfoCoordinator.swift */; };
 		7644836E274241270058CF15 /* LoginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7644836D274241270058CF15 /* LoginCoordinator.swift */; };
 		764483702742B6150058CF15 /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7644836F2742B6150058CF15 /* ProfileCoordinator.swift */; };
-		7648D105272DE1FD0087EFA9 /* Checker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7648D104272DE1FD0087EFA9 /* Checker.swift */; };
 		7648D109272DE24F0087EFA9 /* LoginInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7648D108272DE24F0087EFA9 /* LoginInspector.swift */; };
 		7648D10B272DE27D0087EFA9 /* LoginFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7648D10A272DE27D0087EFA9 /* LoginFactory.swift */; };
 		765FE238272DCEF600846A39 /* iOSIntPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 765FE237272DCEF600846A39 /* iOSIntPackage */; };
+		7667633C27BFDE4400EE2EF8 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7667633B27BFDE4400EE2EF8 /* SnapKit */; };
+		7674F5F227BD429D00C854E2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7674F5F127BD429D00C854E2 /* GoogleService-Info.plist */; };
 		768B6D9C27413E1D00BB490D /* CoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768B6D9B27413E1D00BB490D /* CoordinatorProtocol.swift */; };
 		768B6D9E274149B500BB490D /* FeedCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768B6D9D274149B500BB490D /* FeedCoordinator.swift */; };
 		768B6DA2274155B000BB490D /* PostCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768B6DA1274155B000BB490D /* PostCoordinator.swift */; };
@@ -91,15 +93,16 @@
 		761791E227610FF7002327D4 /* BruteForce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BruteForce.swift; sourceTree = "<group>"; };
 		761885CB27B4252A0085BBD7 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		761885CD27B428CF0085BBD7 /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
+		761B1CB627BD9D9C00351A82 /* ModeLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeLoginViewController.swift; sourceTree = "<group>"; };
 		761C5223273527AC00B32F79 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		761C52252735759300B32F79 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		762AD68A273E91ED0026C68D /* CheckEnteredWord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckEnteredWord.swift; sourceTree = "<group>"; };
 		763AC1A22743C0970039ABB1 /* InfoCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoCoordinator.swift; sourceTree = "<group>"; };
 		7644836D274241270058CF15 /* LoginCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinator.swift; sourceTree = "<group>"; };
 		7644836F2742B6150058CF15 /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
-		7648D104272DE1FD0087EFA9 /* Checker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checker.swift; sourceTree = "<group>"; };
 		7648D108272DE24F0087EFA9 /* LoginInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInspector.swift; sourceTree = "<group>"; };
 		7648D10A272DE27D0087EFA9 /* LoginFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFactory.swift; sourceTree = "<group>"; };
+		7674F5F127BD429D00C854E2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		768B6D9B27413E1D00BB490D /* CoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorProtocol.swift; sourceTree = "<group>"; };
 		768B6D9D274149B500BB490D /* FeedCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCoordinator.swift; sourceTree = "<group>"; };
 		768B6DA1274155B000BB490D /* PostCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCoordinator.swift; sourceTree = "<group>"; };
@@ -152,6 +155,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				765FE238272DCEF600846A39 /* iOSIntPackage in Frameworks */,
+				7667633C27BFDE4400EE2EF8 /* SnapKit in Frameworks */,
 				76AC5397272DC44D00F8C232 /* StorageService.framework in Frameworks */,
 				D653C083176A7AB063D40431 /* Pods_Navigation.framework in Frameworks */,
 			);
@@ -259,9 +263,9 @@
 			isa = PBXGroup;
 			children = (
 				CB234A6126B6D5C0002F3611 /* LoginViewController.swift */,
-				7648D104272DE1FD0087EFA9 /* Checker.swift */,
-				7648D10A272DE27D0087EFA9 /* LoginFactory.swift */,
 				7648D108272DE24F0087EFA9 /* LoginInspector.swift */,
+				761B1CB627BD9D9C00351A82 /* ModeLoginViewController.swift */,
+				7648D10A272DE27D0087EFA9 /* LoginFactory.swift */,
 			);
 			path = "LogIn screen";
 			sourceTree = "<group>";
@@ -328,6 +332,7 @@
 				CB51C3B026A0724B00FE942C /* Assets.xcassets */,
 				CB51C3B226A0724B00FE942C /* LaunchScreen.storyboard */,
 				CB51C3B526A0724B00FE942C /* Info.plist */,
+				7674F5F127BD429D00C854E2 /* GoogleService-Info.plist */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
@@ -415,6 +420,7 @@
 			name = Navigation;
 			packageProductDependencies = (
 				765FE237272DCEF600846A39 /* iOSIntPackage */,
+				7667633B27BFDE4400EE2EF8 /* SnapKit */,
 			);
 			productName = Navigation;
 			productReference = CB51C3A426A0724A00FE942C /* Navigation.app */;
@@ -448,6 +454,7 @@
 			mainGroup = CB51C39B26A0724A00FE942C;
 			packageReferences = (
 				765FE236272DCEF600846A39 /* XCRemoteSwiftPackageReference "iOSIntPackage" */,
+				7667633A27BFDE4400EE2EF8 /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			productRefGroup = CB51C3A526A0724A00FE942C /* Products */;
 			projectDirPath = "";
@@ -473,6 +480,7 @@
 			files = (
 				CB51C3B426A0724B00FE942C /* LaunchScreen.storyboard in Resources */,
 				CB51C3B126A0724B00FE942C /* Assets.xcassets in Resources */,
+				7674F5F227BD429D00C854E2 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -591,8 +599,8 @@
 				7648D109272DE24F0087EFA9 /* LoginInspector.swift in Sources */,
 				CB37438826C1829A0057F56D /* PhotosCollectionViewCell.swift in Sources */,
 				768B6D9E274149B500BB490D /* FeedCoordinator.swift in Sources */,
+				761B1CB727BD9D9C00351A82 /* ModeLoginViewController.swift in Sources */,
 				CB4BC90926BC4E0F005CD55A /* PostsVK.swift in Sources */,
-				7648D105272DE1FD0087EFA9 /* Checker.swift in Sources */,
 				CB51C3AA26A0724A00FE942C /* SceneDelegate.swift in Sources */,
 				76157B0427B9AD2E00FD2148 /* TableViewCellResident.swift in Sources */,
 			);
@@ -883,6 +891,14 @@
 				kind = branch;
 			};
 		};
+		7667633A27BFDE4400EE2EF8 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -890,6 +906,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 765FE236272DCEF600846A39 /* XCRemoteSwiftPackageReference "iOSIntPackage" */;
 			productName = iOSIntPackage;
+		};
+		7667633B27BFDE4400EE2EF8 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7667633A27BFDE4400EE2EF8 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
