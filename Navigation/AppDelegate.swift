@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -26,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Home task "1.1 URLSession. URLSessionDataTask"
 //        let url = AppConfiguration.getRandomURL()
 //        NetworkService.performRequest(with: url)
-        
+        FirebaseApp.configure()
         return true
     }
 

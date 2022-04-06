@@ -29,11 +29,11 @@ class LoginCoordinator: CoordinatorProtocol {
 }
 
 extension LoginCoordinator: LoginViewControllerCoordinatorDelegate {
-    func navigateToNextPage(userName: String) {
+    func navigateToNextPage() {
         let profileCoordinator = ProfileCoordinator(navigationController: navigationController)
         profileCoordinator.delegate = self
         childCoordinators.append(profileCoordinator)
-        profileCoordinator.openProfileViewController(userName: userName)
+        profileCoordinator.openProfileViewController()
     }
 }
 
