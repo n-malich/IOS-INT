@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import FirebaseAuth
 
 protocol ProfileViewControllerCoordinatorDelegate: AnyObject {
     func navigateToNextPage()
@@ -18,33 +17,21 @@ protocol ProfileViewControllerCoordinatorDelegate: AnyObject {
      var delegate: LoginViewControllerDelegate?
      var coordinator: ProfileViewControllerCoordinatorDelegate?
      
-//     let userService: UserServiceProtocol
-//     let userName: String
-//
-//     init (userService: UserServiceProtocol, userName: String) {
-//         self.userService = userService
-//         self.userName = userName
-//         super.init(nibName: nil, bundle: nil)
-//     }
-//
-//     required init?(coder: NSCoder) {
-//         fatalError("init(coder:) has not been implemented")
-//     }
+     private var user: User?
+     private var arrayPosts: [Post] = []
+     private let headerView = ProfileHeaderView()
+     private let originalTransform = ProfileHeaderView().avatarImageView.transform
+     
+     private let postID = String(describing: PostTableViewCell.self)
+     private let photosID = String(describing: PhotosTableViewCell.self)
 
-     let tableView: UITableView = {
+     private lazy var tableView: UITableView = {
          let tableView = UITableView(frame: .zero, style: .grouped)
          tableView.translatesAutoresizingMaskIntoConstraints = false
          return tableView
      }()
-     
-     let headerView = ProfileHeaderView()
-     
-     let postID = String(describing: PostTableViewCell.self)
-     let photosID = String(describing: PhotosTableViewCell.self)
-     
-     private var arrayOFPosts = PostsVK().postsArray
     
-     let closeButton: UIButton = {
+     private lazy var closeButton: UIButton = {
          let button = UIButton()
          button.setBackgroundImage(UIImage (systemName: "xmark.circle.fill"), for: .normal)
          button.tintColor = .lightGray
@@ -57,16 +44,25 @@ protocol ProfileViewControllerCoordinatorDelegate: AnyObject {
      private lazy var signOutButton: CustomButton = {
          let button = CustomButton(title: "Sign out", titleColor: .white, backgroundColor: nil, backgroundImage: UIImage(imageLiteralResourceName: "blue_pixel"), buttonAction: { [weak self] in
              self?.delegate?.signOut()
+             CurrentUserService.shared.currentUser = nil
              self?.coordinator?.navigateToPreviousPage()
          })
          button.layer.cornerRadius = 10
          button.clipsToBounds = true
          return button
      }()
+
+     init (user: User?) {
+         self.user = user
+         super.init(nibName: nil, bundle: nil)
+     }
+     
+     required init?(coder: NSCoder) {
+         fatalError("init(coder:) has not been implemented")
+     }
      
      override func viewDidLoad() {
          super .viewDidLoad()
-         
         #if DEBUG
          headerView.backgroundColor = .systemRed
         #else
@@ -75,40 +71,38 @@ protocol ProfileViewControllerCoordinatorDelegate: AnyObject {
          
          setupViews()
          setupConstraints()
+         showUser()
          setupHideKeyboardOnTap()
+         
+         tableView.register(PostTableViewCell.self, forCellReuseIdentifier: postID)
+         tableView.register(PhotosTableViewCell.self, forCellReuseIdentifier: photosID)
+         tableView.dataSource = self
+         tableView.delegate = self
          
          let tapOnAvatar = UITapGestureRecognizer(target: self, action: #selector(avatarOnTap))
          headerView.avatarImageView.isUserInteractionEnabled = true
          headerView.avatarImageView.addGestureRecognizer(tapOnAvatar)
-         
-         setupViewCloseButton()
-         setupCloseButtonConstraints()
-//         showUser()
      }
  }
 
  extension ProfileViewController {
      private func setupViews() {
-         view.addSubview(tableView)
-         view.addSubview(signOutButton)
-         
-         tableView.register(PostTableViewCell.self, forCellReuseIdentifier: postID)
-         tableView.register(PhotosTableViewCell.self, forCellReuseIdentifier: photosID)
-         
-         tableView.dataSource = self
-         tableView.delegate = self
+         [tableView, signOutButton, closeButton].forEach { view.addSubview($0)}
      }
  }
 
-//extension ProfileViewController {
-//    private func showUser() {
-//        if let user = userService.getUser(userName: userName) {
-//            headerView.fullNameLabel.text = user.userName
-//            headerView.statusLabel.text = user.userStatus
-//            headerView.avatarImageView.image = user.userImage
-//        }
-//    }
-//}
+extension ProfileViewController {
+    private func showUser() {
+        guard let firstName = user?.firstName else { return }
+        guard let lastName = user?.lastName else { return }
+        guard let posts = user?.posts else { return }
+        headerView.fullNameLabel.text = firstName + " " + lastName
+        headerView.statusLabel.text = user?.status
+        headerView.avatarImageView.image = user?.image
+        headerView.userID = user?.id
+        arrayPosts = posts
+    }
+}
 
  extension ProfileViewController {
      private func setupConstraints() {
@@ -117,6 +111,11 @@ protocol ProfileViewControllerCoordinatorDelegate: AnyObject {
              tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
              tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
              tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+             
+             closeButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 10),
+             closeButton.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+             closeButton.widthAnchor.constraint(equalToConstant: 25),
+             closeButton.heightAnchor.constraint(equalToConstant: 25),
              
              signOutButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
              signOutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
@@ -132,7 +131,7 @@ protocol ProfileViewControllerCoordinatorDelegate: AnyObject {
      }
      
      func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-         return arrayOFPosts.count + 1
+         return arrayPosts.count + 1
      }
 
      func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -141,7 +140,7 @@ protocol ProfileViewControllerCoordinatorDelegate: AnyObject {
              return cell
          } else {
              let cell: PostTableViewCell = tableView.dequeueReusableCell(withIdentifier: postID, for: indexPath) as! PostTableViewCell
-         cell.post = arrayOFPosts[indexPath.row - 1]
+             cell.post = arrayPosts[indexPath.row - 1]
              return cell
          }
      }
@@ -150,8 +149,7 @@ protocol ProfileViewControllerCoordinatorDelegate: AnyObject {
  extension ProfileViewController: UITableViewDelegate {
      func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
          if indexPath.row == 0 {
-             let photosVC = PhotosViewController()
-             navigationController?.pushViewController(photosVC, animated: true)
+             self.coordinator?.navigateToNextPage()
              tableView.deselectRow(at: indexPath, animated: true)
          } else {
              tableView.deselectRow(at: indexPath, animated: true)
@@ -177,26 +175,6 @@ protocol ProfileViewControllerCoordinatorDelegate: AnyObject {
          return tap
      }
  }
-
-extension ProfileViewController {
-    func setupViewCloseButton() {
-        view.addSubview(closeButton)
-    }
-}
-
-extension ProfileViewController {
-    func setupCloseButtonConstraints() {
-        [
-            closeButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 10),
-            closeButton.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
-            closeButton.widthAnchor.constraint(equalToConstant: 25),
-            closeButton.heightAnchor.constraint(equalToConstant: 25)
-        ]
-        .forEach {$0.isActive = true}
-    }
-}
-
-private let originalTransform = ProfileHeaderView().avatarImageView.transform
 
  extension ProfileViewController {
      //Открытие анимированного avatarImageView
@@ -233,7 +211,7 @@ extension ProfileViewController {
                 self.closeButton.alpha = 0
             }
             UIView.addKeyframe(withRelativeStartTime: 0.3, relativeDuration: 0.2) {
-                self.headerView.avatarImageView.transform = originalTransform
+                self.headerView.avatarImageView.transform = self.originalTransform
                 self.headerView.avatarImageView.frame = CGRect(x: 16, y: 16, width: 110, height: 110)
                 self.headerView.avatarImageView.layer.cornerRadius = 55
                 self.headerView.avatarImageView.layer.borderWidth = 3

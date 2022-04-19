@@ -10,7 +10,7 @@ import UIKit
 class PhotosTableViewCell: UITableViewCell {
     
     private let photosCollectionID = String(describing: PhotosCollectionViewCell.self)
-    private let photoProcessing = PhotoProcessing()
+    private let baseInset: CGFloat = 12
 
     private lazy var titlePhotos: UILabel = {
         let label = UILabel()
@@ -36,8 +36,6 @@ class PhotosTableViewCell: UITableViewCell {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
-    
-    private var baseInset: CGFloat { return 12 }
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -54,7 +52,7 @@ extension PhotosTableViewCell {
     private func setupViews() {
         [titlePhotos, arrowRightPhotos, collectionView].forEach {contentView.addSubview($0)}
         
-        photoProcessing.processing(completion: {
+        PhotoProcessing.shared.processing(completion: {
             self.collectionView.register(PhotosCollectionViewCell.self, forCellWithReuseIdentifier: self.photosCollectionID)
             self.collectionView.dataSource = self
             self.collectionView.delegate = self
@@ -87,12 +85,12 @@ extension PhotosTableViewCell {
 
 extension PhotosTableViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return photoProcessing.processedPhotos.count
+        return PhotoProcessing.shared.processedPhotosFuncProcessing.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: PhotosCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: photosCollectionID, for: indexPath) as! PhotosCollectionViewCell
-        cell.imagesPhotos.image = photoProcessing.processedPhotos[indexPath.item]
+        cell.imagesPhotos.image = PhotoProcessing.shared.processedPhotosFuncProcessing[indexPath.item]
         cell.imagesPhotos.layer.cornerRadius = 6
         return cell
     }

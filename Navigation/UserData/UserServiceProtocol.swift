@@ -5,8 +5,24 @@
 //  Created by Natali Malich
 //
 
-import Foundation
+import UIKit
 
 protocol UserServiceProtocol {
-    func getUser(userName: String) -> User?
+    var currentUser: User? { get set }
+
+    func writeUser(user: User)
+    func readUser() -> User?
+}
+
+final class CurrentUserService: UserServiceProtocol {
+    static let shared = CurrentUserService()
+    var currentUser: User?
+    
+    func writeUser(user: User) {
+        self.currentUser = user
+    }
+    
+    func readUser() -> User? {
+        self.currentUser
+    }
 }

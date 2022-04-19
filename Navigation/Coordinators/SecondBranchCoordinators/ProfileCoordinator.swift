@@ -14,34 +14,28 @@ protocol BackToLoginViewControllerDelegate: AnyObject {
 class ProfileCoordinator: CoordinatorProtocol {
     
     weak var delegate: BackToLoginViewControllerDelegate?
-    
     var childCoordinators = [CoordinatorProtocol]()
-    
     unowned let navigationController: UINavigationController
     
     required init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }
     
-//    func openProfileViewController(userName: String) {
-//        #if DEBUG
-//        let userServise = TestUserService()
-//        #else
-//        let userServise = CurrentUserService()
-//        #endif
-//        let profileViewController: ProfileViewController = ProfileViewController(userService: userServise, userName: userName)
     func openProfileViewController() {
-        let profileViewController: ProfileViewController = ProfileViewController()
+        guard let user = CurrentUserService.shared.readUser() else { return }
+        let profileViewController: ProfileViewController = ProfileViewController(user: user)
         profileViewController.coordinator = self
-        self.navigationController.pushViewController(profileViewController, animated: true)
+        profileViewController.delegate = MyLoginFactory().createLoginInspector()
+        self.navigationController.viewControllers.append(profileViewController)
     }
 }
 
 extension ProfileCoordinator: ProfileViewControllerCoordinatorDelegate {
     func navigateToNextPage() {
-//        let thirdViewController: ViewController = ViewController()
-//        thirdViewController.delegate = self
-//        self.navigationController.present(thirdViewController, animated: true, completion: nil)
+        let photosCoordinator = PhotosCoordinator(navigationController: navigationController)
+//        photosCoordinator.delegate = self
+        childCoordinators.append(photosCoordinator)
+        photosCoordinator.openPhotosViewController()
     }
     
     func navigateToPreviousPage() {

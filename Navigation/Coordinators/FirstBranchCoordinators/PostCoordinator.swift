@@ -14,9 +14,7 @@ protocol BackToFeedViewControllerCoordinatorDelegate: AnyObject {
 class PostCoordinator: CoordinatorProtocol {
     
     weak var delegate: BackToFeedViewControllerCoordinatorDelegate?
-    
     var childCoordinators = [CoordinatorProtocol]()
-    
     unowned let navigationController: UINavigationController
     
     required init(navigationController: UINavigationController) {

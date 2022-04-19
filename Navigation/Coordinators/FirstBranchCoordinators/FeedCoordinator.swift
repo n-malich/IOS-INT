@@ -10,9 +10,7 @@ import UIKit
 class FeedCoordinator: CoordinatorProtocol {
     
     weak var parentCoordinator: AppCoordinator?
-   
     let navigationController: UINavigationController
-    
     var childCoordinators = [CoordinatorProtocol]()
     
     required init() {

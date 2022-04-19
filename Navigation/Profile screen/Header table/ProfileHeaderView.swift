@@ -5,15 +5,23 @@
 //  Created by Natali Malich
 //
 
-import Foundation
 import UIKit
 import SnapKit
+import FirebaseAuth
+import FirebaseDatabase
 
 class ProfileHeaderView: UIView {
     
-    let avatarImageView: UIImageView = {
+    var userID = CurrentUserService.shared.currentUser?.id
+    private var baseInset: CGFloat = 16
+    private var statusText: String? {
+        didSet {
+            statusLabel.text = statusText
+        }
+    }
+    
+    lazy var avatarImageView: UIImageView = {
         var image = UIImageView()
-        image.image = UIImage(named: "avatarImage")
         image.layer.cornerRadius = 55
         image.contentMode = .scaleAspectFill
         image.layer.masksToBounds = true
@@ -23,9 +31,16 @@ class ProfileHeaderView: UIView {
         return image
     }()
     
-    let fullNameLabel: UILabel = {
+    lazy var animationView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .black
+        view.alpha = 0
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    lazy var fullNameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Cat Danya"
         label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         label.textColor = .black
         label.clipsToBounds = true
@@ -33,10 +48,9 @@ class ProfileHeaderView: UIView {
         return label
     }()
     
-    let statusLabel: UILabel = {
+    lazy var statusLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        label.text = "Set up status"
         label.textColor = .gray
         label.clipsToBounds = true
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -45,111 +59,88 @@ class ProfileHeaderView: UIView {
     
     private lazy var setStatusButton: CustomButton = {
         let button = CustomButton(title: "Set status", titleColor: .white, backgroundColor: nil, backgroundImage: UIImage(imageLiteralResourceName: "blue_pixel"), buttonAction: { [weak self] in
-            if ((self?.statusText.isEmpty) != nil) {
-                self?.statusText = "Set up status"
+            
+            if let text = self?.statusTextField.text, !text.isEmpty {
+                self?.statusText = text
+                self?.statusTextField.text = ""
+                DispatchQueue.main.async {
+                    Database.database().reference().child("users/\((self?.userID)!)/status").setValue(text) { (error: Error?, ref: DatabaseReference) in
+                        if let error = error {
+                            self?.statusText = ""
+                            print("Status could not be saved: \(error)")
+                        } else {
+                            print("Status saved successfully!")
+                        }
+                    }
+                }
             }
-            self?.statusLabel.text = self?.statusText
-            self?.endEditing(true)
         })
         button.layer.cornerRadius = 10
         button.clipsToBounds = true
         return button
     }()
-
-    let statusTextField: UITextField = {
-        var textField = UITextField()
-        textField.font = UIFont.systemFont(ofSize: 15, weight: .regular)
-        textField.text = "Waiting for something..."
-        textField.textColor = .gray
-        textField.backgroundColor = .white
-        textField.layer.cornerRadius = 12
+    
+    private lazy var statusTextField: CustomTextField = {
+        let textField = CustomTextField(font: .systemFont(ofSize: 15), textColor: .black, backgroundColor: .white, placeholder: "Write your status")
+        textField.layer.cornerRadius = 10
+        textField.layer.borderWidth = 0.5
         textField.layer.borderColor = UIColor.black.cgColor
-        textField.layer.borderWidth = 1
-        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
-        textField.leftViewMode = .always
-        textField.addTarget(self, action: #selector(statusTextChanged), for: .editingChanged)
         textField.clearButtonMode = UITextField.ViewMode.whileEditing
+        textField.returnKeyType = UIReturnKeyType.done
         textField.clipsToBounds = true
-        textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
-    }()
-    
-    private var baseInset: CGFloat { return 16 }
-    
-    private var statusText = String()
-    
-    let animationView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .black
-        view.alpha = 0
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
     }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        configure()
+        setupViews()
+        setupConstraints()
     }
 
     required init?(coder: NSCoder) {
         nil
-    }
-
-    func configure() {
-    
-        setupViews()
-        setupConstraints()
-
-        statusTextField.delegate = self
-    }
-    
-    @objc func statusTextChanged() {
-        if let text = statusTextField.text {
-            statusText = text
-        }
     }
 }
 
 extension ProfileHeaderView {
     private func setupViews(){
 
-        [fullNameLabel, statusLabel, statusTextField, setStatusButton, animationView, avatarImageView].forEach {self.addSubview ($0)}
+        [fullNameLabel, statusLabel, statusTextField, setStatusButton, animationView, avatarImageView].forEach { self.addSubview ($0) }
     }
 }
 
 extension ProfileHeaderView {
     private func setupConstraints(){
-        
         avatarImageView.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(baseInset)
             make.leading.equalToSuperview().inset(baseInset)
             make.width.height.equalTo(110)
         }
-        
+
         animationView.snp.makeConstraints { make in
             make.top.leading.trailing.bottom.equalTo(avatarImageView)
         }
-        
+
         fullNameLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(baseInset)
             make.leading.equalTo(avatarImageView.snp.trailing).offset(baseInset)
             make.trailing.equalToSuperview().inset(-baseInset)
         }
-        
+
         statusLabel.snp.makeConstraints { make in
             make.top.equalTo(fullNameLabel.snp.bottom).offset(34)
             make.leading.equalTo(avatarImageView.snp.trailing).offset(baseInset)
             make.trailing.equalToSuperview().inset(baseInset)
+            make.height.equalTo(14)
         }
-        
+
         statusTextField.snp.makeConstraints { make in
             make.top.equalTo(statusLabel.snp.bottom).offset(baseInset)
             make.leading.equalTo(avatarImageView.snp.trailing).offset(baseInset)
             make.trailing.equalToSuperview().inset(baseInset)
             make.height.equalTo(40)
         }
-        
+
         setStatusButton.snp.makeConstraints { make in
             make.top.equalTo(statusTextField.snp.bottom).offset(baseInset)
             make.leading.equalToSuperview().inset(baseInset)
@@ -157,28 +148,5 @@ extension ProfileHeaderView {
             make.bottom.equalToSuperview().inset(baseInset)
             make.height.equalTo(50)
         }
-    }
-}
-
- extension ProfileHeaderView : UITextFieldDelegate {
-     //Скрытие подсказки во время редактирования TextField
-     func textFieldDidBeginEditing(_ textField: UITextField) {
-         if statusTextField.text == "Waiting for something..." {
-             statusTextField.text = nil
-             statusTextField.textColor = .black
-         }
-     }
-     //Устанавливает подсказки в TextField и Label при условии isEmpty
-     func textFieldDidEndEditing(_ textField: UITextField) {
-         if let text = statusTextField.text, text.isEmpty {
-             statusTextField.text = "Waiting for something..."
-             statusTextField.textColor = .gray
-             statusLabel.text = "Set up status"
-         }
-     }
-    //Скрытие keyboard при нажатии клавиши Return
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        statusTextField.resignFirstResponder()
-        return true
     }
 }

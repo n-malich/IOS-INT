@@ -12,14 +12,16 @@ class PostTableViewCell: UITableViewCell {
     
     private var imageProcessor = ImageProcessor()
     
-    var post: PostVK? {
+    var post: Post? {
         didSet {
             if let post = post {
                 authorPost.text = post.author
                 descriptionPost.text = post.description
                 
+                guard let filter = post.filter else { return }
+                
                 if let image = UIImage(named: post.image) {
-                    imageProcessor.processImage(sourceImage: image, filter: post.filter) {
+                    imageProcessor.processImage(sourceImage: image, filter: filter) {
                         image in imagePost.image = image
                     }
                 }

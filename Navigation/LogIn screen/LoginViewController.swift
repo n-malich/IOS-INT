@@ -7,22 +7,30 @@
 
 import UIKit
 import SwiftUI
+import FirebaseAuth
+import FirebaseDatabase
 
 protocol LoginViewControllerCoordinatorDelegate: AnyObject {
     func navigateToNextPage()
 }
 
 protocol LoginViewControllerDelegate: AnyObject {
-    func signIn(enteredLogin: String, enteredPassword: String, onSuccess: @escaping () -> Void, onError: @escaping () -> Void)
-    func signUp(enteredLogin: String, enteredPassword: String)
+    func signIn(email: String, password: String, completion: @escaping (Bool) -> Void)
+    func signUp(email: String, password: String, firstName: String, lastName: String, completion: @escaping (Bool) -> Void)
     func signOut()
+}
+
+enum ModeLoginViewController {
+    case signIn
+    case signUp
 }
 
 class LoginViewController: UIViewController {
     
-    var mode = ModeLoginViewController.logIn
     var coordinator: LoginViewControllerCoordinatorDelegate?
     var delegate: LoginViewControllerDelegate?
+    private var mode: ModeLoginViewController?
+    private var baseInset: CGFloat = 16
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -60,29 +68,29 @@ class LoginViewController: UIViewController {
         return stackView
     }()
     
-//    private lazy var firstNameTextField: CustomTextField = {
-//        let textField = CustomTextField(font: .systemFont(ofSize: 16), textColor: .black, backgroundColor: .systemGray6, placeholder: "First name")
-//        textField.layer.cornerRadius = 10
-//        textField.layer.borderWidth = 0.5
-//        textField.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-//        textField.layer.borderColor = UIColor.lightGray.cgColor
-//        textField.clearButtonMode = UITextField.ViewMode.whileEditing
-//        textField.returnKeyType = UIReturnKeyType.done
-//        textField.clipsToBounds = true
-//        textField.isHidden = true
-//        return textField
-//    }()
-//
-//    private lazy var lastNameTextField: CustomTextField = {
-//        let textField = CustomTextField(font: .systemFont(ofSize: 16), textColor: .black, backgroundColor: .systemGray6, placeholder: "Last name")
-//        textField.layer.borderWidth = 0.5
-//        textField.layer.borderColor = UIColor.lightGray.cgColor
-//        textField.clearButtonMode = UITextField.ViewMode.whileEditing
-//        textField.returnKeyType = UIReturnKeyType.done
-//        textField.clipsToBounds = true
-//        textField.isHidden = true
-//        return textField
-//    }()
+    private lazy var firstNameTextField: CustomTextField = {
+        let textField = CustomTextField(font: .systemFont(ofSize: 16), textColor: .black, backgroundColor: .systemGray6, placeholder: "First name")
+        textField.layer.cornerRadius = 10
+        textField.layer.borderWidth = 0.5
+        textField.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        textField.layer.borderColor = UIColor.lightGray.cgColor
+        textField.clearButtonMode = UITextField.ViewMode.whileEditing
+        textField.returnKeyType = UIReturnKeyType.done
+        textField.clipsToBounds = true
+        textField.isHidden = true
+        return textField
+    }()
+
+    private lazy var lastNameTextField: CustomTextField = {
+        let textField = CustomTextField(font: .systemFont(ofSize: 16), textColor: .black, backgroundColor: .systemGray6, placeholder: "Last name")
+        textField.layer.borderWidth = 0.5
+        textField.layer.borderColor = UIColor.lightGray.cgColor
+        textField.clearButtonMode = UITextField.ViewMode.whileEditing
+        textField.returnKeyType = UIReturnKeyType.done
+        textField.clipsToBounds = true
+        textField.isHidden = true
+        return textField
+    }()
     
     private lazy var emailTextField: CustomTextField = {
         let textField = CustomTextField(font: .systemFont(ofSize: 16), textColor: .black, backgroundColor: .systemGray6, placeholder: "Email")
@@ -109,42 +117,35 @@ class LoginViewController: UIViewController {
         return textField
     }()
     
-//    private lazy var confirmPasswordTextField: CustomTextField = {
-//        let textField = CustomTextField(font: .systemFont(ofSize: 16), textColor: .black, backgroundColor: .systemGray6, placeholder: "Confirm password")
-//        textField.layer.cornerRadius = 10
-//        textField.layer.borderWidth = 0.5
-//        textField.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-//        textField.layer.borderColor = UIColor.lightGray.cgColor
-//        textField.clearButtonMode = UITextField.ViewMode.whileEditing
-//        textField.clipsToBounds = true
-//        textField.returnKeyType = UIReturnKeyType.done
-//        textField.isSecureTextEntry = true
-//        textField.isHidden = true
-//        return textField
-//    }()
-    
     private lazy var logInButton: CustomButton = {
         let button = CustomButton(title: "Log in", titleColor: .white, backgroundColor: nil, backgroundImage: UIImage(imageLiteralResourceName: "blue_pixel"), buttonAction: { [weak self] in
-            if self?.mode == .registration {
-                if let email = self?.emailTextField.text, !email.isEmpty, let password = self?.passwordTextField.text, !password.isEmpty, password.count >= 6 {
-                    self?.delegate?.signUp(enteredLogin: email, enteredPassword: password)
-                    self?.coordinator?.navigateToNextPage()
-                    self?.showTruthAlert(message: "Вы успешно зарегистрированы")
+            if self?.mode == .signUp {
+                if let firstName = self?.firstNameTextField.text, !firstName.isEmpty, let lastName = self?.lastNameTextField.text, !firstName.isEmpty, let email = self?.emailTextField.text, !email.isEmpty, let password = self?.passwordTextField.text, !password.isEmpty, password.count >= 6 {
+                    self?.delegate?.signUp(email: email, password: password, firstName: firstName, lastName: lastName, completion: { result in
+                        if result {
+                            self?.coordinator?.navigateToNextPage()
+                            self?.showTruthAlert(message: "You have successfully registered!")
+                        } else {
+                            self?.showErrorAlert(message: "User could not be saved")
+                        }
+                    })
                 } else if let password = self?.passwordTextField.text, password.count < 6 {
-                    self?.showErrorAlert(message: "Пароль должен быть не менее 6 символов")
+                    self?.showErrorAlert(message: "Password must be at least 6 characters")
                 } else {
-                    self?.showErrorAlert(message: "Введите адрес электронной почты и пароль")
+                    self?.showErrorAlert(message: "Enter your email address and password")
                 }
             } else {
                 if let email = self?.emailTextField.text, !email.isEmpty,
                    let password = self?.passwordTextField.text, !password.isEmpty {
-                    self?.delegate?.signIn(enteredLogin: email, enteredPassword: password, onSuccess: {
-                        self?.coordinator?.navigateToNextPage()
-                    }, onError: {
-                        self?.showErrorAlert(message: "Неверный адрес электронной почты или пароль")
+                    self?.delegate?.signIn(email: email, password: password, completion: { result in
+                        if result {
+                            self?.coordinator?.navigateToNextPage()
+                        } else {
+                            self?.showErrorAlert(message: "Invalid email address or password")
+                        }
                     })
                 } else {
-                    self?.showErrorAlert(message: "Ввидите адрес электронной почты и пароль")
+                    self?.showErrorAlert(message: "Enter your email address and password")
                 }
             }
         })
@@ -157,22 +158,21 @@ class LoginViewController: UIViewController {
     
     private lazy var cancelButton: CustomButton = {
         let button = CustomButton(title: "Cancel", titleColor: .systemBlue, backgroundColor: nil, backgroundImage: nil, buttonAction: { [weak self] in
-            self?.mode = .logIn
+            self?.mode = .signIn
             
             self?.emailTextField.text = ""
             self?.passwordTextField.text = ""
             self?.labelMode.isHidden = true
             self?.labelMode.text = ""
             
-//            self?.firstNameTextField.isHidden = true
-//            self?.lastNameTextField.isHidden = true
-//            self?.confirmPasswordTextField.isHidden = true
+            self?.firstNameTextField.isHidden = true
+            self?.lastNameTextField.isHidden = true
             self?.cancelButton.isHidden = true
             self?.logInButton.setTitle("Log in", for: .normal)
             
-//            self?.emailTextField.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-//            self?.passwordTextField.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-            
+            self?.emailTextField.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+            self?.passwordTextField.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+
             self?.questionLabel.isHidden = false
             self?.signUpButton.isHidden = false
         })
@@ -182,7 +182,7 @@ class LoginViewController: UIViewController {
     
     private lazy var signUpButton: CustomButton = {
         let button = CustomButton(title: "Sign up", titleColor: .systemBlue, backgroundColor: nil, backgroundImage: nil, buttonAction: { [weak self] in
-            self?.mode = .registration
+            self?.mode = .signUp
             
             self?.emailTextField.text = ""
             self?.passwordTextField.text = ""
@@ -190,20 +190,17 @@ class LoginViewController: UIViewController {
             self?.labelMode.isHidden = false
             self?.labelMode.text = "Create Account"
             
-//            self?.firstNameTextField.isHidden = false
-//            self?.lastNameTextField.isHidden = false
-//            self?.confirmPasswordTextField.isHidden = false
+            self?.firstNameTextField.isHidden = false
+            self?.lastNameTextField.isHidden = false
             self?.cancelButton.isHidden = false
             self?.logInButton.setTitle("Create", for: .normal)
             
-//            self?.firstNameTextField.tag = 0
-//            self?.lastNameTextField.tag = 1
-//            self?.emailTextField.tag = 2
-//            self?.passwordTextField.tag = 3
-//            self?.confirmPasswordTextField.tag = 4
+            self?.firstNameTextField.tag = 0
+            self?.lastNameTextField.tag = 1
+            self?.emailTextField.tag = 2
+            self?.passwordTextField.tag = 3
             
-//            self?.emailTextField.layer.maskedCorners = []
-//            self?.passwordTextField.layer.maskedCorners = []
+            self?.emailTextField.layer.maskedCorners = []
             
             self?.questionLabel.isHidden = true
             self?.signUpButton.isHidden = true
@@ -220,17 +217,22 @@ class LoginViewController: UIViewController {
         return label
     }()
     
-    private var baseInset: CGFloat { return 16 }
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.style = .large
+        activityIndicator.isHidden = true
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        return activityIndicator
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         
-//        firstNameTextField.delegate = self
-//        lastNameTextField.delegate = self
+        firstNameTextField.delegate = self
+        lastNameTextField.delegate = self
         emailTextField.delegate = self
         passwordTextField.delegate = self
-//        confirmPasswordTextField.delegate = self
         
         emailTextField.tag = 0
         passwordTextField.tag = 1
@@ -238,6 +240,8 @@ class LoginViewController: UIViewController {
         setupViews()
         setupConstraints()
         setupHideKeyboardOnTap()
+        
+        signInCurrentUser()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -245,16 +249,66 @@ class LoginViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
-        
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
         emailTextField.text = ""
         passwordTextField.text = ""
+        firstNameTextField.text = ""
+        lastNameTextField.text = ""
+        
+        labelMode.isHidden = true
+        firstNameTextField.isHidden = true
+        lastNameTextField.isHidden = true
+        activityIndicator.isHidden = true
+        cancelButton.isHidden = true
+        emailTextField.isHidden = false
+        passwordTextField.isHidden = false
+        logInButton.isHidden = false
+        questionLabel.isHidden = false
+        signUpButton.isHidden = false
+        
+        logInButton.setTitle("Log in", for: .normal)
+        
+        emailTextField.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+    }
+    
+    private func signInCurrentUser() {
+        if Auth.auth().currentUser !== nil {
+            [emailTextField, passwordTextField, firstNameTextField, lastNameTextField, logInButton, questionLabel, signUpButton].forEach({ $0.isHidden = true })
+            activityIndicator.isHidden = false
+            activityIndicator.startAnimating()
+            
+            let handle = Auth.auth().addStateDidChangeListener { auth, user in
+                Database.database().reference().child("users").child(user!.uid).observeSingleEvent(of: .value, with: { snapshot in
+                    let value = snapshot.value as? [String: Any]
+                    let firstName = value?["firstName"] as? String ?? "Unknown"
+                    let lastName = value?["lastName"] as? String ?? "Unknown"
+                    let email = value?["email"] as? String ?? "Unknown"
+                    let id = value?["id"] as? String ?? "Unknown"
+                    let status = value?["status"] as? String ?? ""
+                    
+                    let user = User(firstName: firstName, lastName: lastName, email: email, id: id, status: status, image: UIImage(named: "avatarImage"), posts: Posts().postsArray, photos: Photos().photosArray)
+                    CurrentUserService.shared.writeUser(user: user)
+                })
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3), execute: { [weak self] in
+                self?.activityIndicator.stopAnimating()
+                Auth.auth().removeStateDidChangeListener(handle)
+                self?.coordinator?.navigateToNextPage()
+                self?.firstNameTextField.isHidden = true
+                self?.lastNameTextField.isHidden = true
+                self?.activityIndicator.isHidden = true
+                self?.emailTextField.isHidden = false
+                self?.passwordTextField.isHidden = false
+                self?.logInButton.isHidden = false
+                self?.questionLabel.isHidden = false
+                self?.signUpButton.isHidden = false
+            })
+        }
     }
         
     @objc func keyboardWillShow(notification: NSNotification) {
@@ -271,25 +325,11 @@ class LoginViewController: UIViewController {
 }
 
 extension LoginViewController {
-    private func showErrorAlert(message: String) {
-        let alert = UIAlertController(title: "Ошибка", message: message, preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-        self.present(alert, animated: true, completion: nil)
-    }
-    private func showTruthAlert(message: String) {
-        let alert = UIAlertController(title: nil, message: message, preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-        self.present(alert, animated: true, completion: nil)
-    }
-}
-
-extension LoginViewController {
         private func setupViews() {
             view.addSubview(scrollView)
             scrollView.addSubview(contentView)
-            [logoImageView, labelMode, stackView, logInButton, cancelButton, questionLabel, signUpButton].forEach { contentView.addSubview($0)}
-//            [firstNameTextField, lastNameTextField, emailTextField, passwordTextField, confirmPasswordTextField].forEach { stackView.addArrangedSubview($0)}
-            [emailTextField, passwordTextField].forEach { stackView.addArrangedSubview($0)}
+            [logoImageView, labelMode, stackView, logInButton, cancelButton, questionLabel, signUpButton, activityIndicator].forEach { contentView.addSubview($0)}
+            [firstNameTextField, lastNameTextField, emailTextField, passwordTextField].forEach { stackView.addArrangedSubview($0)}
         }
     }
 
@@ -320,15 +360,13 @@ extension LoginViewController {
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -baseInset),
             stackView.heightAnchor.constraint(equalTo: stackView.heightAnchor),
             
-//            firstNameTextField.heightAnchor.constraint(equalToConstant: 50),
-//
-//            lastNameTextField.heightAnchor.constraint(equalToConstant: 50),
+            firstNameTextField.heightAnchor.constraint(equalToConstant: 50),
+
+            lastNameTextField.heightAnchor.constraint(equalToConstant: 50),
             
             emailTextField.heightAnchor.constraint(equalToConstant: 50),
 
             passwordTextField.heightAnchor.constraint(equalToConstant: 50),
-            
-//            confirmPasswordTextField.heightAnchor.constraint(equalToConstant: 50),
             
             logInButton.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: baseInset),
             logInButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: baseInset),
@@ -347,14 +385,30 @@ extension LoginViewController {
             signUpButton.topAnchor.constraint(equalTo: logInButton.bottomAnchor, constant: 150),
             signUpButton.leadingAnchor.constraint(equalTo: questionLabel.trailingAnchor, constant: 10),
             signUpButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            signUpButton.heightAnchor.constraint(equalToConstant: 50)
+            signUpButton.heightAnchor.constraint(equalToConstant: 50),
+            
+            activityIndicator.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ]
         .forEach {$0.isActive = true}
     }
 }
 
+extension LoginViewController {
+    private func showErrorAlert(message: String) {
+        let alert = UIAlertController(title: "Ошибка", message: message, preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    private func showTruthAlert(message: String) {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+}
+
 extension LoginViewController: UITextFieldDelegate {
-    //Переключение между TextField при нажатии клавиши Done в режимах logIn и registration
+    //Переключение между TextField при нажатии клавиши Done в режимах signIn и signUp
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         let nextTag = textField.tag + 1
         

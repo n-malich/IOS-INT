@@ -7,10 +7,15 @@
 
 import UIKit
 
+protocol PhotosViewControllerCoordinatorDelegate: AnyObject {
+//    func navigateToNextPage()
+    func navigateToPreviousPage()
+}
+
 class PhotosViewController: UIViewController {
     
+    var coordinator: PhotosViewControllerCoordinatorDelegate?
     private let photosCollectionID = String(describing: PhotosCollectionViewCell.self)
-    private let photoProcessing = PhotoProcessing()
     private var timer = Timer()
     private var counter = 5
     
@@ -25,9 +30,6 @@ class PhotosViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.isNavigationBarHidden = false
-        navigationItem.backBarButtonItem?.style = .plain
-       
         setupViews()
         setupConstraints()
         
@@ -64,12 +66,12 @@ extension PhotosViewController {
 
 extension PhotosViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return photoProcessing.processedPhotos.count
+        return PhotoProcessing.shared.processedPhotosFuncRandomProcessing.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: PhotosCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: photosCollectionID, for: indexPath) as! PhotosCollectionViewCell
-        cell.imagesPhotos.image = photoProcessing.processedPhotos[indexPath.item]
+        cell.imagesPhotos.image = PhotoProcessing.shared.processedPhotosFuncRandomProcessing[indexPath.item]
         return cell
     }
 }
@@ -99,7 +101,7 @@ extension PhotosViewController {
         self.timer = Timer.init(timeInterval: 1, repeats: true, block: { timer in
             self.timer.tolerance = 0.1
             self.counter -= 1
-            self.navigationItem.title = "До обновления \(self.counter)"
+            self.navigationItem.title = "\(self.counter) sec until update"
 
             if self.counter == 0 {
                 self.updateFilterPhotos()
@@ -112,7 +114,7 @@ extension PhotosViewController {
 
 extension PhotosViewController {
     func updateFilterPhotos() {
-        self.photoProcessing.randomProcessing(completion: {
+        PhotoProcessing.shared.randomProcessing(completion: {
                 self.collectionView.register(PhotosCollectionViewCell.self, forCellWithReuseIdentifier: self.photosCollectionID)
                 self.collectionView.dataSource = self
                 self.collectionView.delegate = self

@@ -14,9 +14,7 @@ protocol BackToPostViewControllerCoordinatorDelegate: AnyObject {
 class InfoCoordinator: CoordinatorProtocol {
     
     weak var delegate: BackToPostViewControllerCoordinatorDelegate?
-    
     var childCoordinators = [CoordinatorProtocol]()
-    
     unowned let navigationController: UINavigationController
     
     required init(navigationController: UINavigationController) {

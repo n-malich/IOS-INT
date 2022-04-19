@@ -5,17 +5,26 @@
 //  Created by Natali Malich
 //
 
-import Foundation
 import UIKit
 
 class User {
-    var userName: String
-    var userStatus: String
-    var userImage: UIImage
+    var firstName: String
+    var lastName: String
+    var email: String
+    let id: String
+    var status: String?
+    var image: UIImage?
+    var posts: [Post]
+    var photos: [UIImage]
     
-    init(userName: String, userStatus: String, userImage: UIImage){
-        self.userName = userName
-        self.userStatus = userStatus
-        self.userImage = userImage
+    init(firstName: String, lastName: String, email: String, id: String, status: String?, image: UIImage?, posts: [Post], photos: [UIImage]){
+        self.firstName = firstName
+        self.lastName = lastName
+        self.email = email
+        self.id = id
+        self.status = status
+        self.image = image
+        self.posts = posts
+        self.photos = photos
     }
 }

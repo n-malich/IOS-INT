@@ -10,7 +10,6 @@ import UIKit
 class AppCoordinator: CoordinatorProtocol {
     
     var childCoordinators = [CoordinatorProtocol]()
-    
     let window: UIWindow?
 
     init(window: UIWindow?) {

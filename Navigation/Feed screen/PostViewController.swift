@@ -16,7 +16,7 @@ class PostViewController: UIViewController {
     
     weak var coordinator: PostViewControllerCoordinatorDelegate?
     
-    var post = Post(title: "Post")
+    var post = PostOnFeed(title: "Post")
     var buttonInfo = UIBarButtonItem()
     
     override func viewDidLoad() {

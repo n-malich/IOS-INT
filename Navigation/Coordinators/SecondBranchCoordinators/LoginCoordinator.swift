@@ -10,9 +10,7 @@ import UIKit
 class LoginCoordinator: CoordinatorProtocol {
     
     weak var parentCoordinator: AppCoordinator?
-   
     let navigationController: UINavigationController
-    
     var childCoordinators = [CoordinatorProtocol]()
     
     required init() {
@@ -39,7 +37,7 @@ extension LoginCoordinator: LoginViewControllerCoordinatorDelegate {
 
 extension LoginCoordinator: BackToLoginViewControllerDelegate {
     func navigateToPreviousPage(newOrderCoordinator: ProfileCoordinator) {
-        navigationController.popToRootViewController(animated: true)
+        navigationController.popToRootViewController(animated: false)
         childCoordinators.removeLast()
     }
 }
