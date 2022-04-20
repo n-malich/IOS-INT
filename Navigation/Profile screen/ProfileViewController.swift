@@ -95,12 +95,12 @@ extension ProfileViewController {
     private func showUser() {
         guard let firstName = user?.firstName else { return }
         guard let lastName = user?.lastName else { return }
-        guard let posts = user?.posts else { return }
+//        guard let posts = user?.posts else { return }
         headerView.fullNameLabel.text = firstName + " " + lastName
         headerView.statusLabel.text = user?.status
-        headerView.avatarImageView.image = user?.image
-        headerView.userID = user?.id
-        arrayPosts = posts
+//        headerView.avatarImageView.image = user?.image
+//        headerView.userID = user?.id
+        arrayPosts = Posts().postsArray
     }
 }
 

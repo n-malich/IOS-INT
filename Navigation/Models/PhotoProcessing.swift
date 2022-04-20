@@ -12,7 +12,8 @@ class PhotoProcessing {
     
     static let shared = PhotoProcessing()
     private let imageProcessor = ImageProcessor()
-    private var originalPhotos: [UIImage] = (CurrentUserService.shared.currentUser?.photos)!
+//    private var originalPhotos: [UIImage] = (CurrentUserService.shared.currentUser?.photos)!
+    private var originalPhotos: [UIImage] = Photos().photosArray
     private let filters: [ColorFilter] = [.colorInvert, .transfer, .noir, .tonal, .process, .chrome, .fade,  .sepia(intensity: 0.8)]
     var processedPhotosFuncProcessing: [UIImage] = []
     var processedPhotosFuncRandomProcessing: [UIImage] = []

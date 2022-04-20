@@ -7,12 +7,14 @@
 
 import UIKit
 import SnapKit
-import FirebaseAuth
-import FirebaseDatabase
+import RealmSwift
+//import FirebaseAuth
+//import FirebaseDatabase
 
 class ProfileHeaderView: UIView {
     
-    var userID = CurrentUserService.shared.currentUser?.id
+    let realm = try! Realm()
+//    var userID = CurrentUserService.shared.currentUser?.id
     private var baseInset: CGFloat = 16
     private var statusText: String? {
         didSet {
@@ -63,16 +65,22 @@ class ProfileHeaderView: UIView {
             if let text = self?.statusTextField.text, !text.isEmpty {
                 self?.statusText = text
                 self?.statusTextField.text = ""
-                DispatchQueue.main.async {
-                    Database.database().reference().child("users/\((self?.userID)!)/status").setValue(text) { (error: Error?, ref: DatabaseReference) in
-                        if let error = error {
-                            self?.statusText = ""
-                            print("Status could not be saved: \(error)")
-                        } else {
-                            print("Status saved successfully!")
-                        }
-                    }
+                
+                let user = self?.realm.objects(User.self)[0]
+                try! self?.realm.write {
+                    user?.status = text
                 }
+                
+//                DispatchQueue.main.async {
+//                Database.database().reference().child("users/\((self?.userID)!)/status").setValue(text) { (error: Error?, ref: DatabaseReference) in
+//                        if let error = error {
+//                            self?.statusText = ""
+//                            print("Status could not be saved: \(error)")
+//                        } else {
+//                            print("Status saved successfully!")
+//                        }
+//                    }
+//                }
             }
         })
         button.layer.cornerRadius = 10

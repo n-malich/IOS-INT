@@ -7,21 +7,22 @@
 
 import UIKit
 import SwiftUI
-import FirebaseAuth
-import FirebaseDatabase
+import RealmSwift
+//import FirebaseAuth
+//import FirebaseDatabase
 
 protocol LoginViewControllerCoordinatorDelegate: AnyObject {
     func navigateToNextPage()
 }
 
 protocol LoginViewControllerDelegate: AnyObject {
-    func signIn(email: String, password: String, completion: @escaping (Bool) -> Void)
+//    func signIn(email: String, password: String, completion: @escaping (Bool) -> Void)
     func signUp(email: String, password: String, firstName: String, lastName: String, completion: @escaping (Bool) -> Void)
     func signOut()
 }
 
 enum ModeLoginViewController {
-    case signIn
+//    case signIn
     case signUp
 }
 
@@ -53,10 +54,11 @@ class LoginViewController: UIViewController {
     
     private lazy var labelMode: UILabel = {
         let label = UILabel()
+        label.text = "Create Account"
         label.font = UIFont.boldSystemFont(ofSize: 24)
         label.textColor = UIColor(red: 81/256, green: 129/256, blue: 184/256, alpha: 1)
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.isHidden = true
+//        label.isHidden = true
         return label
     }()
     
@@ -77,7 +79,7 @@ class LoginViewController: UIViewController {
         textField.clearButtonMode = UITextField.ViewMode.whileEditing
         textField.returnKeyType = UIReturnKeyType.done
         textField.clipsToBounds = true
-        textField.isHidden = true
+//        textField.isHidden = true
         return textField
     }()
 
@@ -88,15 +90,15 @@ class LoginViewController: UIViewController {
         textField.clearButtonMode = UITextField.ViewMode.whileEditing
         textField.returnKeyType = UIReturnKeyType.done
         textField.clipsToBounds = true
-        textField.isHidden = true
+//        textField.isHidden = true
         return textField
     }()
     
     private lazy var emailTextField: CustomTextField = {
         let textField = CustomTextField(font: .systemFont(ofSize: 16), textColor: .black, backgroundColor: .systemGray6, placeholder: "Email")
-        textField.layer.cornerRadius = 10
+//        textField.layer.cornerRadius = 10
         textField.layer.borderWidth = 0.5
-        textField.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+//        textField.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         textField.layer.borderColor = UIColor.lightGray.cgColor
         textField.clearButtonMode = UITextField.ViewMode.whileEditing
         textField.returnKeyType = UIReturnKeyType.done
@@ -118,7 +120,8 @@ class LoginViewController: UIViewController {
     }()
     
     private lazy var logInButton: CustomButton = {
-        let button = CustomButton(title: "Log in", titleColor: .white, backgroundColor: nil, backgroundImage: UIImage(imageLiteralResourceName: "blue_pixel"), buttonAction: { [weak self] in
+//        let button = CustomButton(title: "Log in", titleColor: .white, backgroundColor: nil, backgroundImage: UIImage(imageLiteralResourceName: "blue_pixel"), buttonAction: { [weak self] in
+        let button = CustomButton(title: "Create", titleColor: .white, backgroundColor: nil, backgroundImage: UIImage(imageLiteralResourceName: "blue_pixel"), buttonAction: { [weak self] in
             if self?.mode == .signUp {
                 if let firstName = self?.firstNameTextField.text, !firstName.isEmpty, let lastName = self?.lastNameTextField.text, !firstName.isEmpty, let email = self?.emailTextField.text, !email.isEmpty, let password = self?.passwordTextField.text, !password.isEmpty, password.count >= 6 {
                     self?.delegate?.signUp(email: email, password: password, firstName: firstName, lastName: lastName, completion: { result in
@@ -134,19 +137,19 @@ class LoginViewController: UIViewController {
                 } else {
                     self?.showErrorAlert(message: "Enter your email address and password")
                 }
-            } else {
-                if let email = self?.emailTextField.text, !email.isEmpty,
-                   let password = self?.passwordTextField.text, !password.isEmpty {
-                    self?.delegate?.signIn(email: email, password: password, completion: { result in
-                        if result {
-                            self?.coordinator?.navigateToNextPage()
-                        } else {
-                            self?.showErrorAlert(message: "Invalid email address or password")
-                        }
-                    })
-                } else {
-                    self?.showErrorAlert(message: "Enter your email address and password")
-                }
+//            } else {
+//                if let email = self?.emailTextField.text, !email.isEmpty,
+//                   let password = self?.passwordTextField.text, !password.isEmpty {
+//                    self?.delegate?.signIn(email: email, password: password, completion: { result in
+//                        if result {
+//                            self?.coordinator?.navigateToNextPage()
+//                        } else {
+//                            self?.showErrorAlert(message: "Invalid email address or password")
+//                        }
+//                    })
+//                } else {
+//                    self?.showErrorAlert(message: "Enter your email address and password")
+//                }
             }
         })
         button.alpha = 1
@@ -156,86 +159,93 @@ class LoginViewController: UIViewController {
         return button
     }()
     
-    private lazy var cancelButton: CustomButton = {
-        let button = CustomButton(title: "Cancel", titleColor: .systemBlue, backgroundColor: nil, backgroundImage: nil, buttonAction: { [weak self] in
-            self?.mode = .signIn
+//    private lazy var cancelButton: CustomButton = {
+//        let button = CustomButton(title: "Cancel", titleColor: .systemBlue, backgroundColor: nil, backgroundImage: nil, buttonAction: { [weak self] in
+//            self?.mode = .signIn
             
-            self?.emailTextField.text = ""
-            self?.passwordTextField.text = ""
-            self?.labelMode.isHidden = true
-            self?.labelMode.text = ""
-            
-            self?.firstNameTextField.isHidden = true
-            self?.lastNameTextField.isHidden = true
-            self?.cancelButton.isHidden = true
-            self?.logInButton.setTitle("Log in", for: .normal)
-            
-            self?.emailTextField.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-            self?.passwordTextField.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-
-            self?.questionLabel.isHidden = false
-            self?.signUpButton.isHidden = false
-        })
-        button.isHidden = true
-        return button
-    }()
+//            self?.emailTextField.text = ""
+//            self?.passwordTextField.text = ""
+//            self?.labelMode.isHidden = true
+//            self?.labelMode.text = ""
+//
+//            self?.firstNameTextField.isHidden = true
+//            self?.lastNameTextField.isHidden = true
+//            self?.cancelButton.isHidden = true
+//            self?.logInButton.setTitle("Log in", for: .normal)
+//
+//            self?.emailTextField.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+//            self?.passwordTextField.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+//
+//            self?.questionLabel.isHidden = false
+//            self?.signUpButton.isHidden = false
+//        })
+//        button.isHidden = true
+//        return button
+//    }()
     
-    private lazy var signUpButton: CustomButton = {
-        let button = CustomButton(title: "Sign up", titleColor: .systemBlue, backgroundColor: nil, backgroundImage: nil, buttonAction: { [weak self] in
-            self?.mode = .signUp
-            
-            self?.emailTextField.text = ""
-            self?.passwordTextField.text = ""
-            
-            self?.labelMode.isHidden = false
-            self?.labelMode.text = "Create Account"
-            
-            self?.firstNameTextField.isHidden = false
-            self?.lastNameTextField.isHidden = false
-            self?.cancelButton.isHidden = false
-            self?.logInButton.setTitle("Create", for: .normal)
-            
-            self?.firstNameTextField.tag = 0
-            self?.lastNameTextField.tag = 1
-            self?.emailTextField.tag = 2
-            self?.passwordTextField.tag = 3
-            
-            self?.emailTextField.layer.maskedCorners = []
-            
-            self?.questionLabel.isHidden = true
-            self?.signUpButton.isHidden = true
-        })
-        return button
-    }()
+//    private lazy var signUpButton: CustomButton = {
+//        let button = CustomButton(title: "Sign up", titleColor: .systemBlue, backgroundColor: nil, backgroundImage: nil, buttonAction: { [weak self] in
+//            self?.mode = .signUp
+//
+//            self?.emailTextField.text = ""
+//            self?.passwordTextField.text = ""
+//
+//            self?.labelMode.isHidden = false
+//            self?.labelMode.text = "Create Account"
+//
+//            self?.firstNameTextField.isHidden = false
+//            self?.lastNameTextField.isHidden = false
+//            self?.cancelButton.isHidden = false
+//            self?.logInButton.setTitle("Create", for: .normal)
+//
+//            self?.firstNameTextField.tag = 0
+//            self?.lastNameTextField.tag = 1
+//            self?.emailTextField.tag = 2
+//            self?.passwordTextField.tag = 3
+//
+//            self?.emailTextField.layer.maskedCorners = []
+//
+//            self?.questionLabel.isHidden = true
+//            self?.signUpButton.isHidden = true
+//        })
+//        return button
+//    }()
     
-    private lazy var questionLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 16)
-        label.text = "Not registered yet?"
-        label.textColor = .black
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private lazy var activityIndicator: UIActivityIndicatorView = {
-        let activityIndicator = UIActivityIndicatorView()
-        activityIndicator.style = .large
-        activityIndicator.isHidden = true
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        return activityIndicator
-    }()
+//    private lazy var questionLabel: UILabel = {
+//        let label = UILabel()
+//        label.font = UIFont.boldSystemFont(ofSize: 16)
+//        label.text = "Not registered yet?"
+//        label.textColor = .black
+//        label.translatesAutoresizingMaskIntoConstraints = false
+//        return label
+//    }()
+//
+//    private lazy var activityIndicator: UIActivityIndicatorView = {
+//        let activityIndicator = UIActivityIndicatorView()
+//        activityIndicator.style = .large
+//        activityIndicator.isHidden = true
+//        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+//        return activityIndicator
+//    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        mode = .signUp
         
         firstNameTextField.delegate = self
         lastNameTextField.delegate = self
         emailTextField.delegate = self
         passwordTextField.delegate = self
         
-        emailTextField.tag = 0
-        passwordTextField.tag = 1
+        firstNameTextField.tag = 0
+        lastNameTextField.tag = 1
+        emailTextField.tag = 2
+        passwordTextField.tag = 3
+        
+//        emailTextField.tag = 0
+//        passwordTextField.tag = 1
+        
         
         setupViews()
         setupConstraints()
@@ -259,56 +269,66 @@ class LoginViewController: UIViewController {
         firstNameTextField.text = ""
         lastNameTextField.text = ""
         
-        labelMode.isHidden = true
-        firstNameTextField.isHidden = true
-        lastNameTextField.isHidden = true
-        activityIndicator.isHidden = true
-        cancelButton.isHidden = true
-        emailTextField.isHidden = false
-        passwordTextField.isHidden = false
-        logInButton.isHidden = false
-        questionLabel.isHidden = false
-        signUpButton.isHidden = false
-        
-        logInButton.setTitle("Log in", for: .normal)
-        
-        emailTextField.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+//        labelMode.isHidden = true
+//        firstNameTextField.isHidden = true
+//        lastNameTextField.isHidden = true
+//        activityIndicator.isHidden = true
+//        cancelButton.isHidden = true
+//        emailTextField.isHidden = false
+//        passwordTextField.isHidden = false
+//        logInButton.isHidden = false
+//        questionLabel.isHidden = false
+//        signUpButton.isHidden = false
+//
+//        logInButton.setTitle("Log in", for: .normal)
+//
+//        emailTextField.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
     }
     
     private func signInCurrentUser() {
-        if Auth.auth().currentUser !== nil {
-            [emailTextField, passwordTextField, firstNameTextField, lastNameTextField, logInButton, questionLabel, signUpButton].forEach({ $0.isHidden = true })
-            activityIndicator.isHidden = false
-            activityIndicator.startAnimating()
-            
-            let handle = Auth.auth().addStateDidChangeListener { auth, user in
-                Database.database().reference().child("users").child(user!.uid).observeSingleEvent(of: .value, with: { snapshot in
-                    let value = snapshot.value as? [String: Any]
-                    let firstName = value?["firstName"] as? String ?? "Unknown"
-                    let lastName = value?["lastName"] as? String ?? "Unknown"
-                    let email = value?["email"] as? String ?? "Unknown"
-                    let id = value?["id"] as? String ?? "Unknown"
-                    let status = value?["status"] as? String ?? ""
-                    
-                    let user = User(firstName: firstName, lastName: lastName, email: email, id: id, status: status, image: UIImage(named: "avatarImage"), posts: Posts().postsArray, photos: Photos().photosArray)
-                    CurrentUserService.shared.writeUser(user: user)
-                })
-            }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3), execute: { [weak self] in
-                self?.activityIndicator.stopAnimating()
-                Auth.auth().removeStateDidChangeListener(handle)
-                self?.coordinator?.navigateToNextPage()
-                self?.firstNameTextField.isHidden = true
-                self?.lastNameTextField.isHidden = true
-                self?.activityIndicator.isHidden = true
-                self?.emailTextField.isHidden = false
-                self?.passwordTextField.isHidden = false
-                self?.logInButton.isHidden = false
-                self?.questionLabel.isHidden = false
-                self?.signUpButton.isHidden = false
-            })
+        let realm = try! Realm()
+        if realm.objects(User.self).count >= 1 {
+            CurrentUserService.shared.writeUser(user: realm.objects(User.self)[0])
+            self.coordinator?.navigateToNextPage()
         }
+        
+        print(Realm.Configuration.defaultConfiguration.fileURL as Any)
+        print(realm.objects(User.self))
+        
+        
+//        if Auth.auth().currentUser !== nil {
+//            [emailTextField, passwordTextField, firstNameTextField, lastNameTextField, logInButton, questionLabel, signUpButton].forEach({ $0.isHidden = true })
+//            activityIndicator.isHidden = false
+//            activityIndicator.startAnimating()
+//
+//            let handle = Auth.auth().addStateDidChangeListener { auth, user in
+//                Database.database().reference().child("users").child(user!.uid).observeSingleEvent(of: .value, with: { snapshot in
+//                    let value = snapshot.value as? [String: Any]
+//                    let firstName = value?["firstName"] as? String ?? "Unknown"
+//                    let lastName = value?["lastName"] as? String ?? "Unknown"
+//                    let email = value?["email"] as? String ?? "Unknown"
+//                    let id = value?["id"] as? String ?? "Unknown"
+//                    let status = value?["status"] as? String ?? ""
+//
+//                    let user = User(firstName: firstName, lastName: lastName, email: email, id: id, status: status, image: UIImage(named: "avatarImage"), posts: Posts().postsArray, photos: Photos().photosArray)
+//                    CurrentUserService.shared.writeUser(user: user)
+//                })
+//            }
+//
+//            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3), execute: { [weak self] in
+//                self?.activityIndicator.stopAnimating()
+//                Auth.auth().removeStateDidChangeListener(handle)
+//                self?.coordinator?.navigateToNextPage()
+//                self?.firstNameTextField.isHidden = true
+//                self?.lastNameTextField.isHidden = true
+//                self?.activityIndicator.isHidden = true
+//                self?.emailTextField.isHidden = false
+//                self?.passwordTextField.isHidden = false
+//                self?.logInButton.isHidden = false
+//                self?.questionLabel.isHidden = false
+//                self?.signUpButton.isHidden = false
+//            })
+//        }
     }
         
     @objc func keyboardWillShow(notification: NSNotification) {
@@ -328,7 +348,8 @@ extension LoginViewController {
         private func setupViews() {
             view.addSubview(scrollView)
             scrollView.addSubview(contentView)
-            [logoImageView, labelMode, stackView, logInButton, cancelButton, questionLabel, signUpButton, activityIndicator].forEach { contentView.addSubview($0)}
+//            [logoImageView, labelMode, stackView, logInButton, cancelButton, questionLabel, signUpButton, activityIndicator].forEach { contentView.addSubview($0)}
+            [logoImageView, labelMode, stackView, logInButton].forEach { contentView.addSubview($0)}
             [firstNameTextField, lastNameTextField, emailTextField, passwordTextField].forEach { stackView.addArrangedSubview($0)}
         }
     }
@@ -372,23 +393,24 @@ extension LoginViewController {
             logInButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: baseInset),
             logInButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -baseInset),
             logInButton.heightAnchor.constraint(equalToConstant: 50),
+            logInButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
             
-            cancelButton.topAnchor.constraint(equalTo: logInButton.bottomAnchor),
-            cancelButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            cancelButton.heightAnchor.constraint(equalToConstant: 50),
-            
-            questionLabel.topAnchor.constraint(equalTo: logInButton.bottomAnchor, constant: 150),
-            questionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 110),
-            questionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            questionLabel.heightAnchor.constraint(equalToConstant: 50),
-            
-            signUpButton.topAnchor.constraint(equalTo: logInButton.bottomAnchor, constant: 150),
-            signUpButton.leadingAnchor.constraint(equalTo: questionLabel.trailingAnchor, constant: 10),
-            signUpButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            signUpButton.heightAnchor.constraint(equalToConstant: 50),
-            
-            activityIndicator.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+//            cancelButton.topAnchor.constraint(equalTo: logInButton.bottomAnchor),
+//            cancelButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+//            cancelButton.heightAnchor.constraint(equalToConstant: 50),
+//
+//            questionLabel.topAnchor.constraint(equalTo: logInButton.bottomAnchor, constant: 150),
+//            questionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 110),
+//            questionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+//            questionLabel.heightAnchor.constraint(equalToConstant: 50),
+//
+//            signUpButton.topAnchor.constraint(equalTo: logInButton.bottomAnchor, constant: 150),
+//            signUpButton.leadingAnchor.constraint(equalTo: questionLabel.trailingAnchor, constant: 10),
+//            signUpButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+//            signUpButton.heightAnchor.constraint(equalToConstant: 50),
+//
+//            activityIndicator.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+//            activityIndicator.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ]
         .forEach {$0.isActive = true}
     }
