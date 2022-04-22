@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1051458294130-o6c156ald8qvhhh9h40c1kj2ovj9egfu.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1051458294130-o6c156ald8qvhhh9h40c1kj2ovj9egfu</string>
+	<key>API_KEY</key>
+	<string>AIzaSyD4QyjU1iEu71V7-11WIK373NfrCVnyfB4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1051458294130</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.n.malich.Navigation</string>
+	<key>PROJECT_ID</key>
+	<string>navigation-14497</string>
+	<key>STORAGE_BUCKET</key>
+	<string>navigation-14497.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1051458294130:ios:70db7597e7539278c94deb</string>
+	<key>DATABASE_URL</key>
+	<string>https://navigation-14497-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>
