@@ -11,39 +11,46 @@ import iOSIntPackage
 class PostTableViewCell: UITableViewCell {
     
     private var imageProcessor = ImageProcessor()
+    private var baseInset: CGFloat { return 16 }
     
     var post: Post? {
         didSet {
             if let post = post {
-                authorPost.text = post.author
-                descriptionPost.text = post.description
+                author.text = post.author
+                body.text = post.description
                 
-                guard let filter = post.filter else { return }
+//                guard let filter = post.filter else { return }
+                let filter = post.filter
                 
-                if let image = UIImage(named: post.image) {
-                    imageProcessor.processImage(sourceImage: image, filter: filter) {
-                        image in imagePost.image = image
+                if let image = post.image {
+                    imageProcessor.processImage(sourceImage: image, filter: filter ?? .chrome) { image in
+                        self.image.image = image
                     }
                 }
+//                if let image = UIImage(named: post.image) {
+//                    imageProcessor.processImage(sourceImage: image, filter: filter) {
+//                        image in imagePost.image = image
+//                    }
+//                }
                 
                 switch post.likes {
                 case 0..<1000:
-                    likesPost.text = "Likes: \(post.likes)"
+                    likes.text = " \(post.likes)"
                 case 1_000..<1000_000:
-                    likesPost.text = "Likes: \(post.likes / 1_000)K"
+                    likes.text = " \(post.likes / 1_000)K"
                 case 1_000_000... :
-                    likesPost.text = "Likes: \(post.likes / 1_000_000)Kk"
+                    likes.text = " \(post.likes / 1_000_000)Kk"
                 default:
                     break
                 }
                 
                 switch post.views {
                 case 0..<1000:
-                    viewsPost.text = "Views: \(post.views)"
+                    views.text = " \(post.views)"
                 case 1_000..<1000_000:
-                    viewsPost.text = "Views: \(post.views / 1_000)K"
+                    views.text = " \(post.views / 1_000)K"
                 case 1_000_000... :
-                    viewsPost.text = "Views: \(post.views / 1_000_000)Kk"
+                    views.text = " \(post.views / 1_000_000)Kk"
                 default:
                     break
                 }
@@ -51,7 +58,7 @@ class PostTableViewCell: UITableViewCell {
         }
     }
     
-    var authorPost: UILabel = {
+    lazy var author: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         label.tintColor = .black
@@ -61,7 +68,7 @@ class PostTableViewCell: UITableViewCell {
         return label
     }()
     
-    var descriptionPost: UILabel = {
+    lazy var body: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         label.textColor = .systemGray
@@ -70,7 +77,7 @@ class PostTableViewCell: UITableViewCell {
         return label
     }()
     
-    var imagePost: UIImageView = {
+    lazy var image: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFit
         image.backgroundColor = .black
@@ -78,7 +85,15 @@ class PostTableViewCell: UITableViewCell {
         return image
     }()
     
-    var likesPost: UILabel = {
+    lazy var iconLikes: UIImageView = {
+        let image = UIImageView()
+//        image.image = UIImage(systemName: "heart")
+//        image.tintColor = .systemGray
+        image.translatesAutoresizingMaskIntoConstraints = false
+        return image
+    }()
+    
+    lazy var likes: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         label.textColor = .black
@@ -87,8 +102,15 @@ class PostTableViewCell: UITableViewCell {
         return label
     }()
     
+    private lazy var iconViews: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(systemName: "eye")
+        image.tintColor = .systemGray
+        image.translatesAutoresizingMaskIntoConstraints = false
+        return image
+    }()
     
-    var viewsPost: UILabel = {
+    lazy var views: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         label.textColor = .black
@@ -96,8 +118,6 @@ class PostTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
-    private var baseInset: CGFloat { return 16 }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -115,34 +135,42 @@ class PostTableViewCell: UITableViewCell {
 extension PostTableViewCell {
     private func setupViews() {
         
-        [authorPost, descriptionPost, imagePost, likesPost, viewsPost].forEach {contentView.addSubview ($0)}
+        [author, body, image, iconLikes, likes, iconViews, views].forEach {contentView.addSubview ($0)}
     }
 }
 
 extension PostTableViewCell {
     private func setupConstraints() {
         [
-            authorPost.topAnchor.constraint(equalTo: contentView.topAnchor, constant: baseInset),
-            authorPost.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: baseInset),
-            authorPost.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -baseInset),
+            author.topAnchor.constraint(equalTo: contentView.topAnchor, constant: baseInset),
+            author.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: baseInset),
+            author.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -baseInset),
             
-            imagePost.topAnchor.constraint(equalTo: authorPost.bottomAnchor, constant: baseInset),
-            imagePost.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            imagePost.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            imagePost.widthAnchor.constraint(equalTo: contentView.widthAnchor),
-            imagePost.heightAnchor.constraint(equalTo: imagePost.widthAnchor),
+            image.topAnchor.constraint(equalTo: author.bottomAnchor, constant: baseInset),
+            image.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            image.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            image.widthAnchor.constraint(equalTo: contentView.widthAnchor),
+            image.heightAnchor.constraint(equalTo: image.widthAnchor),
             
-            descriptionPost.topAnchor.constraint(equalTo: imagePost.bottomAnchor, constant: baseInset),
-            descriptionPost.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: baseInset),
-            descriptionPost.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -baseInset),
+            body.topAnchor.constraint(equalTo: image.bottomAnchor, constant: baseInset),
+            body.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: baseInset),
+            body.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -baseInset),
             
-            likesPost.topAnchor.constraint(equalTo: descriptionPost.bottomAnchor, constant: baseInset),
-            likesPost.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: baseInset),
-            likesPost.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -baseInset),
-                    
-            viewsPost.topAnchor.constraint(equalTo: descriptionPost.bottomAnchor, constant: baseInset),
-            viewsPost.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -baseInset),
-            viewsPost.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -baseInset),
+            iconLikes.topAnchor.constraint(equalTo: body.bottomAnchor, constant: baseInset),
+            iconLikes.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: baseInset),
+            iconLikes.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -baseInset),
+            
+            likes.topAnchor.constraint(equalTo: body.bottomAnchor, constant: baseInset),
+            likes.leadingAnchor.constraint(equalTo: iconLikes.trailingAnchor),
+            likes.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -baseInset),
+            
+            views.topAnchor.constraint(equalTo: body.bottomAnchor, constant: baseInset),
+            views.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -baseInset),
+            views.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -baseInset),
+            
+            iconViews.topAnchor.constraint(equalTo: body.bottomAnchor, constant: baseInset),
+            iconViews.trailingAnchor.constraint(equalTo: views.leadingAnchor),
+            iconViews.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -baseInset)
         ]
         .forEach {$0.isActive = true}
     }

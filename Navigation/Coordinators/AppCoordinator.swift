@@ -25,23 +25,31 @@ class AppCoordinator: CoordinatorProtocol {
     func setTabBarController() -> UITabBarController {
         let tabBarController = UITabBarController()
 
-        let firstItem = UITabBarItem(title: "Feed", image: UIImage(named: "feed"), tag: 0)
-        let secondItem = UITabBarItem(title: "Profile", image: UIImage(named: "profile"), tag: 1)
+        let feedItem = UITabBarItem(title: "Feed", image: UIImage(systemName: "house.fill"), tag: 0)
+        let profileItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person.fill"), tag: 1)
+        let favoritePostsItem = UITabBarItem(title: "Favorite posts", image: UIImage(systemName: "star.fill"), tag: 3)
 
-
-        let firstCoordinator = FeedCoordinator()
-        firstCoordinator.parentCoordinator = self
-        firstCoordinator.openFeedViewController()
-        let firstViewController = firstCoordinator.navigationController
-        firstViewController.tabBarItem = firstItem
+        let feedCoordinator = FeedCoordinator()
+        feedCoordinator.parentCoordinator = self
+        feedCoordinator.openFeedViewController()
+        let feedViewController = feedCoordinator.navigationController
+        feedViewController.tabBarItem = feedItem
        
-        let secondCoordinator = LoginCoordinator()
-        secondCoordinator.parentCoordinator = self
-        secondCoordinator.openLoginViewController()
-        let secondViewControllerVC = secondCoordinator.navigationController
-        secondViewControllerVC.tabBarItem = secondItem
+        let loginCoordinator = LoginCoordinator()
+        loginCoordinator.parentCoordinator = self
+        loginCoordinator.openLoginViewController()
+        let loginViewController = loginCoordinator.navigationController
+        loginViewController.tabBarItem = profileItem
+        
+        let favoritePostsCoordinator = FavoritePostsCoordinator()
+        favoritePostsCoordinator.parentCoordinator =  self
+        favoritePostsCoordinator.openFavoritePostsViewController()
+        let favoritePostsViewController = favoritePostsCoordinator.navigationController
+        favoritePostsViewController.tabBarItem = favoritePostsItem
+        
+        
 
-        tabBarController.viewControllers = [firstViewController,secondViewControllerVC]
+        tabBarController.viewControllers = [feedViewController,loginViewController, favoritePostsViewController]
 
         return tabBarController
     }
