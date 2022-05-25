@@ -19,7 +19,7 @@ class FavoritePostsCoordinator: CoordinatorProtocol {
     
     func openFavoritePostsViewController() {
         let favoritePostsViewController: FavoritePostsViewController = FavoritePostsViewController()
-        self.navigationController.isNavigationBarHidden = true
+        favoritePostsViewController.navigationItem.titleView = favoritePostsViewController.searchBar
 //        favoritePostsViewController.coordinator = self
         self.navigationController.viewControllers = [favoritePostsViewController]
     }

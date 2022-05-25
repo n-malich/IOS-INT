@@ -42,7 +42,7 @@ protocol ProfileViewControllerCoordinatorDelegate: AnyObject {
      }()
      
      private lazy var signOutButton: CustomButton = {
-         let button = CustomButton(title: "Sign out", titleColor: .white, backgroundColor: nil, backgroundImage: UIImage(imageLiteralResourceName: "blue_pixel"), buttonAction: { [weak self] in
+         let button = CustomButton(title: "Delete user", titleColor: .white, backgroundColor: nil, backgroundImage: UIImage(imageLiteralResourceName: "blue_pixel"), buttonAction: { [weak self] in
              self?.delegate?.signOut()
              CurrentUserService.shared.currentUser = nil
              self?.coordinator?.navigateToPreviousPage()
@@ -144,15 +144,14 @@ extension ProfileViewController {
              let cell: PostTableViewCell = tableView.dequeueReusableCell(withIdentifier: postID, for: indexPath) as! PostTableViewCell
              cell.post = arrayPosts[indexPath.row - 1]
              
-             let posts = DataBaseManager.shared.getFavoritePosts()
+//             let posts = DataBaseManager.shared.getFavoritePosts()
+             let posts = DataBaseManager.shared.getFavoritePostsWithPredicate(author: nil)
              if posts.firstIndex(where: { $0.id == cell.post?.id }) != nil {
                  cell.iconLikes.image = UIImage(systemName: "heart.fill")
                  cell.iconLikes.tintColor = .red
-                 print("RED")
              } else {
                  cell.iconLikes.image = UIImage(systemName: "heart")
                  cell.iconLikes.tintColor = .systemGray
-                 print("GRAY")
              }
              
              return cell
