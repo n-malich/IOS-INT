@@ -6,12 +6,28 @@
 //
 
 import UIKit
+import CoreData
 
 class FavoritePostsViewController: UIViewController {
     
 //    var coordinator: FavoritePostsViewControllerCoordinatorDelegate?
     
     private let postID = String(describing: PostTableViewCell.self)
+    
+    private let coreDataStack = CoreDataStack()
+    
+    private lazy var fetchedResultsController: NSFetchedResultsController<PostModel> = {
+        let fetchRequest: NSFetchRequest<PostModel> = PostModel.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "author", ascending: false)]
+
+        let fetchedResultsController = NSFetchedResultsController(
+            fetchRequest: fetchRequest,
+            managedObjectContext: coreDataStack.mainContext,
+            sectionNameKeyPath: nil,
+            cacheName: nil)
+        fetchedResultsController.delegate = self
+        return fetchedResultsController
+    }()
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
@@ -45,14 +61,18 @@ class FavoritePostsViewController: UIViewController {
         tableView.delegate = self
         
         searchBar.delegate = self
-        
-//Удаление поста из избранного по двойному нажатию на пост
-//        setUpGestureRecognizer()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tableView.reloadData()
+        coreDataStack.mainContext.perform {
+            do {
+                try self.fetchedResultsController.performFetch()
+                self.tableView.reloadData()
+            } catch let error as NSError {
+                print("Fetching error: \(error), \(error.userInfo)")
+            }
+        }
     }
 }
 
@@ -76,12 +96,23 @@ extension FavoritePostsViewController {
 
 extension FavoritePostsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return DataBaseManager.shared.getCountPosts()
+        guard let sectionInfo = fetchedResultsController.sections?[section] else { return 0 }
+        return sectionInfo.numberOfObjects
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: PostTableViewCell = tableView.dequeueReusableCell(withIdentifier: postID, for: indexPath) as! PostTableViewCell
-        cell.post = DataBaseManager.shared.getFavoritePostsWithPredicate(author: searchBar.text)[indexPath.row]
+        
+        let object = fetchedResultsController.object(at: indexPath)
+        let id = object.id
+        let author = object.author ?? ""
+        let body = object.body
+        let image = UIImage(data: object.image ?? Data())
+        let likes = object.likes
+        let views = object.views
+        
+        cell.post = Post(id: id!, author: author, body: body, image: image, filter: nil, likes: Int(likes), views: Int(views))
+        
         cell.iconLikes.image = UIImage(systemName: "heart.fill")
         cell.iconLikes.tintColor = .red
         return cell
@@ -91,9 +122,16 @@ extension FavoritePostsViewController: UITableViewDataSource, UITableViewDelegat
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        DataBaseManager.shared.removeFavoritePost(post: DataBaseManager.shared.getFavoritePostsWithPredicate(author: nil)[indexPath.row])
-        tableView.reloadData()
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let action = UIContextualAction(style: .destructive, title: "Удалить") { [weak self] (_, _, callback) in
+            guard let self = self else { return }
+            let post = self.fetchedResultsController.object(at: indexPath)
+            self.coreDataStack.removeFavoritePost(post: post)
+            callback(true)
+        }
+        let configuration = UISwipeActionsConfiguration(actions: [action])
+        configuration.performsFirstActionWithFullSwipe = true
+        return configuration
     }
 }
 
@@ -104,33 +142,57 @@ extension FavoritePostsViewController: UISearchBarDelegate {
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.showsCancelButton = false
-        searchBar.text = nil
+        searchBar.text = ""
         searchBar.resignFirstResponder()
-        DataBaseManager.shared.getFavoritePostsWithPredicate(author: searchBar.text)
-        tableView.reloadData()
+        fetchedResultsController.fetchRequest.predicate = nil
+        do {
+            try self.fetchedResultsController.performFetch()
+            self.tableView.reloadData()
+        } catch let error as NSError {
+            print("Fetching error: \(error), \(error.userInfo)")
+        }
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        DataBaseManager.shared.getFavoritePostsWithPredicate(author: searchText)
-        tableView.reloadData()
+        var predicate: NSPredicate? = nil
+        if searchText != "" {
+            predicate = NSPredicate(format: "%K CONTAINS %@", #keyPath(PostModel.author), searchText)
+        }
+        fetchedResultsController.fetchRequest.predicate = predicate
+        do {
+            try self.fetchedResultsController.performFetch()
+            self.tableView.reloadData()
+        } catch let error as NSError {
+            print("Fetching error: \(error), \(error.userInfo)")
+        }
     }
 }
 
-//extension FavoritePostsViewController {
-//    private func setUpGestureRecognizer() {
-//        let doubleTapGestureOnCell = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap))
-//        doubleTapGestureOnCell.numberOfTapsRequired = 2
-//        tableView.addGestureRecognizer(doubleTapGestureOnCell)
-//    }
-//
-//    @objc private func handleDoubleTap(_ tapGesture: UITapGestureRecognizer) {
-//        if tapGesture.state == .ended {
-//            let location = tapGesture.location(in: self.tableView)
-//            if let indexPath = tableView.indexPathForRow(at: location), let cell = tableView.cellForRow(at: indexPath) as? PostTableViewCell, let post = cell.post {
-//                DataBaseManager.shared.removeFavoritePost(post: post)
-//                tableView.reloadData()
-//                print("Post removed")
-//            }
-//        }
-//    }
-//}
+extension FavoritePostsViewController: NSFetchedResultsControllerDelegate {
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.beginUpdates()
+    }
+
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .insert:
+            guard let newIndexPath = newIndexPath else { fallthrough }
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
+        case .delete:
+            guard let indexPath = indexPath else { fallthrough }
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        case .update:
+            guard let indexPath = indexPath else { fallthrough }
+            tableView.reloadRows(at: [indexPath], with: .automatic)
+        case .move:
+            guard let indexPath = indexPath, let newIndexPath = newIndexPath else { fallthrough }
+            tableView.moveRow(at: indexPath, to: newIndexPath)
+        @unknown default:
+            fatalError()
+        }
+    }
+     
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.endUpdates()
+    }
+}

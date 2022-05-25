@@ -20,6 +20,7 @@
 		764483702742B6150058CF15 /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7644836F2742B6150058CF15 /* ProfileCoordinator.swift */; };
 		7648D109272DE24F0087EFA9 /* LoginInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7648D108272DE24F0087EFA9 /* LoginInspector.swift */; };
 		765FE238272DCEF600846A39 /* iOSIntPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 765FE237272DCEF600846A39 /* iOSIntPackage */; };
+		76659270283C19CA0066F026 /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7665926F283C19CA0066F026 /* DataProvider.swift */; };
 		76800E7F280EFE030074CA05 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 76800E7E280EFE030074CA05 /* SnapKit */; };
 		76800E81280EFEC90074CA05 /* PhotosCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76800E80280EFEC90074CA05 /* PhotosCoordinator.swift */; };
 		76800E84280F36410074CA05 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 76800E83280F36410074CA05 /* RealmSwift */; };
@@ -27,7 +28,7 @@
 		768B6D9E274149B500BB490D /* FeedCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768B6D9D274149B500BB490D /* FeedCoordinator.swift */; };
 		768B6DA2274155B000BB490D /* PostCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768B6DA1274155B000BB490D /* PostCoordinator.swift */; };
 		768B6DA6274194E300BB490D /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768B6DA5274194E300BB490D /* AppCoordinator.swift */; };
-		768F4E9B2815920B00678D14 /* DataBaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768F4E9A2815920B00678D14 /* DataBaseManager.swift */; };
+		768F4E9B2815920B00678D14 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768F4E9A2815920B00678D14 /* CoreDataStack.swift */; };
 		768F4EA52815AC5600678D14 /* PostModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 768F4EA32815AC5600678D14 /* PostModel.xcdatamodeld */; };
 		768F4EAC28172DA800678D14 /* FavoritePostsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768F4EAB28172DA800678D14 /* FavoritePostsViewController.swift */; };
 		768F4EB02817FCC500678D14 /* FavoritePostsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768F4EAF2817FCC500678D14 /* FavoritePostsCoordinator.swift */; };
@@ -101,12 +102,13 @@
 		7644836D274241270058CF15 /* LoginCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinator.swift; sourceTree = "<group>"; };
 		7644836F2742B6150058CF15 /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
 		7648D108272DE24F0087EFA9 /* LoginInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInspector.swift; sourceTree = "<group>"; };
+		7665926F283C19CA0066F026 /* DataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProvider.swift; sourceTree = "<group>"; };
 		76800E80280EFEC90074CA05 /* PhotosCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosCoordinator.swift; sourceTree = "<group>"; };
 		768B6D9B27413E1D00BB490D /* CoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorProtocol.swift; sourceTree = "<group>"; };
 		768B6D9D274149B500BB490D /* FeedCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCoordinator.swift; sourceTree = "<group>"; };
 		768B6DA1274155B000BB490D /* PostCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCoordinator.swift; sourceTree = "<group>"; };
 		768B6DA5274194E300BB490D /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
-		768F4E9A2815920B00678D14 /* DataBaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseManager.swift; sourceTree = "<group>"; };
+		768F4E9A2815920B00678D14 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		768F4EA42815AC5600678D14 /* PostModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PostModel.xcdatamodel; sourceTree = "<group>"; };
 		768F4EAB28172DA800678D14 /* FavoritePostsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePostsViewController.swift; sourceTree = "<group>"; };
 		768F4EAF2817FCC500678D14 /* FavoritePostsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePostsCoordinator.swift; sourceTree = "<group>"; };
@@ -175,6 +177,19 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		760365FD2825407900F24C79 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				CB51C3A926A0724A00FE942C /* SceneDelegate.swift */,
+				CB51C3A726A0724A00FE942C /* AppDelegate.swift */,
+				CB51C3B026A0724B00FE942C /* Assets.xcassets */,
+				CB51C3B226A0724B00FE942C /* LaunchScreen.storyboard */,
+				76A24E122800612900D6C623 /* GoogleService-Info.plist */,
+				CB51C3B526A0724B00FE942C /* Info.plist */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		761885CA27B424D50085BBD7 /* NetworkService */ = {
 			isa = PBXGroup;
 			children = (
@@ -237,7 +252,8 @@
 			isa = PBXGroup;
 			children = (
 				768F4EA32815AC5600678D14 /* PostModel.xcdatamodeld */,
-				768F4E9A2815920B00678D14 /* DataBaseManager.swift */,
+				768F4E9A2815920B00678D14 /* CoreDataStack.swift */,
+				7665926F283C19CA0066F026 /* DataProvider.swift */,
 			);
 			path = DataBase;
 			sourceTree = "<group>";
@@ -362,12 +378,7 @@
 				76F21061275A6EA800037844 /* Photos screen */,
 				768F4EAA28172D1200678D14 /* FavoritePosts screen */,
 				CB9D3C2126AA15A900BBBCF2 /* Feed screen */,
-				CB51C3A926A0724A00FE942C /* SceneDelegate.swift */,
-				CB51C3A726A0724A00FE942C /* AppDelegate.swift */,
-				CB51C3B026A0724B00FE942C /* Assets.xcassets */,
-				CB51C3B226A0724B00FE942C /* LaunchScreen.storyboard */,
-				CB51C3B526A0724B00FE942C /* Info.plist */,
-				76A24E122800612900D6C623 /* GoogleService-Info.plist */,
+				760365FD2825407900F24C79 /* Supporting Files */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
@@ -597,7 +608,7 @@
 				CB37438626C17D100057F56D /* PhotosViewController.swift in Sources */,
 				CB51C3A826A0724A00FE942C /* AppDelegate.swift in Sources */,
 				768B6DA6274194E300BB490D /* AppCoordinator.swift in Sources */,
-				768F4E9B2815920B00678D14 /* DataBaseManager.swift in Sources */,
+				768F4E9B2815920B00678D14 /* CoreDataStack.swift in Sources */,
 				761C5224273527AC00B32F79 /* CustomButton.swift in Sources */,
 				CB37437E26C1479F0057F56D /* Photos.swift in Sources */,
 				764483702742B6150058CF15 /* ProfileCoordinator.swift in Sources */,
@@ -609,6 +620,7 @@
 				768F4EA52815AC5600678D14 /* PostModel.xcdatamodeld in Sources */,
 				768B6D9C27413E1D00BB490D /* CoordinatorProtocol.swift in Sources */,
 				761885CE27B428CF0085BBD7 /* AppConfiguration.swift in Sources */,
+				76659270283C19CA0066F026 /* DataProvider.swift in Sources */,
 				CB5E544C26A8032A00B603C0 /* ProfileHeaderView.swift in Sources */,
 				CB51C3C226A0C78000FE942C /* InfoViewController.swift in Sources */,
 				768F4EAC28172DA800678D14 /* FavoritePostsViewController.swift in Sources */,
@@ -773,7 +785,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -828,7 +840,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -847,7 +859,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = Navigation/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Navigation/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -869,7 +881,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = Navigation/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Navigation/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

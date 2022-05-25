@@ -144,8 +144,8 @@ extension ProfileViewController {
              let cell: PostTableViewCell = tableView.dequeueReusableCell(withIdentifier: postID, for: indexPath) as! PostTableViewCell
              cell.post = arrayPosts[indexPath.row - 1]
              
-//             let posts = DataBaseManager.shared.getFavoritePosts()
-             let posts = DataBaseManager.shared.getFavoritePostsWithPredicate(author: nil)
+             let posts = CoreDataStack.shared.getFavoritePosts()
+             
              if posts.firstIndex(where: { $0.id == cell.post?.id }) != nil {
                  cell.iconLikes.image = UIImage(systemName: "heart.fill")
                  cell.iconLikes.tintColor = .red
@@ -203,8 +203,13 @@ extension ProfileViewController {
             if let indexPath = tableView.indexPathForRow(at: location), let cell = tableView.cellForRow(at: indexPath) as? PostTableViewCell, let post = cell.post {
                 cell.iconLikes.image = UIImage(systemName: "heart.fill")
                 cell.iconLikes.tintColor = .red
-                DataBaseManager.shared.addFavoritePost(post: post)
-                print("Post added")
+                
+                CoreDataStack.shared.addFavoritePost(post: post)
+                
+                let backgroundContext = CoreDataStack.shared.backgroundContext
+                let fetchRequest = CoreDataStack.shared.fetchRequest
+                let posts = try! backgroundContext.fetch(fetchRequest)
+                print(posts)
             }
         }
     }
