@@ -23,7 +23,7 @@ class PostViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .systemGray3
         
-        buttonInfo = UIBarButtonItem(image: UIImage.init(named: "info"), style: .plain, target: self, action: #selector(onInfoClick))
+        buttonInfo = UIBarButtonItem(image: UIImage.init(systemName: "info.circle.fill"), style: .plain, target: self, action: #selector(onInfoClick))
         self.navigationItem.rightBarButtonItem = buttonInfo
 }
 

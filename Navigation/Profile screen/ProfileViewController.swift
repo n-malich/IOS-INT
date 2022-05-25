@@ -36,7 +36,7 @@ protocol ProfileViewControllerCoordinatorDelegate: AnyObject {
          button.setBackgroundImage(UIImage (systemName: "xmark.circle.fill"), for: .normal)
          button.tintColor = .lightGray
          button.alpha = 0
-         button.addTarget(self, action: #selector(tapOnСloseButton), for: .touchUpInside)
+         button.addTarget(self, action: #selector(closingAvatar), for: .touchUpInside)
          button.translatesAutoresizingMaskIntoConstraints = false
          return button
      }()
@@ -72,16 +72,18 @@ protocol ProfileViewControllerCoordinatorDelegate: AnyObject {
          setupViews()
          setupConstraints()
          showUser()
+         setUpGestureRecognizer()
          setupHideKeyboardOnTap()
          
          tableView.register(PostTableViewCell.self, forCellReuseIdentifier: postID)
          tableView.register(PhotosTableViewCell.self, forCellReuseIdentifier: photosID)
          tableView.dataSource = self
          tableView.delegate = self
-         
-         let tapOnAvatar = UITapGestureRecognizer(target: self, action: #selector(avatarOnTap))
-         headerView.avatarImageView.isUserInteractionEnabled = true
-         headerView.avatarImageView.addGestureRecognizer(tapOnAvatar)
+     }
+     
+     override func viewWillAppear(_ animated: Bool) {
+         super.viewWillAppear(animated)
+         tableView.reloadData()
      }
  }
 
@@ -141,6 +143,18 @@ extension ProfileViewController {
          } else {
              let cell: PostTableViewCell = tableView.dequeueReusableCell(withIdentifier: postID, for: indexPath) as! PostTableViewCell
              cell.post = arrayPosts[indexPath.row - 1]
+             
+             let posts = DataBaseManager.shared.getFavoritePosts()
+             if posts.firstIndex(where: { $0.id == cell.post?.id }) != nil {
+                 cell.iconLikes.image = UIImage(systemName: "heart.fill")
+                 cell.iconLikes.tintColor = .red
+                 print("RED")
+             } else {
+                 cell.iconLikes.image = UIImage(systemName: "heart")
+                 cell.iconLikes.tintColor = .systemGray
+                 print("GRAY")
+             }
+             
              return cell
          }
      }
@@ -162,23 +176,44 @@ extension ProfileViewController {
      }
  }
 
- extension ProfileViewController {
-     //Скрытие keyboard при нажатии за пределами TextField
-     func setupHideKeyboardOnTap() {
-         view.addGestureRecognizer(self.endEditingRecognizer())
-         navigationController?.navigationBar.addGestureRecognizer(self.endEditingRecognizer())
-     }
-
-     private func endEditingRecognizer() -> UIGestureRecognizer {
-         let tap = UITapGestureRecognizer(target: self.view, action: #selector(self.view.endEditing(_:)))
-         tap.cancelsTouchesInView = false
-         return tap
-     }
- }
+extension ProfileViewController {
+    //Обработка нажатий на avatar и post
+    private func setUpGestureRecognizer() {
+        let singleTapGestureOnAvatar = UITapGestureRecognizer(target: self, action: #selector(singleTapGestureOnAvatar))
+        headerView.avatarImageView.isUserInteractionEnabled = true
+        headerView.avatarImageView.addGestureRecognizer(singleTapGestureOnAvatar)
+        
+//        let singleTapGestureOnCell = UITapGestureRecognizer(target: self, action: #selector(handleSingleTap))
+//        singleTapGesture.numberOfTapsRequired = 1
+//        self.addGestureRecognizer(singleTapGestureOnCell)
+        
+        let doubleTapGestureOnCell = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap))
+        doubleTapGestureOnCell.numberOfTapsRequired = 2
+        tableView.addGestureRecognizer(doubleTapGestureOnCell)
+        
+//        singleTapGestureOnCell.require(toFail: doubleTapGestureOnCell)
+    }
+    
+//    @objc private func handleSingleTap(_ tapGesture: UITapGestureRecognizer) {
+//
+//    }
+    
+    @objc private func handleDoubleTap(_ tapGesture: UITapGestureRecognizer) {
+        if tapGesture.state == .ended {
+            let location = tapGesture.location(in: self.tableView)
+            if let indexPath = tableView.indexPathForRow(at: location), let cell = tableView.cellForRow(at: indexPath) as? PostTableViewCell, let post = cell.post {
+                cell.iconLikes.image = UIImage(systemName: "heart.fill")
+                cell.iconLikes.tintColor = .red
+                DataBaseManager.shared.addFavoritePost(post: post)
+                print("Post added")
+            }
+        }
+    }
+}
 
  extension ProfileViewController {
      //Открытие анимированного avatarImageView
-     @objc func avatarOnTap() {
+     @objc private func singleTapGestureOnAvatar() {
          UIView.animateKeyframes(withDuration: 0.5, delay: 0, options: [.calculationModeCubicPaced], animations: {
              UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.3) {
                 
@@ -201,11 +236,9 @@ extension ProfileViewController {
             }
          })
      }
- }
 
-extension ProfileViewController {
     //Закрытие анимированного avatarImageView
-    @objc func tapOnСloseButton() {
+    @objc private func closingAvatar() {
         UIView.animateKeyframes(withDuration: 0.5, delay: 0, options: [.calculationModeCubicPaced], animations: {
             UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.3) {
                 self.closeButton.alpha = 0
@@ -225,5 +258,19 @@ extension ProfileViewController {
                 self.signOutButton.isHidden = false
             }
         })
+    }
+}
+
+extension ProfileViewController {
+    //Скрытие keyboard при нажатии за пределами TextField
+    private func endEditingRecognizer() -> UIGestureRecognizer {
+        let tap = UITapGestureRecognizer(target: self.view, action: #selector(self.view.endEditing(_:)))
+        tap.cancelsTouchesInView = false
+        return tap
+    }
+    
+    func setupHideKeyboardOnTap() {
+        view.addGestureRecognizer(self.endEditingRecognizer())
+        navigationController?.navigationBar.addGestureRecognizer(self.endEditingRecognizer())
     }
 }

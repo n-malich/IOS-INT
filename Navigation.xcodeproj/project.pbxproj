@@ -27,6 +27,10 @@
 		768B6D9E274149B500BB490D /* FeedCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768B6D9D274149B500BB490D /* FeedCoordinator.swift */; };
 		768B6DA2274155B000BB490D /* PostCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768B6DA1274155B000BB490D /* PostCoordinator.swift */; };
 		768B6DA6274194E300BB490D /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768B6DA5274194E300BB490D /* AppCoordinator.swift */; };
+		768F4E9B2815920B00678D14 /* DataBaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768F4E9A2815920B00678D14 /* DataBaseManager.swift */; };
+		768F4EA52815AC5600678D14 /* PostModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 768F4EA32815AC5600678D14 /* PostModel.xcdatamodeld */; };
+		768F4EAC28172DA800678D14 /* FavoritePostsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768F4EAB28172DA800678D14 /* FavoritePostsViewController.swift */; };
+		768F4EB02817FCC500678D14 /* FavoritePostsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768F4EAF2817FCC500678D14 /* FavoritePostsCoordinator.swift */; };
 		76A24E132800612900D6C623 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76A24E122800612900D6C623 /* GoogleService-Info.plist */; };
 		76AC5394272DC44D00F8C232 /* StorageService.h in Headers */ = {isa = PBXBuildFile; fileRef = 76AC5393272DC44D00F8C232 /* StorageService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		76AC5397272DC44D00F8C232 /* StorageService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76AC5391272DC44D00F8C232 /* StorageService.framework */; };
@@ -102,6 +106,10 @@
 		768B6D9D274149B500BB490D /* FeedCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCoordinator.swift; sourceTree = "<group>"; };
 		768B6DA1274155B000BB490D /* PostCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCoordinator.swift; sourceTree = "<group>"; };
 		768B6DA5274194E300BB490D /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		768F4E9A2815920B00678D14 /* DataBaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseManager.swift; sourceTree = "<group>"; };
+		768F4EA42815AC5600678D14 /* PostModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PostModel.xcdatamodel; sourceTree = "<group>"; };
+		768F4EAB28172DA800678D14 /* FavoritePostsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePostsViewController.swift; sourceTree = "<group>"; };
+		768F4EAF2817FCC500678D14 /* FavoritePostsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePostsCoordinator.swift; sourceTree = "<group>"; };
 		76A24E122800612900D6C623 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		76AC5391272DC44D00F8C232 /* StorageService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StorageService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		76AC5393272DC44D00F8C232 /* StorageService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StorageService.h; sourceTree = "<group>"; };
@@ -220,8 +228,34 @@
 				768B6DA5274194E300BB490D /* AppCoordinator.swift */,
 				764483712742B77A0058CF15 /* FirstBranchCoordinators */,
 				764483722742B83F0058CF15 /* SecondBranchCoordinators */,
+				768F4EAE2817FC4E00678D14 /* ThirdBranchCoordinator */,
 			);
 			path = Coordinators;
+			sourceTree = "<group>";
+		};
+		768F4E9C281596FE00678D14 /* DataBase */ = {
+			isa = PBXGroup;
+			children = (
+				768F4EA32815AC5600678D14 /* PostModel.xcdatamodeld */,
+				768F4E9A2815920B00678D14 /* DataBaseManager.swift */,
+			);
+			path = DataBase;
+			sourceTree = "<group>";
+		};
+		768F4EAA28172D1200678D14 /* FavoritePosts screen */ = {
+			isa = PBXGroup;
+			children = (
+				768F4EAB28172DA800678D14 /* FavoritePostsViewController.swift */,
+			);
+			path = "FavoritePosts screen";
+			sourceTree = "<group>";
+		};
+		768F4EAE2817FC4E00678D14 /* ThirdBranchCoordinator */ = {
+			isa = PBXGroup;
+			children = (
+				768F4EAF2817FCC500678D14 /* FavoritePostsCoordinator.swift */,
+			);
+			path = ThirdBranchCoordinator;
 			sourceTree = "<group>";
 		};
 		76AC5392272DC44D00F8C232 /* StorageService */ = {
@@ -320,11 +354,13 @@
 			children = (
 				761885CA27B424D50085BBD7 /* NetworkService */,
 				768B6D9927413D6B00BB490D /* Coordinators */,
+				768F4E9C281596FE00678D14 /* DataBase */,
 				76BB3C0A272DD6FD0002721C /* UserData */,
 				761C52272735783D00B32F79 /* Models */,
 				CB37437F26C14D880057F56D /* LogIn screen */,
 				CB64952826A5FD2B00EB92DD /* Profile screen */,
 				76F21061275A6EA800037844 /* Photos screen */,
+				768F4EAA28172D1200678D14 /* FavoritePosts screen */,
 				CB9D3C2126AA15A900BBBCF2 /* Feed screen */,
 				CB51C3A926A0724A00FE942C /* SceneDelegate.swift */,
 				CB51C3A726A0724A00FE942C /* AppDelegate.swift */,
@@ -444,8 +480,8 @@
 			);
 			mainGroup = CB51C39B26A0724A00FE942C;
 			packageReferences = (
-				765FE236272DCEF600846A39 /* XCRemoteSwiftPackageReference "iOSIntPackage.git" */,
-				76800E7D280EFE030074CA05 /* XCRemoteSwiftPackageReference "SnapKit.git" */,
+				765FE236272DCEF600846A39 /* XCRemoteSwiftPackageReference "iOSIntPackage" */,
+				76800E7D280EFE030074CA05 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				76800E82280F36410074CA05 /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = CB51C3A526A0724A00FE942C /* Products */;
@@ -561,6 +597,7 @@
 				CB37438626C17D100057F56D /* PhotosViewController.swift in Sources */,
 				CB51C3A826A0724A00FE942C /* AppDelegate.swift in Sources */,
 				768B6DA6274194E300BB490D /* AppCoordinator.swift in Sources */,
+				768F4E9B2815920B00678D14 /* DataBaseManager.swift in Sources */,
 				761C5224273527AC00B32F79 /* CustomButton.swift in Sources */,
 				CB37437E26C1479F0057F56D /* Photos.swift in Sources */,
 				764483702742B6150058CF15 /* ProfileCoordinator.swift in Sources */,
@@ -569,10 +606,12 @@
 				763AC1A32743C0970039ABB1 /* InfoCoordinator.swift in Sources */,
 				76EBB03027B9AA3100562920 /* Planet.swift in Sources */,
 				76F2105E275A602F00037844 /* CustomTimer.swift in Sources */,
+				768F4EA52815AC5600678D14 /* PostModel.xcdatamodeld in Sources */,
 				768B6D9C27413E1D00BB490D /* CoordinatorProtocol.swift in Sources */,
 				761885CE27B428CF0085BBD7 /* AppConfiguration.swift in Sources */,
 				CB5E544C26A8032A00B603C0 /* ProfileHeaderView.swift in Sources */,
 				CB51C3C226A0C78000FE942C /* InfoViewController.swift in Sources */,
+				768F4EAC28172DA800678D14 /* FavoritePostsViewController.swift in Sources */,
 				76BB3C0C272DD7210002721C /* User.swift in Sources */,
 				CB51C3BE26A0759800FE942C /* ProfileViewController.swift in Sources */,
 				CB4BC90B26BC6EB3005CD55A /* PostTableViewCell.swift in Sources */,
@@ -590,6 +629,7 @@
 				768B6D9E274149B500BB490D /* FeedCoordinator.swift in Sources */,
 				CB51C3AA26A0724A00FE942C /* SceneDelegate.swift in Sources */,
 				76157B0427B9AD2E00FD2148 /* TableViewCellResident.swift in Sources */,
+				768F4EB02817FCC500678D14 /* FavoritePostsCoordinator.swift in Sources */,
 				76800E81280EFEC90074CA05 /* PhotosCoordinator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -806,6 +846,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Navigation/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -827,6 +868,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Navigation/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -873,7 +915,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		765FE236272DCEF600846A39 /* XCRemoteSwiftPackageReference "iOSIntPackage.git" */ = {
+		765FE236272DCEF600846A39 /* XCRemoteSwiftPackageReference "iOSIntPackage" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/TrueMax/iOSIntPackage.git";
 			requirement = {
@@ -881,7 +923,7 @@
 				kind = branch;
 			};
 		};
-		76800E7D280EFE030074CA05 /* XCRemoteSwiftPackageReference "SnapKit.git" */ = {
+		76800E7D280EFE030074CA05 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
 			requirement = {
@@ -902,12 +944,12 @@
 /* Begin XCSwiftPackageProductDependency section */
 		765FE237272DCEF600846A39 /* iOSIntPackage */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 765FE236272DCEF600846A39 /* XCRemoteSwiftPackageReference "iOSIntPackage.git" */;
+			package = 765FE236272DCEF600846A39 /* XCRemoteSwiftPackageReference "iOSIntPackage" */;
 			productName = iOSIntPackage;
 		};
 		76800E7E280EFE030074CA05 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 76800E7D280EFE030074CA05 /* XCRemoteSwiftPackageReference "SnapKit.git" */;
+			package = 76800E7D280EFE030074CA05 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
 		};
 		76800E83280F36410074CA05 /* RealmSwift */ = {
@@ -916,6 +958,19 @@
 			productName = RealmSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		768F4EA32815AC5600678D14 /* PostModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				768F4EA42815AC5600678D14 /* PostModel.xcdatamodel */,
+			);
+			currentVersion = 768F4EA42815AC5600678D14 /* PostModel.xcdatamodel */;
+			path = PostModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = CB51C39C26A0724A00FE942C /* Project object */;
 }
