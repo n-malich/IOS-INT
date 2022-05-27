@@ -44,6 +44,8 @@ protocol ProfileViewControllerCoordinatorDelegate: AnyObject {
      private lazy var signOutButton: CustomButton = {
          let button = CustomButton(title: "Delete user", titleColor: .white, backgroundColor: nil, backgroundImage: UIImage(imageLiteralResourceName: "blue_pixel"), buttonAction: { [weak self] in
              self?.delegate?.signOut()
+//             CoreDataStack.shared.resetPersistentStore()
+             CoreDataStack.shared.reset()
              CurrentUserService.shared.currentUser = nil
              self?.coordinator?.navigateToPreviousPage()
          })

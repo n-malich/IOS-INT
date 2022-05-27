@@ -116,4 +116,29 @@ class CoreDataStack {
         }
         return favoritePosts
     }
+    
+    func resetPersistentStore() {
+        if let persistentStore = persistentContainer.persistentStoreCoordinator.persistentStores.last {
+            let storeURL = persistentContainer.persistentStoreCoordinator.url(for: persistentStore)
+            do {
+                try persistentContainer.persistentStoreCoordinator.destroyPersistentStore(at: storeURL, ofType: NSSQLiteStoreType, options: nil)
+            } catch {
+                print("failed to destroy persistent store:", error.localizedDescription)
+            }
+            
+            do {
+                try persistentContainer.persistentStoreCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: nil)
+            } catch {
+                print("failed to re-add persistent store:", error.localizedDescription)
+            }
+        }
+    }
+    
+    func reset() {
+        let coordinator = persistentContainer.persistentStoreCoordinator
+        for store in coordinator.persistentStores where store.url != nil {
+            try? coordinator.remove(store)
+            try? FileManager.default.removeItem(atPath: store.url!.path)
+        }
+    }
 }
