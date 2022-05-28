@@ -16,8 +16,9 @@ class PostTableViewCell: UITableViewCell {
     var post: Post? {
         didSet {
             if let post = post {
+                id = post.id
                 author.text = post.author
-                body.text = post.description
+                body.text = post.body
                 
 //                guard let filter = post.filter else { return }
                 let filter = post.filter
@@ -57,6 +58,8 @@ class PostTableViewCell: UITableViewCell {
             }
         }
     }
+    
+    var id: UUID? = nil
     
     lazy var author: UILabel = {
         let label = UILabel()
